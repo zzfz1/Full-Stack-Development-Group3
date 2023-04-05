@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-**Dependency**
+**Dependent Branch(es)**
 Specify the branch it should be based on.
 
 **Functionality**
