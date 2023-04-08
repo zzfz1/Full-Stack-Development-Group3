@@ -14,3 +14,30 @@ Here's a step-by-step flow of how these components interact:
 3. The route calls the corresponding controller method (e.g., categoryController.createCategory).
 4. The controller method processes the request, interacts with the model to perform the necessary database operation 
 5. (e.g., creating a new category in the database), and returns an appropriate response (e.g., success or error message) to the client.
+
+
+{
+  "name": "web_shop_server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+   "scripts": {
+    "start": "nodemon index.js"
+  },
+  "keywords": [],
+  "type": "module",
+  "author": "Group 3",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.0.5",
+    "mongoose-slug-generator": "^1.0.4",
+    "nodemon": "^2.0.12",
+    "slugify": "^1.6.6",
+    "stripe": "^8.174.0"
+  }
+}

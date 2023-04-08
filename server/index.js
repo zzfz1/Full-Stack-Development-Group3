@@ -11,6 +11,7 @@ import orderRoutes from "./routes/orderRoutes.js";
 
 app.use(bodyParser.json());
 
+// init
 // DB Connect
 mongoose
   .connect(process.env.MONGO_URL)
