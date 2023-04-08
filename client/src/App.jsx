@@ -1,8 +1,10 @@
 import "./App.css";
 import { Button, ButtonGroup } from "@chakra-ui/react";
+import LargeWithNewsletter from "./components/footer";
+import Home from "./pages/Home";
 
 function App() {
-  return <Button colorScheme="blue">Button here</Button>;
+  return <Home />;
 }
 
 export default App;

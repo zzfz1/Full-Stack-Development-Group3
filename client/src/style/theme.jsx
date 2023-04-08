@@ -26,7 +26,7 @@ const theme = extendTheme({
       // Style for body of page
       body: {
         bg: "#FFF",
-        color: "#FDFDFD",
+        color: "#000000",
       },
     },
   },
