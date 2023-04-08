@@ -1,7 +1,7 @@
 import "./App.css";
 
 function App() {
-  return `app`;
+  return `Admin`;
 }
 
 export default App;
