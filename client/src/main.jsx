@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
 import { extendTheme, ChakraProvider } from "@chakra-ui/react";
-import theme from "../style/theme";
+import theme from "./style/theme";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
