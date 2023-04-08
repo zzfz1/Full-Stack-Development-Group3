@@ -4,7 +4,7 @@ import LargeWithNewsletter from "./components/footer";
 import Home from "./pages/Home";
 
 function App() {
-  return <Home />;
+  return <LargeWithNewsletter/>;
 }
 
 export default App;
