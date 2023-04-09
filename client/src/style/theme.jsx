@@ -26,7 +26,7 @@ const theme = extendTheme({
       // Style for body of page
       body: {
         bg: "#FFF",
-        color: "#000000",
+        color: "#1A202C",
       },
     },
   },
@@ -34,11 +34,12 @@ const theme = extendTheme({
   colors: {
     ...chakraTheme.colors,
     //the numbers identify the color scheme from lighter to darker. the main primary is 500
-    primary: { 500: "#3BA87E", 600: "#33918a", 700: "#2d7a5c" },
-    brown: "#6D2100",
-    yellow: "#C5A502",
-    white: "#FDFDFD",
+    primary: { 500: "#3182CE", 600: "#2B6CB0", 700: "#2C5282" }, //blue color fro button and call to action elements
+    red: "##FF0404", // cancel button
+    green: "#009700", // order  and buy button
+    white: "#FDFDFD", // text color for title or text
     black: "#0B0B0B",
+    gray: "#1A202C", // text color for text
   },
   // Global font family
   fonts: {
