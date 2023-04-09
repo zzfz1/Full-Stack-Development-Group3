@@ -29,39 +29,46 @@ function Hero() {
                 zIndex: -1,
               }}
             >
-              Freelance
+              VzBot 330
             </Text>
             <br />{" "}
             <Text color={"blue.400"} as={"span"}>
-              Design Projects
+              High speed 3D printer!
             </Text>{" "}
           </Heading>
           <Text fontSize={{ base: "md", lg: "lg" }} color="primary">
-            The project board is an exclusive resource for contract work. It's
-            perfect for freelancers, agencies, and moonlighters.
+            The VzBoT is a high speed, moderately sized 3d Printer. Originally
+            based on the TronXY X5SA / X5S Frame
           </Text>
           <Stack direction={{ base: "column", md: "row" }} spacing={4}>
             <Button
               rounded={"full"}
-              bg="brown"
+              bg="green"
               color={"white"}
               _hover={{
                 bg: "blue.500",
               }}
             >
-              Create Project
+              Add to Card
             </Button>
-            <Button rounded={"full"}>How It Works</Button>
+            <Button color="white" rounded={"full"} bg="primary.500">
+              View Product
+            </Button>
           </Stack>
         </Stack>
       </Flex>
-      <Flex flex={1}>
+      <Flex
+        border={"solid 2px yellow"}
+        align="center"
+        justify="cent
+      "
+      >
         <Image
           alt={"Login Image"}
           objectFit={"cover"}
-          src={
-            "https://images.unsplash.com/photo-1527689368864-3a821dbccc34?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-          }
+          objectPosition={"center"}
+          src="/images/hero3.png"
+          border={"solid 2px red"}
         />
       </Flex>
     </Stack>
