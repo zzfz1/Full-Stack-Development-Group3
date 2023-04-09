@@ -3,7 +3,7 @@
 PORT = 3000
 CONNECTION_URL = http://localhost
 MONGO_URL = "mongodb+srv://SebastianMuenz1988:YOUR_OWN_PASSWORD@cluster0.s4khzec.mongodb.net/?retryWrites=true&w=majority"
-JWT_SECRET=your_jwt_secret
+JWT_SECRET = WebShopGroup3
 
 3.Description: 
 
