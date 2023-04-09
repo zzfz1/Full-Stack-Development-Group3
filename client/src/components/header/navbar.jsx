@@ -1,7 +1,5 @@
 import { Heading } from '@chakra-ui/react'
-function LoadHeader()
+export default function LoadHeader()
 {
-    const header = <Heading>Lol</Heading>
-    return header
+    return <Heading>Lol</Heading>;
 }
-export default LoadHeader
