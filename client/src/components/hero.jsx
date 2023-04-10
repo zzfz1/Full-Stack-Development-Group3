@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Button,
+  Container,
   Flex,
   Heading,
   Image,
@@ -11,7 +12,13 @@ import {
 
 function Hero() {
   return (
-    <Stack minH={"50vh"} direction={{ base: "column", md: "row" }}>
+    <Container
+      as={Stack}
+      maxW={"6xl"}
+      minH={("50vh", "40vh")}
+      direction={{ base: "column-reverse", md: "row" }}
+      p={[0, 4, 6]}
+    >
       <Flex p={8} flex={1} align={"center"} justify={"center"}>
         <Stack spacing={6} w={"full"} maxW={"lg"}>
           <Heading fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}>
@@ -57,21 +64,15 @@ function Hero() {
           </Stack>
         </Stack>
       </Flex>
-      <Flex
-        border={"solid 2px yellow"}
-        align="center"
-        justify="cent
-      "
-      >
+      <Flex align="center" justify="center">
         <Image
           alt={"Login Image"}
           objectFit={"cover"}
           objectPosition={"center"}
           src="/images/hero3.png"
-          border={"solid 2px red"}
         />
       </Flex>
-    </Stack>
+    </Container>
   );
 }
 
