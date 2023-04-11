@@ -82,9 +82,12 @@ class UserController {
 
   async getUsers(req, res) {
     try {
-      const query = req.query.new;
+      const page = req.query.page || 1;
       const users = query
-        ? await User.find().sort({ __id: -1 }).limit(5)
+        ? await User.find()
+            .sort({ __id: -1 })
+            .limit(5)
+            .skip((page - 1) * 5)
         : await User.find();
 
       res.status(200).json(
