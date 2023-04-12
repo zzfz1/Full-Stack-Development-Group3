@@ -8,10 +8,12 @@ import userRoutes from "./routes/userRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
+import cookieParser from "cookie-parser";
 
 app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 
-// init
 // DB Connect
 mongoose
   .connect(process.env.MONGO_URL)
