@@ -33,7 +33,7 @@ function Register() {
           <Heading fontSize={"4xl"} textAlign={"center"}>
             Sign up
           </Heading>
-          <Text fontSize={"lg"} color={"gray"} px={["5%", "15%"]}>
+          <Text fontSize={"lg"} color={"gray"} pt="4%" px={["5%", "15%"]}>
             to see your purchase history and save your favorite product ✌️
           </Text>
         </Stack>
@@ -44,20 +44,13 @@ function Register() {
           p={8}
         >
           <Stack spacing={4}>
-            <HStack>
-              <Box>
-                <FormControl id="firstName" isRequired>
-                  <FormLabel>First Name</FormLabel>
-                  <Input type="text" />
-                </FormControl>
-              </Box>
-              <Box>
-                <FormControl id="lastName">
-                  <FormLabel>Last Name</FormLabel>
-                  <Input type="text" />
-                </FormControl>
-              </Box>
-            </HStack>
+            <Box>
+              <FormControl id="firstName" isRequired>
+                <FormLabel>Full Name</FormLabel>
+                <Input type="text" />
+              </FormControl>
+            </Box>
+
             <FormControl id="email" isRequired>
               <FormLabel>Email address</FormLabel>
               <Input type="email" />
@@ -82,10 +75,10 @@ function Register() {
               <Button
                 loadingText="Submitting"
                 size="lg"
-                bg={"blue.400"}
+                bg={"primary.500"}
                 color={"white"}
                 _hover={{
-                  bg: "blue.500",
+                  bg: "primary.600",
                 }}
               >
                 Sign up
@@ -93,7 +86,7 @@ function Register() {
             </Stack>
             <Stack pt={6}>
               <Text align={"center"}>
-                Already a user? <Link color={"blue.400"}>Login</Link>
+                Already a user? <Link color={"primary.500"}>Login</Link>
               </Text>
             </Stack>
           </Stack>
