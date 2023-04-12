@@ -2,11 +2,13 @@ import React from "react";
 import Footer from "../components/footer/index";
 import Hero from "../components/hero";
 import { Text } from "@chakra-ui/react";
+import Register from "../components/register";
 
 const Home = () => {
   return (
     <div>
-      <Hero />
+      <Register />
+      {/*     <Hero />
       <Text m="20">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime
         mollitia, molestiae quas vel sint commodi repudiandae consequuntur
@@ -21,7 +23,7 @@ const Home = () => {
         error harum maxime adipisci amet laborum. Perspiciatis minima nesciunt
         dolorem! Officiis iure rerum voluptates a cumque velit{" "}
       </Text>
-      <Footer />
+      <Footer /> */}
     </div>
   );
 };
