@@ -5,7 +5,7 @@ import generateToken from "../utils/generateToken.js";
 class UserController {
   async registerUser(req, res) {
     try {
-      const { username, email, password } = req.body;
+      const { name, username, email, password, isAdmin, img } = req.body;
 
       const userExists = await User.findOne({ email });
 
@@ -17,9 +17,12 @@ class UserController {
       const hashedPassword = await bcrypt.hash(password, 10);
 
       const newUser = new User({
+        name,
         username,
         email,
         password: hashedPassword,
+        isAdmin,
+        img,
       });
 
       const savedUser = await newUser.save();
@@ -28,12 +31,13 @@ class UserController {
       });
       res.status(201).json({
         _id: savedUser._id,
+        name: savedUser.name,
         username: savedUser.username,
         email: savedUser.email,
         isAdmin: savedUser.isAdmin,
       });
     } catch (error) {
-      res.status(500).json({ message: "Internal server error" });
+      res.status(500).json({ message: "Internal server error: ", error });
     }
   }
 
@@ -49,6 +53,7 @@ class UserController {
         });
         res.status(200).json({
           _id: user._id,
+          name: user.name,
           username: user.username,
           email: user.email,
           isAdmin: user.isAdmin,
@@ -71,6 +76,7 @@ class UserController {
 
       res.status(200).json({
         _id: user._id,
+        name: user.name,
         username: user.username,
         email: user.email,
         isAdmin: user.isAdmin,
@@ -82,10 +88,11 @@ class UserController {
 
   async getUsers(req, res) {
     try {
-      const page = req.query.page || 1;
-      const users = query
+      const page = req.query.page;
+
+      const users = page
         ? await User.find()
-            .sort({ __id: -1 })
+            .sort({ _id: -1 }) // use _id instead of __id
             .limit(5)
             .skip((page - 1) * 5)
         : await User.find();
@@ -94,6 +101,7 @@ class UserController {
         users.map((user) => {
           return {
             _id: user._id,
+            name: user.name,
             username: user.username,
             email: user.email,
             isAdmin: user.isAdmin,
@@ -106,10 +114,6 @@ class UserController {
   }
 
   async updateUser(req, res) {
-    const password = req.body.password;
-    if (password) {
-      req.body.password = await bcrypt.hash(password, 10);
-    }
     try {
       const updatedUser = await User.findByIdAndUpdate(
         req.params.id,
@@ -120,6 +124,7 @@ class UserController {
       );
       res.status(200).json({
         _id: updatedUser._id,
+        name: updatedUser.name,
         username: updatedUser.username,
         email: updatedUser.email,
         isAdmin: updatedUser.isAdmin,
