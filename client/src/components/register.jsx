@@ -12,15 +12,45 @@ import {
   Button,
   Heading,
   Text,
+  FormErrorMessage,
   useColorModeValue,
   Link,
   Checkbox,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { Formik, Form, Field } from "formik";
 
 function Register() {
   const [showPassword, setShowPassword] = useState(false);
+  const initialValues = {
+    name: "",
+    email: "",
+    password: "",
+  };
+
+  const validate = (values) => {
+    const errors = {};
+
+    if (!values.email) {
+      errors.email = "Required";
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
+      errors.email = "Invalid email address";
+    }
+
+    if (!values.name) {
+      errors.name = "Required";
+    }
+
+    if (!values.password) {
+      errors.password = "Required";
+    }
+
+    if (values.password && values.password.length < 6) {
+      errors.password = "Password must contain at least 6 characters";
+    }
+    return errors;
+  };
 
   return (
     <Flex
@@ -44,66 +74,130 @@ function Register() {
           boxShadow={"lg"}
           p={8}
         >
-          <Stack spacing={4}>
-            <Box>
-              <FormControl id="firstName" isRequired>
-                <FormLabel>Full Name</FormLabel>
-                <Input type="text" />
-              </FormControl>
-            </Box>
+          {/* form control */}
+          <Formik
+            initialValues={initialValues}
+            onSubmit={async (values, actions) => {
+              try {
+                const data = await fetch(
+                  `http://localhost:3000//api/users/logi`,
+                  {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                      name: values.password,
+                      email: values.email,
+                      password: values.password,
+                    }),
+                  }
+                );
+                console.log(data);
+                actions.setSubmitting(false);
+              } catch (err) {
+                console.error(err.message);
+                actions.setSubmitting(false);
+              }
+            }}
+            validate={validate}
+          >
+            {(props) => (
+              <Form>
+                <Stack spacing={4}>
+                  <Field name="name">
+                    {({ field, form }) => (
+                      <FormControl
+                        isInvalid={form.errors.email && form.touched.email}
+                        isRequired
+                      >
+                        <FormLabel>Full Name</FormLabel>
+                        <Input {...field} />
+                        <FormErrorMessage color="red">
+                          {form.errors.name}
+                        </FormErrorMessage>
+                      </FormControl>
+                    )}
+                  </Field>
+                  <Field name="email">
+                    {({ field, form }) => (
+                      <FormControl
+                        isInvalid={form.errors.email && form.touched.email}
+                        isRequired
+                      >
+                        <FormLabel>Email</FormLabel>
+                        <Input {...field} />
+                        <FormErrorMessage color="red">
+                          {form.errors.email}
+                        </FormErrorMessage>
+                      </FormControl>
+                    )}
+                  </Field>
+                  <Field name="password">
+                    {({ field, form }) => (
+                      <FormControl
+                        isInvalid={
+                          form.errors.password && form.touched.password
+                        }
+                      >
+                        <FormLabel>Password</FormLabel>
+                        <InputGroup>
+                          <Input
+                            {...field}
+                            type={showPassword ? "text" : "password"}
+                          />
+                          <InputRightElement h={"full"}>
+                            <Button
+                              variant={"ghost"}
+                              onClick={() =>
+                                setShowPassword((showPassword) => !showPassword)
+                              }
+                            >
+                              {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                            </Button>
+                          </InputRightElement>
+                        </InputGroup>
+                        <FormErrorMessage color="red">
+                          {form.errors.password}
+                        </FormErrorMessage>
+                      </FormControl>
+                    )}
+                  </Field>
 
-            <FormControl id="email" isRequired>
-              <FormLabel>Email address</FormLabel>
-              <Input type="email" />
-            </FormControl>
-            <FormControl id="password" isRequired>
-              <FormLabel>Password</FormLabel>
-              <InputGroup>
-                <Input type={showPassword ? "text" : "password"} />
-                <InputRightElement h={"full"}>
-                  <Button
-                    variant={"ghost"}
-                    onClick={() =>
-                      setShowPassword((showPassword) => !showPassword)
-                    }
-                  >
-                    {showPassword ? <ViewIcon /> : <ViewOffIcon />}
-                  </Button>
-                </InputRightElement>
-              </InputGroup>
-            </FormControl>
-            <Stack spacing={10} pt={2}>
-              <Button
-                loadingText="Submitting"
-                size="lg"
-                bg={"primary.500"}
-                color={"white"}
-                _hover={{
-                  bg: "primary.600",
-                }}
-              >
-                Sign up
-              </Button>
-            </Stack>
-            <HStack alignItems="baseline">
-              <Checkbox border="gray" defaultChecked></Checkbox>
-              <Text fontSize={"xs"} align={"center"}>
-                By clicking ‘Sign up’, I agree to{" "}
-                <Link color={"primary.500"}>
-                  {" "}
-                  <Text as="u">terms of service</Text>
-                </Link>
-              </Text>
-            </HStack>
-            <Stack pt={6}>
-              <Text align={"center"}>
-                Already a user?{" "}
-                <Link as="u" color={"primary.500"}>
-                  Login
-                </Link>
-              </Text>
-            </Stack>
-          </Stack>
+                  <Stack spacing={10} pt={2}>
+                    <Button
+                      loadingText="Submitting"
+                      size="lg"
+                      bg={"primary.500"}
+                      color={"white"}
+                      _hover={{
+                        bg: "primary.600",
+                      }}
+                    >
+                      Sign up
+                    </Button>
+                  </Stack>
+                  <HStack alignItems="baseline">
+                    <Checkbox border="gray" defaultChecked />
+                    <Text fontSize={"xs"} align={"center"}>
+                      By clicking ‘Sign up’, I agree to{" "}
+                      <Link color={"primary.500"}>
+                        {" "}
+                        <Text as="u">terms of service</Text>
+                      </Link>
+                    </Text>
+                  </HStack>
+                  <Stack pt={6}>
+                    <Text align={"center"}>
+                      Already a user?{" "}
+                      <Link as="u" color={"primary.500"}>
+                        Login
+                      </Link>
+                    </Text>
+                  </Stack>
+                </Stack>
+              </Form>
+            )}
+            {/* end of form control */}
+          </Formik>
         </Box>
       </Stack>
     </Flex>
