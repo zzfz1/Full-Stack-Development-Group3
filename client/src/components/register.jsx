@@ -52,6 +52,43 @@ function Register() {
     return errors;
   };
 
+  const handleSubmit = (values, actions) => {
+    const errors = {};
+    if (!values.name) {
+      errors.name = "Required";
+    }
+    if (!values.email) {
+      errors.email = "Required";
+    }
+    if (!values.password) {
+      errors.password = "Required";
+    }
+    if (Object.keys(errors).length > 0) {
+      actions.setErrors(errors);
+    } else {
+      actions.setSubmitting(true);
+      console.log("data", values.name, values.email, values.password);
+      // Send the form data to the server
+      fetch(`http://localhost:3000//api/users/logi`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: values.name,
+          email: values.email,
+          password: values.password,
+        }),
+      })
+        .then((response) => {
+          console.log(response);
+          actions.setSubmitting(false);
+        })
+        .catch((error) => {
+          console.error(error);
+          actions.setSubmitting(false);
+        });
+    }
+  };
+
   return (
     <Flex
       minH={"100vh"}
@@ -77,27 +114,7 @@ function Register() {
           {/* form control */}
           <Formik
             initialValues={initialValues}
-            onSubmit={async (values, actions) => {
-              try {
-                const data = await fetch(
-                  `http://localhost:3000//api/users/logi`,
-                  {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                      name: values.password,
-                      email: values.email,
-                      password: values.password,
-                    }),
-                  }
-                );
-                console.log(data);
-                actions.setSubmitting(false);
-              } catch (err) {
-                console.error(err.message);
-                actions.setSubmitting(false);
-              }
-            }}
+            onSubmit={handleSubmit}
             validate={validate}
           >
             {(props) => (
@@ -164,6 +181,7 @@ function Register() {
 
                   <Stack spacing={10} pt={2}>
                     <Button
+                      type="submit"
                       loadingText="Submitting"
                       size="lg"
                       bg={"primary.500"}
