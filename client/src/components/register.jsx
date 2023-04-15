@@ -14,6 +14,7 @@ import {
   Text,
   useColorModeValue,
   Link,
+  Checkbox,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
@@ -84,9 +85,22 @@ function Register() {
                 Sign up
               </Button>
             </Stack>
+            <HStack alignItems="baseline">
+              <Checkbox border="gray" defaultChecked></Checkbox>
+              <Text fontSize={"xs"} align={"center"}>
+                By clicking ‘Sign up’, I agree to{" "}
+                <Link color={"primary.500"}>
+                  {" "}
+                  <Text as="u">terms of service</Text>
+                </Link>
+              </Text>
+            </HStack>
             <Stack pt={6}>
               <Text align={"center"}>
-                Already a user? <Link color={"primary.500"}>Login</Link>
+                Already a user?{" "}
+                <Link as="u" color={"primary.500"}>
+                  Login
+                </Link>
               </Text>
             </Stack>
           </Stack>

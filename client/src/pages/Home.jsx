@@ -7,9 +7,9 @@ import Register from "../components/register";
 const Home = () => {
   return (
     <div>
-      {/* <Hero /> */}
+      {/*    <Hero /> */}
       <Register />
-      {/*   <Footer /> */}
+      <Footer />
     </div>
   );
 };
