@@ -27,6 +27,7 @@ function Register() {
     name: "",
     email: "",
     password: "",
+    checkbox: true,
   };
 
   const validate = (values) => {
@@ -49,6 +50,10 @@ function Register() {
     if (values.password && values.password.length < 6) {
       errors.password = "Password must contain at least 6 characters";
     }
+    if (values.checkbox === false) {
+      errors.checkbox = "You must agree to the terms of service";
+    }
+
     return errors;
   };
 
@@ -62,6 +67,9 @@ function Register() {
     }
     if (!values.password) {
       errors.password = "Required";
+    }
+    if (!values.checkbox) {
+      errors.checkbox = "You must agree to the terms of service";
     }
     if (Object.keys(errors).length > 0) {
       actions.setErrors(errors);
@@ -117,14 +125,13 @@ function Register() {
             onSubmit={handleSubmit}
             validate={validate}
           >
-            {(props) => (
+            {({ handleSubmit, errors, touched }) => (
               <Form>
                 <Stack spacing={4}>
                   <Field name="name">
                     {({ field, form }) => (
                       <FormControl
                         isInvalid={form.errors.email && form.touched.email}
-                        isRequired
                       >
                         <FormLabel>Full Name</FormLabel>
                         <Input {...field} />
@@ -138,7 +145,6 @@ function Register() {
                     {({ field, form }) => (
                       <FormControl
                         isInvalid={form.errors.email && form.touched.email}
-                        isRequired
                       >
                         <FormLabel>Email</FormLabel>
                         <Input {...field} />
@@ -193,15 +199,34 @@ function Register() {
                       Sign up
                     </Button>
                   </Stack>
-                  <HStack alignItems="baseline">
-                    <Checkbox border="gray" defaultChecked />
-                    <Text fontSize={"xs"} align={"center"}>
-                      By clicking ‘Sign up’, I agree to{" "}
-                      <Link color={"primary.500"}>
-                        {" "}
-                        <Text as="u">terms of service</Text>
-                      </Link>
-                    </Text>
+                  <HStack alignItems="center">
+                    {/* the checkbook */}
+                    <FormControl
+                      isInvalid={errors.checkbox && touched.checkbox}
+                    >
+                      <Field
+                        as={Checkbox}
+                        id="checkbox"
+                        name="checkbox"
+                        colorScheme="primary"
+                        style={{ borderColor: "black" }}
+                        defaultChecked={true}
+                      >
+                        {/* the checkbook text */}
+                        <Text fontSize={"xs"} align={"center"}>
+                          By clicking ‘Sign up’, I agree to{" "}
+                          <Link color={"primary.500"}>
+                            {" "}
+                            <Text as="u">terms of service</Text>
+                          </Link>
+                        </Text>
+                        {/* end of the checkbook text*/}
+                      </Field>
+                      <FormErrorMessage color="red">
+                        {errors.checkbox}
+                      </FormErrorMessage>
+                    </FormControl>
+                    {/*end of the checkbook */}
                   </HStack>
                   <Stack pt={6}>
                     <Text align={"center"}>
