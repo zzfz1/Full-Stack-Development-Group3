@@ -5,7 +5,7 @@ import generateToken from "../utils/generateToken.js";
 class UserController {
   async registerUser(req, res) {
     try {
-      const { username, email, password } = req.body;
+      const { name, username, email, password, isAdmin, img } = req.body;
 
       const userExists = await User.findOne({ email });
 
@@ -17,22 +17,27 @@ class UserController {
       const hashedPassword = await bcrypt.hash(password, 10);
 
       const newUser = new User({
+        name,
         username,
         email,
         password: hashedPassword,
+        isAdmin,
+        img,
       });
 
       const savedUser = await newUser.save();
-
+      res.cookie("token", generateToken(savedUser._id, savedUser.isAdmin), {
+        httpOnly: true,
+      });
       res.status(201).json({
         _id: savedUser._id,
+        name: savedUser.name,
         username: savedUser.username,
         email: savedUser.email,
         isAdmin: savedUser.isAdmin,
-        token: generateToken(savedUser._id),
       });
     } catch (error) {
-      res.status(500).json({ message: "Internal server error" });
+      res.status(500).json({ message: "Internal server error: ", error });
     }
   }
 
@@ -43,12 +48,15 @@ class UserController {
       const user = await User.findOne({ email });
 
       if (user && (await bcrypt.compare(password, user.password))) {
+        res.cookie("token", generateToken(user._id, user.isAdmin), {
+          httpOnly: true,
+        });
         res.status(200).json({
           _id: user._id,
+          name: user.name,
           username: user.username,
           email: user.email,
           isAdmin: user.isAdmin,
-          token: generateToken(user._id),
         });
       } else {
         res.status(401).json({ message: "Invalid email or password" });
@@ -66,8 +74,71 @@ class UserController {
         return res.status(404).json({ message: "User not found" });
       }
 
-      res.status(200).json(user);
+      res.status(200).json({
+        _id: user._id,
+        name: user.name,
+        username: user.username,
+        email: user.email,
+        isAdmin: user.isAdmin,
+      });
     } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }
+
+  async getUsers(req, res) {
+    try {
+      const page = req.query.page;
+
+      const users = page
+        ? await User.find()
+            .sort({ _id: -1 }) // use _id instead of __id
+            .limit(5)
+            .skip((page - 1) * 5)
+        : await User.find();
+
+      res.status(200).json(
+        users.map((user) => {
+          return {
+            _id: user._id,
+            name: user.name,
+            username: user.username,
+            email: user.email,
+            isAdmin: user.isAdmin,
+          };
+        })
+      );
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }
+
+  async updateUser(req, res) {
+    try {
+      const updatedUser = await User.findByIdAndUpdate(
+        req.params.id,
+        {
+          $set: req.body,
+        },
+        { new: true }
+      );
+      res.status(200).json({
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        username: updatedUser.username,
+        email: updatedUser.email,
+        isAdmin: updatedUser.isAdmin,
+      });
+    } catch (err) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }
+
+  async deleteUser(req, res) {
+    try {
+      await User.findByIdAndDelete(req.params.id);
+      res.status(200).json({ message: "User has been deleted" });
+    } catch (err) {
       res.status(500).json({ message: "Internal server error" });
     }
   }

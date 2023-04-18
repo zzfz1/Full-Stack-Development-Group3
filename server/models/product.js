@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import reviewSchema from "./review.js";
-import CategoryPropertySchema from "./categoryProperty.js";
+import ProductPropertySchema from "./productProperty.js";
 
 const productSchema = new mongoose.Schema(
   {
@@ -25,7 +25,7 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    properties: [CategoryPropertySchema],
+    properties: [ProductPropertySchema],
     rating: {
       type: Number,
       required: true,

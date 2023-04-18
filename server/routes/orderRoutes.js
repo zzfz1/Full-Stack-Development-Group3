@@ -1,13 +1,14 @@
 import express from "express";
 import OrderController from "../controllers/orderController.js";
+import { verifyToken, verifyTokenAndAdmin } from "../middlewares/verifyToken.js";
 
 const router = express.Router();
 const orderController = new OrderController();
 
-router.post("/", orderController.createOrder);
-router.put("/:id", orderController.updateOrderStatus);
-router.delete("/:id", orderController.deleteOrder);
-router.get("/", orderController.getAllOrders);
-router.get("/:id", orderController.getOrderById);
+router.post("/", verifyToken, orderController.createOrder);
+router.put("/:id", verifyTokenAndAdmin, orderController.updateOrderStatus);
+router.delete("/:id", verifyTokenAndAdmin, orderController.deleteOrder);
+router.get("/", verifyTokenAndAdmin, orderController.getAllOrders);
+router.get("/:id", verifyToken, orderController.getOrderById);
 
 export default router;
