@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 const app = express();
 import dotenv from "dotenv";
 dotenv.config();
@@ -26,7 +27,7 @@ mongoose
 mongoose.set("strictQuery", false);
 
 // Middleware
-
+app.use(cors());
 app.use("/api/users", userRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/products", productRoutes);
