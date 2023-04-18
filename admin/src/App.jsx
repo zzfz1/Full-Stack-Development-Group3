@@ -5,6 +5,9 @@ import "./App.css";
 import Home from "./pages/home/Home";
 // Import BrowserRouter, Route, and Routes from react-router-dom v6
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import CategoryList from "./pages/categoryList/CategoyList.jsx";
+import Category from "./pages/cateogry/Category.jsx";
+import NewCategory from "./pages/newCategory/newCategory.jsx";
 import ProductList from "./pages/productList/ProductList";
 import Product from "./pages/product/Product";
 import NewProduct from "./pages/newProduct/NewProduct";
@@ -28,6 +31,9 @@ function App() {
             <Routes>
               {/* Define routes with the new syntax using the "element" prop */}
               <Route path="/" element={<Home />} />
+              <Route path="/categories" element={<CategoryList />} />
+              <Route path="/category/:slug" element={<Category />} />
+              <Route path="/newcategory" element={<NewCategory />} />
               <Route path="/products" element={<ProductList />} />
               <Route path="/product/:productId" element={<Product />} />
               <Route path="/newproduct" element={<NewProduct />} />

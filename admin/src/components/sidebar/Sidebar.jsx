@@ -28,6 +28,12 @@ export default function Sidebar() {
         <div className="sidebarMenu">
           <h3 className="sidebarTitle">Quick Menu</h3>
           <ul className="sidebarList">
+            <Link to="/categories" className="link">
+              <li className="sidebarListItem">
+                <Storefront className="sidebarIcon" />
+                Categories
+              </li>
+            </Link>
             <Link to="/products" className="link">
               <li className="sidebarListItem">
                 <Storefront className="sidebarIcon" />
