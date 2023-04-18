@@ -14,8 +14,7 @@ const CategoryList = ({ onEditCategory, onDeleteCategory }) => {
 
   const fetchCategories = async () => {
     // for testing set a admin token here
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDM4MDI3MTBjOTllZjVjNDhhNTZmNTUiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2ODE4MTEwOTcsImV4cCI6MTY4NDQwMzA5N30.PGUAYNdvZEawCVTP8bVXzJ9gOpgjM4lkUiOkzziAokU";
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzgwMjcxMGM5OWVmNWM0OGE1NmY1NSIsImlhdCI6MTY4MTgyMjc5MiwiZXhwIjoxNjg0NDE0NzkyfQ.6J12eYiqjIUXYCsCceRQbk7oWpGAD6PeqLqtkv6spAU";
     localStorage.setItem("authToken", token);
 
     try {
