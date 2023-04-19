@@ -60,7 +60,7 @@ function ResetPassword() {
     console.log("confirm", values.password);
     if (values.password != values.confirmPassword) {
       errors.confirmPassword =
-        "The passwords you entered do not match, try again. sum";
+        "The passwords you entered do not match, try again.";
     }
 
     if (Object.keys(errors).length > 0) {
@@ -99,13 +99,13 @@ function ResetPassword() {
       <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
         <Stack align={"center"}>
           <div>
-            <img src="/images/key.gif" alt="Animated icon" />
+            <img src="/images/key2.png" alt="Animated icon" />
           </div>
           <Heading fontSize={"4xl"} textAlign={"center"}>
             Set New Password
           </Heading>
           <Text fontSize={"lg"} color={"gray"} pt="4%" px={["5%", "15%"]}>
-            Your new password must be different to previously used password✌️
+            Your new password must be different to previously used password
           </Text>
         </Stack>
         <Box
