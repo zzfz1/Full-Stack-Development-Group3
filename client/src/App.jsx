@@ -1,6 +1,7 @@
 import "./App.css";
 // import Login from "./components/Login";
 import ErrorPage from "./pages/Error";
+import Login from "./components/Login";
 import Footer from "./components/footer";
 import Home from "./pages/Home";
 import { Outlet } from "react-router-dom";
@@ -22,10 +23,10 @@ const router = createBrowserRouter([
         path: "/",
         element: <Home />,
       },
-      // {
-      //   path: "/login",
-      //   element: <Login />,
-      // },
+      {
+        path: "/login",
+        element: <Login />,
+      },
       // {
       //   path: "/register",
       //   element: <Register />,

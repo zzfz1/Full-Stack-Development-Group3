@@ -16,8 +16,8 @@ import {
   Text,
   useColorModeValue,
   IconButton,
-  Link,
 } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { BsGithub, BsDiscord, BsGoogle } from "react-icons/bs";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
@@ -75,7 +75,7 @@ function Login() {
               onSubmit={async (values, actions) => {
                 try {
                   const data = await fetch(
-                    `http://localhost:3000//api/users/login`,
+                    `http://localhost:3000/api/users/login`,
                     {
                       method: "POST",
                       headers: { "Content-Type": "application/json" },
@@ -135,6 +135,9 @@ function Login() {
                         <FormErrorMessage>
                           {form.errors.password}
                         </FormErrorMessage>
+                        <Text align={"center"} color={"primary.500"}>
+                          <Link to="/reset">Forgot your password? </Link>
+                        </Text>
                       </FormControl>
                     )}
                   </Field>
@@ -157,11 +160,12 @@ function Login() {
               )}
             </Formik>
             <Stack pt={6}>
-              <Text align={"center"}>
-                Don't have an account yet?{" "}
-                {/* TODO: Set up the React Router Link to Sign Up Page  */}
-                <Link color={"primary.500"}>Sign Up</Link>
-              </Text>
+              <Text align={"center"}>Don't have an account yet? </Text>
+              <Link to="/register">
+                <Text align={"center"} color={"primary.500"}>
+                  Sign Up
+                </Text>
+              </Link>
             </Stack>
             <Stack>
               <Box textAlign="center" py={4}>
