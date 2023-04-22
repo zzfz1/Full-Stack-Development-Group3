@@ -21,6 +21,18 @@ export const updatePassword = async (req, res, next) => {
 
 export const resetPassword = async (req, res, next) => {
   // TODO: Email Verification
-  const user = User.findOne({ _id: req.user._id });
-  next();
+  console.log(" inside the resetpassword func", req.body);
+  const user = User.findOne({ email: req.body.email }, (err, user) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+
+    if (!user) {
+      console.log("User not found");
+      res.status(404).json({ message: "User Not Found" });
+    }
+    console.log("the user info", user.email);
+  });
+  /* next(); */
 };

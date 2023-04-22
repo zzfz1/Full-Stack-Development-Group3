@@ -67,6 +67,7 @@ class UserController {
   }
 
   async getUserBySlug(req, res) {
+    console.log(" inside the getUserBySlug func", req.body);
     try {
       const user = await User.findOne({ slug: req.params.slug });
 
@@ -127,7 +128,10 @@ class UserController {
 
       if (username) {
         const existingUsername = await User.findOne({ username });
-        if (existingUsername && existingUsername._id.toString() !== user._id.toString()) {
+        if (
+          existingUsername &&
+          existingUsername._id.toString() !== user._id.toString()
+        ) {
           return res.status(400).json({ message: "Username already taken" });
         }
         user.username = username;
