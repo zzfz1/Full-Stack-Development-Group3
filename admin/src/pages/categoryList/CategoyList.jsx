@@ -1,53 +1,78 @@
-// src/components/CategoryList.jsx
+import React, { useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchCategoriesAsync } from "../../redux/categorySlice";
+import { Link } from "react-router-dom";
+import { Box, Button, Card, CardHeader, CardContent, Typography, Grid, CardActions, IconButton, AppBar, Toolbar } from "@mui/material";
+import { Delete as DeleteIcon, Edit as EditIcon } from "@mui/icons-material";
+import { createCategoryAPI } from "../../redux/categoryAPI";
 
-import React, { useState, useEffect } from "react";
-import { List, ListItem, ListItemText, ListItemSecondaryAction, IconButton } from "@mui/material";
-import { Edit, Delete } from "@mui/icons-material";
-import axios from "axios";
-
-const CategoryList = ({ onEditCategory, onDeleteCategory }) => {
-  const [categories, setCategories] = useState([]);
+const CategoryList = () => {
+  const categories = useSelector((state) => state.category.categories);
+  const status = useSelector((state) => state.category.status);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetchCategories();
-  }, []);
+    dispatch(fetchCategoriesAsync());
+  }, [dispatch]);
 
-  const fetchCategories = async () => {
-    // for testing set a admin token here
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzgwMjcxMGM5OWVmNWM0OGE1NmY1NSIsImlhdCI6MTY4MTgyMjc5MiwiZXhwIjoxNjg0NDE0NzkyfQ.6J12eYiqjIUXYCsCceRQbk7oWpGAD6PeqLqtkv6spAU";
-    localStorage.setItem("authToken", token);
-
+  const handleCreateCategory = async () => {
     try {
-      const token = localStorage.getItem("authToken");
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+      const blankData = {
+        name: "New Category",
+        allowedProperties: [],
       };
-      const response = await axios.get("http://localhost:3000/api/categories", config);
-      setCategories(response.data);
+
+      const newCategory = await createCategoryAPI(blankData);
+      navigate(`/categories/${newCategory.slug}`);
     } catch (error) {
-      console.error("Error fetching categories:", error);
+      console.error("Error creating empty category:", error);
     }
   };
 
   return (
-    <List>
-      {categories.map((category) => (
-        <ListItem key={category._id}>
-          <ListItemText primary={category.name} />
-          <ListItemSecondaryAction>
-            <IconButton edge="end" onClick={() => onEditCategory(category)}>
-              <Edit />
-            </IconButton>
-            <IconButton edge="end" onClick={() => onDeleteCategory(category._id)}>
-              <Delete />
-            </IconButton>
-          </ListItemSecondaryAction>
-        </ListItem>
-      ))}
-    </List>
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="sticky">
+        <Toolbar>
+          <Typography variant="h6" flexGrow={1}>
+            Category List
+          </Typography>
+          <Button variant="contained" color="primary" onClick={handleCreateCategory}>
+            Create New Category
+          </Button>
+        </Toolbar>
+      </AppBar>
+      <Grid container spacing={0}>
+        <Grid item xs={12}>
+          <Box mt={8}>
+            {status === "loading" ? (
+              <Typography>Loading...</Typography>
+            ) : (
+              <Grid container spacing={2}>
+                {categories.map((category) => (
+                  <Grid item xs={12} md={12} key={category._id}>
+                    <Card>
+                      <CardHeader title={category.name} />
+                      <CardContent>
+                        <Typography variant="body2" color="text.secondary">
+                          {/* You can add any additional details about the category here */}
+                        </Typography>
+                      </CardContent>
+                      <CardActions>
+                        <IconButton color="primary" component={Link} to={`/categories/${category.slug}`}>
+                          <EditIcon />
+                        </IconButton>
+                      </CardActions>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            )}
+          </Box>
+        </Grid>
+      </Grid>
+    </Box>
   );
 };
 

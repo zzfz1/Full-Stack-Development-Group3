@@ -32,7 +32,7 @@ function App() {
               {/* Define routes with the new syntax using the "element" prop */}
               <Route path="/" element={<Home />} />
               <Route path="/categories" element={<CategoryList />} />
-              <Route path="/category/:slug" element={<Category />} />
+              <Route path="/categories/:slug" element={<Category />} />
               <Route path="/newcategory" element={<NewCategory />} />
               <Route path="/products" element={<ProductList />} />
               <Route path="/product/:productId" element={<Product />} />
