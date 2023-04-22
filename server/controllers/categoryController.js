@@ -1,14 +1,16 @@
 import Category from "../models/category.js";
+import slugify from "slugify";
 
 class CategoryController {
   async createCategory(req, res) {
     try {
       const { name, allowedProperties } = req.body;
-      const category = new Category({ name, allowedProperties });
+      const slug = slugify(name, { lower: true, strict: true });
+      const category = new Category({ name, slug, allowedProperties });
       await category.save();
       res.status(201).json(category);
     } catch (error) {
-      res.status(500).json({ message: "Internal server error" });
+      res.status(500).json({ message: "Internal server error", error });
     }
   }
 
@@ -21,9 +23,9 @@ class CategoryController {
     }
   }
 
-  async getCategoryById(req, res) {
+  async getCategoryBySlug(req, res) {
     try {
-      const category = await Category.findById(req.params.id);
+      const category = await Category.findOne({ slug: req.params.slug });
 
       if (!category) {
         return res.status(404).json({ message: "Category not found" });
@@ -37,8 +39,10 @@ class CategoryController {
 
   async updateCategory(req, res) {
     try {
+      const oldslug = req.params.slug;
       const { name, allowedProperties } = req.body;
-      const category = await Category.findById(req.params.id);
+      // const slug = slugify(name, { lower: true, strict: true });
+      const category = await Category.findOne({ slug: oldslug });
 
       if (!category) {
         return res.status(404).json({ message: "Category not found" });
@@ -46,6 +50,7 @@ class CategoryController {
 
       category.name = name;
       category.allowedProperties = allowedProperties;
+      category.slug = slugify(name, { lower: true, strict: true });
       await category.save();
       res.status(200).json(category);
     } catch (error) {
@@ -55,7 +60,8 @@ class CategoryController {
 
   async deleteCategory(req, res) {
     try {
-      const category = await Category.findById(req.params.id);
+      const slug = req.params.slug;
+      const category = await Category.findOne({ slug });
 
       if (!category) {
         return res.status(404).json({ message: "Category not found" });

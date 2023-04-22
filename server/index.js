@@ -11,9 +11,21 @@ import productRoutes from "./routes/productRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import cookieParser from "cookie-parser";
 
+// Middleware
+app.use(
+  cors({
+    origin: "*", // or specify your frontend origin, e.g., 'http://localhost:5173'
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+// Middleware -Routes
+app.use("/api/users", userRoutes);
+app.use("/api/categories", categoryRoutes);
+app.use("/api/products", productRoutes);
+app.use("/api/orders", orderRoutes);
 
 // DB Connect
 mongoose
@@ -25,13 +37,6 @@ mongoose
 // Mongoose: the `strictQuery` option will be switched back to `false` by default in Mongoose 7.
 // Use `mongoose.set('strictQuery', false);` if you want to prepare for this change
 mongoose.set("strictQuery", false);
-
-// Middleware
-app.use(cors());
-app.use("/api/users", userRoutes);
-app.use("/api/categories", categoryRoutes);
-app.use("/api/products", productRoutes);
-app.use("/api/orders", orderRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
