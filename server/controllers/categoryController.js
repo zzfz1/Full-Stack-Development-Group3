@@ -41,7 +41,6 @@ class CategoryController {
     try {
       const oldslug = req.params.slug;
       const { name, allowedProperties } = req.body;
-      // const slug = slugify(name, { lower: true, strict: true });
       const category = await Category.findOne({ slug: oldslug });
 
       if (!category) {

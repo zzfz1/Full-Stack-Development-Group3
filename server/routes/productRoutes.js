@@ -6,10 +6,10 @@ const router = express.Router();
 const productController = new ProductController();
 
 router.post("/", verifyTokenAndAdmin, productController.createProduct);
-router.put("/:id", verifyTokenAndAdmin, productController.updateProduct);
-router.delete("/:id", verifyTokenAndAdmin, productController.deleteProduct);
+router.put("/:slug", verifyTokenAndAdmin, productController.updateProduct);
+router.delete("/:slug", verifyTokenAndAdmin, productController.deleteProduct);
 router.get("/", productController.getAllProducts);
-router.get("/:id", productController.getProductById);
-router.post("/:id/reviews", verifyToken, productController.createProductReview);
+router.get("/:slug", productController.getProductBySlug);
+router.post("/:slug/reviews", verifyToken, productController.createProductReview);
 
 export default router;

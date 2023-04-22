@@ -66,9 +66,9 @@ class UserController {
     }
   }
 
-  async getUserById(req, res) {
+  async getUserBySlug(req, res) {
     try {
-      const user = await User.findById(req.params.id);
+      const user = await User.findOne({ slug: req.params.slug });
 
       if (!user) {
         return res.status(404).json({ message: "User not found" });
@@ -113,15 +113,32 @@ class UserController {
     }
   }
 
-  async updateUser(req, res) {
+  async updateUserBySlug(req, res) {
     try {
-      const updatedUser = await User.findByIdAndUpdate(
-        req.params.id,
-        {
-          $set: req.body,
-        },
-        { new: true }
-      );
+      const user = await User.findOne({ slug: req.params.slug });
+
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      const { name, username, email, isAdmin, img } = req.body;
+
+      if (name) user.name = name;
+
+      if (username) {
+        const existingUsername = await User.findOne({ username });
+        if (existingUsername && existingUsername._id.toString() !== user._id.toString()) {
+          return res.status(400).json({ message: "Username already taken" });
+        }
+        user.username = username;
+      }
+
+      if (email) user.email = email;
+      if (isAdmin !== undefined) user.isAdmin = isAdmin;
+      if (img) user.img = img;
+
+      const updatedUser = await user.save();
+
       res.status(200).json({
         _id: updatedUser._id,
         name: updatedUser.name,
@@ -129,8 +146,8 @@ class UserController {
         email: updatedUser.email,
         isAdmin: updatedUser.isAdmin,
       });
-    } catch (err) {
-      res.status(500).json({ message: "Internal server error" });
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error", error });
     }
   }
 

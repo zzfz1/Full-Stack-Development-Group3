@@ -9,9 +9,9 @@ const userController = new UserController();
 router.post("/register", userController.registerUser);
 router.post("/login", userController.loginUser);
 router.get("/", verifyTokenAndAdmin, userController.getUsers);
-router.get("/:id", verifyTokenAndAuthorization, userController.getUserById);
-router.put("/reset/:id", verifyTokenAndAdmin, resetPassword, userController.updateUser);
-router.put("/update/:id", verifyTokenAndAuthorization, updatePassword, userController.updateUser);
-router.delete("/:id", verifyTokenAndAuthorization, userController.deleteUser);
+router.get("/:slug", verifyTokenAndAuthorization, userController.getUserBySlug);
+router.put("/reset/:slug", verifyTokenAndAuthorization, resetPassword, userController.updateUserBySlug);
+router.put("/update/:slug", verifyTokenAndAuthorization, updatePassword, userController.updateUserBySlug);
+router.delete("/:slug", verifyTokenAndAuthorization, userController.deleteUser);
 
 export default router;

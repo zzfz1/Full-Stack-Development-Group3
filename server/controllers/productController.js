@@ -1,13 +1,16 @@
 import Product from "../models/product.js";
+import slugify from "slugify";
 
 class ProductController {
   async createProduct(req, res) {
     try {
       const { name, image, brand, category, description, properties, rating, numReviews, price, countInStock } = req.body;
 
+      const slug = slugify(name, { lower: true, strict: true });
+
       const product = new Product({
-        // use the Product Schema to interact with mongo DB
         name,
+        slug,
         image,
         brand,
         category,
@@ -22,7 +25,7 @@ class ProductController {
       await product.save();
       res.status(201).json(product);
     } catch (error) {
-      res.status(500).json({ message: "Internal server error" });
+      res.status(500).json({ message: "Internal server error", error: error.message });
     }
   }
 
@@ -35,9 +38,9 @@ class ProductController {
     }
   }
 
-  async getProductById(req, res) {
+  async getProductBySlug(req, res) {
     try {
-      const product = await Product.findById(req.params.id);
+      const product = await Product.findOne({ slug: req.params.slug });
 
       if (!product) {
         return res.status(404).json({ message: "Product not found" });
@@ -53,7 +56,7 @@ class ProductController {
     try {
       const { name, image, brand, category, description, properties, rating, numReviews, price, countInStock } = req.body;
 
-      const product = await Product.findById(req.params.id);
+      const product = await Product.findOne({ slug: req.params.slug });
 
       if (!product) {
         return res.status(404).json({ message: "Product not found" });
@@ -79,7 +82,7 @@ class ProductController {
 
   async deleteProduct(req, res) {
     try {
-      const product = await Product.findById(req.params.id);
+      const product = await Product.findOne({ slug: req.params.slug });
 
       if (!product) {
         return res.status(404).json({ message: "Product not found" });
@@ -95,7 +98,7 @@ class ProductController {
   async createProductReview(req, res) {
     try {
       const { rating, comment } = req.body;
-      const product = await Product.findById(req.params.id);
+      const product = await Product.findOne({ slug: req.params.slug });
 
       if (!product) {
         return res.status(404).json({ message: "Product not found" });
