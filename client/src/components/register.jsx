@@ -25,6 +25,7 @@ function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const initialValues = {
     name: "",
+    username: "",
     email: "",
     password: "",
     checkbox: true,
@@ -41,6 +42,10 @@ function Register() {
 
     if (!values.name) {
       errors.name = "Required";
+    }
+
+    if (!values.name) {
+      errors.username = "Required";
     }
 
     if (!values.password) {
@@ -62,6 +67,9 @@ function Register() {
     if (!values.name) {
       errors.name = "Required";
     }
+    if (!values.name) {
+      errors.username = "Required";
+    }
     if (!values.email) {
       errors.email = "Required";
     }
@@ -77,11 +85,12 @@ function Register() {
       actions.setSubmitting(true);
       console.log("data", values.name, values.email, values.password);
       // Send the form data to the server
-      fetch(`http://localhost:3000//api/users/logi`, {
+      fetch(`http://localhost:3000/api/users/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: values.name,
+          username: values.username,
           email: values.email,
           password: values.password,
         }),
@@ -131,12 +140,27 @@ function Register() {
                   <Field name="name">
                     {({ field, form }) => (
                       <FormControl
-                        isInvalid={form.errors.email && form.touched.email}
+                        isInvalid={form.errors.name && form.touched.name}
                       >
                         <FormLabel>Full Name</FormLabel>
                         <Input {...field} />
                         <FormErrorMessage color="red">
                           {form.errors.name}
+                        </FormErrorMessage>
+                      </FormControl>
+                    )}
+                  </Field>
+                  <Field name="username">
+                    {({ field, form }) => (
+                      <FormControl
+                        isInvalid={
+                          form.errors.username && form.touched.username
+                        }
+                      >
+                        <FormLabel>Username</FormLabel>
+                        <Input {...field} />
+                        <FormErrorMessage color="red">
+                          {form.errors.username}
                         </FormErrorMessage>
                       </FormControl>
                     )}
