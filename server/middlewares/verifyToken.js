@@ -38,3 +38,14 @@ export const verifyTokenAndAdmin = (req, res, next) => {
     }
   });
 };
+
+export const verifyTokenSendEmail = (req, res) => {
+  console.log("inside the email secret key", process.env.JWT_SECRET);
+  try {
+    const verify = jwt.verify(req.params.token, process.env.JWT_SECRET);
+    res.send("verified");
+  } catch (error) {
+    console.log(error);
+    res.send("not verified");
+  }
+};

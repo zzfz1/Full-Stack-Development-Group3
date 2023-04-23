@@ -3,6 +3,7 @@ import UserController from "../controllers/userController.js";
 import {
   verifyTokenAndAdmin,
   verifyTokenAndAuthorization,
+  verifyTokenSendEmail,
 } from "../middlewares/verifyToken.js";
 import {
   resetPassword,
@@ -15,6 +16,11 @@ const userController = new UserController();
 router.post("/register", userController.registerUser);
 router.post("/login", userController.loginUser);
 router.post("/reset", resetPassword);
+router.get(
+  "/reset/:slug/:token",
+  userController.sendEmail,
+  verifyTokenSendEmail
+);
 router.get("/", verifyTokenAndAdmin, userController.getUsers);
 router.get("/:slug", verifyTokenAndAuthorization, userController.getUserBySlug);
 router.put(
