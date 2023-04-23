@@ -50,15 +50,13 @@ function SendEmail() {
       actions.setErrors(errors);
     } else {
       actions.setSubmitting(true);
-      console.log("data", values.name, values.email, values.password);
+      console.log("data", values.email);
       // Send the form data to the server
-      fetch(`http://localhost:3000//api/users/logi`, {
+      fetch(`http://localhost:3000/api/users/reset/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: values.name,
           email: values.email,
-          password: values.password,
         }),
       })
         .then((response) => {
