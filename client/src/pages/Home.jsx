@@ -1,4 +1,5 @@
 import React from "react";
+import Header from "../components/header/navbar";
 import Footer from "../components/footer/index";
 import Hero from "../components/hero";
 import { Text } from "@chakra-ui/react";
@@ -6,6 +7,7 @@ import { Text } from "@chakra-ui/react";
 const Home = () => {
   return (
     <div>
+      <Header />
       <Hero />
       <Text m="20">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime
