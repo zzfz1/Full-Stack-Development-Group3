@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "query-string": "^8.1.0"
+  }
+}

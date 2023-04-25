@@ -61,6 +61,7 @@ function SendEmail() {
       })
         .then((response) => {
           console.log(response);
+          alert(response.status);
           actions.setSubmitting(false);
         })
         .catch((error) => {
