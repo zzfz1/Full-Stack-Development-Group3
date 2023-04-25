@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../components/header/navbar2";
+import Header from "../components/header/navbar";
 
 const Checkout = () => {
   return (
