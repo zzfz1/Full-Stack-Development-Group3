@@ -15,12 +15,8 @@ const userController = new UserController();
 
 router.post("/register", userController.registerUser);
 router.post("/login", userController.loginUser);
-router.post("/reset", resetPassword);
-router.get(
-  "/reset/:slug/:token",
-  userController.sendEmail,
-  verifyTokenSendEmail
-);
+router.post("/reset", resetPassword, userController.sendEmail);
+router.get("/reset/verify/:token", verifyTokenSendEmail);
 router.get("/", verifyTokenAndAdmin, userController.getUsers);
 router.get("/:slug", verifyTokenAndAuthorization, userController.getUserBySlug);
 router.put(

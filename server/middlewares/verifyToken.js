@@ -40,12 +40,12 @@ export const verifyTokenAndAdmin = (req, res, next) => {
 };
 
 export const verifyTokenSendEmail = (req, res) => {
-  console.log("inside the email secret key", process.env.JWT_SECRET);
+  console.log("inside the email secret key", req.params);
   try {
     const verify = jwt.verify(req.params.token, process.env.JWT_SECRET);
-    res.send("verified");
+    res.status(200).json({ verified: true });
   } catch (error) {
     console.log(error);
-    res.send("not verified");
+    res.status(403).json({ verified: false });
   }
 };

@@ -27,24 +27,17 @@ export const resetPassword = async (req, res, next) => {
   // TODO: Email Verification
 
   const user = User.findOne({ email: req.body.email }, async (err, user) => {
-    if (err) {
-      console.error(err);
-      res.status(500).json({ message: "Internal Server Error" });
-    }
-    if (!user) {
-      console.log("User not found");
+    try {
+      const token = generateTokenEmail(user._id, user.isAdmin);
+      const link = `${process.env.RESETPASWORD_URL}?token=${token}`;
+      console.log("the token", link);
+      console.log("the user is", user);
+      res.status(200).json({ message: "email send" });
+    } catch (err) {
+      console.log("User not found", error);
       res.status(404).json({ message: "User Not Found" });
     }
-
-    const token = generateTokenEmail(user._id, user.isAdmin);
-    const link = `http://localhost:3000/api/users/reset/${user.username}/${token}`;
-    console.log("the token", link);
-    console.log("the user is", user);
-    res.status(200).json({ message: "email send" });
   });
-
-  console.log(" inside the resetpassword func");
-  next();
 };
 
 /* 
