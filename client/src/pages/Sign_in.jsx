@@ -1,12 +1,20 @@
 import React from "react";
 import Header from "../components/header/navbar";
+import { GoogleLogin } from "@react-oauth/google";
+import { responseMessage, errorMessage } from "../googleAuth";
 
 const SignIn = () => {
-    return (
+  return (
+    <div>
+      <Header />
       <div>
-        <Header />
+          <h2>React Google Login</h2>
+          <br />
+          <br />
+          <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
       </div>
-    );
-  };
-  
-  export default SignIn;
+    </div>
+  );
+};
+
+export default SignIn;

@@ -8,7 +8,7 @@ import Checkout from '/src/pages/Checkout'
 import SignIn from '/src/pages/Sign_in'
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 
-function App() {
+function App() {  
   return (
     <BrowserRouter>
       <Routes>
