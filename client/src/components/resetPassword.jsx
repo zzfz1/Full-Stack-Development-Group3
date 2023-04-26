@@ -12,10 +12,12 @@ function ResetPassword() {
   let [validating, setValidating] = useState(true);
   const location = useLocation();
   const baseUrl = "http://localhost:3000/api/users/reset/verify";
+  console.log("first.", location);
 
+  const { token, user } = queryString.parse(location.search);
+  console.log("user is: " + user);
+  console.log("token is: " + token);
   const verifyToken = async () => {
-    const { token, user } = queryString.parse(location.search);
-
     try {
       setValidating(false);
       const { data } = await axios(`${baseUrl}/${token}`);
@@ -45,7 +47,7 @@ function ResetPassword() {
   }, []);
 
   if (validUser) {
-    return <ResetForm />;
+    return <ResetForm user={user} />;
   }
   if (validating) {
     return <h1>validating ................</h1>;

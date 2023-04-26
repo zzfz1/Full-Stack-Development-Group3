@@ -23,7 +23,7 @@ import { BiArrowBack } from "react-icons/bi";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { Formik, Form, Field } from "formik";
 
-function ResetForm() {
+function ResetForm(props) {
   const [showPassword, setShowPassword] = useState(false);
   const initialValues = {
     confirmPassword: "",
@@ -73,7 +73,7 @@ function ResetForm() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: values.name,
+          username: user,
           email: values.email,
           password: values.password,
         }),
@@ -88,6 +88,7 @@ function ResetForm() {
         });
     }
   };
+  console.log("the user inside the props", props.user);
 
   return (
     <Flex
