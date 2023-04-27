@@ -1,27 +1,54 @@
 import "./App.css";
-import { Button, ButtonGroup } from "@chakra-ui/react";
-import Home from '/src/pages/Home'
-import Products from '/src/pages/Products'
-import AboutUs from '/src/pages/AboutUs'
-import Contact from '/src/pages/Contacts'
-import Checkout from '/src/pages/Checkout'
-import SignIn from '/src/pages/Sign_in'
-import {BrowserRouter, Route, Routes} from 'react-router-dom';
+// import Login from "./components/Login";
+import ErrorPage from "./pages/Error";
+import Login from "./components/Login";
+import Footer from "./components/footer";
+import Home from "./pages/Home";
+import Header from "./components/header/navbar";
+// import Products from "./pages/Products.jsx";
+// import AboutUs from "/src/pages/AboutUs.jsx";
+// import Contact from "/src/pages/Contacts.jsx";
+// import Checkout from "/src/pages/Checkout.jsx";
+// import SignIn from "/src/pages/Sign_in.jsx";
+import { Outlet } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: (
+      <>
+        <Header />
+        <Outlet />
+        <Footer />
+      </>
+    ),
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      // {
+      //   path: "/register",
+      //   element: <Register />,
+      // },
+      // {
+      //   path: "/reset",
+      //   element: <Reset />,
+      // // },
+      // { path: "/checkout", element: <Checkout /> },
+      // { path: "/about_us", element: <AboutUs /> },
+    ],
+  },
+]);
 
-function App() {  
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path = '/' element = {<Home />}/>
-        <Route path = '/contact' element = {<Contact />}/>
-        <Route path = '/products' element = {<Products />}/>
-        <Route path = '/login' element = {<SignIn />}/>
-        <Route path = '/checkout' element = {<Checkout />}/>
-        <Route path = '/about_us' element = {<AboutUs />}/>
-      </Routes>
-    </BrowserRouter>
-  );
+function App() {
+  return <RouterProvider router={router} />;
 }
 
 export default App;
