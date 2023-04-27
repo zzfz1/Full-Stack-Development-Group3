@@ -1,10 +1,22 @@
 import Product from "../models/product.js";
+import Category from "../models/category.js";
 import slugify from "slugify";
 
 class ProductController {
   async createProduct(req, res) {
     try {
-      const { name, image, brand, category, description, properties, rating, numReviews, price, countInStock } = req.body;
+      const {
+        name,
+        image,
+        brand,
+        category,
+        description,
+        properties,
+        rating,
+        numReviews,
+        price,
+        countInStock,
+      } = req.body;
 
       const slug = slugify(name, { lower: true, strict: true });
 
@@ -25,13 +37,19 @@ class ProductController {
       await product.save();
       res.status(201).json(product);
     } catch (error) {
-      res.status(500).json({ message: "Internal server error", error: error.message });
+      res
+        .status(500)
+        .json({ message: "Internal server error", error: error.message });
     }
   }
 
   async getAllProducts(req, res) {
     try {
-      const products = await Product.find({});
+      const products = await Product.find({}).populate({
+        path: "category",
+        select: "name slug",
+        options: { lean: true },
+      });
       res.json(products);
     } catch (error) {
       res.status(500).json({ message: "Internal server error" });
@@ -40,12 +58,16 @@ class ProductController {
 
   async getProductBySlug(req, res) {
     try {
-      const product = await Product.findOne({ slug: req.params.slug });
-
+      const product = await Product.findOne({ slug: req.params.slug }).populate(
+        {
+          path: "category",
+          select: "name slug",
+          options: { lean: true },
+        }
+      );
       if (!product) {
         return res.status(404).json({ message: "Product not found" });
       }
-
       res.status(200).json(product);
     } catch (error) {
       res.status(500).json({ message: "Internal server error" });
@@ -54,7 +76,18 @@ class ProductController {
 
   async updateProduct(req, res) {
     try {
-      const { name, image, brand, category, description, properties, rating, numReviews, price, countInStock } = req.body;
+      const {
+        name,
+        image,
+        brand,
+        category,
+        description,
+        properties,
+        rating,
+        numReviews,
+        price,
+        countInStock,
+      } = req.body;
 
       const product = await Product.findOne({ slug: req.params.slug });
 
@@ -104,10 +137,14 @@ class ProductController {
         return res.status(404).json({ message: "Product not found" });
       }
 
-      const alreadyReviewed = product.reviews.find((review) => review.user.toString() === req.user.id.toString());
+      const alreadyReviewed = product.reviews.find(
+        (review) => review.user.toString() === req.user.id.toString()
+      );
 
       if (alreadyReviewed) {
-        return res.status(400).json({ message: "You have already reviewed this product" });
+        return res
+          .status(400)
+          .json({ message: "You have already reviewed this product" });
       }
 
       const review = {
@@ -119,7 +156,9 @@ class ProductController {
 
       product.reviews.push(review);
       product.numReviews = product.reviews.length;
-      product.rating = product.reviews.reduce((acc, curr) => curr.rating + acc, 0) / product.reviews.length;
+      product.rating =
+        product.reviews.reduce((acc, curr) => curr.rating + acc, 0) /
+        product.reviews.length;
 
       await product.save();
       res.status(201).json({ message: "Review added" });
