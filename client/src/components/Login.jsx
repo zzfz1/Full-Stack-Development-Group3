@@ -23,6 +23,9 @@ import { BsGithub, BsDiscord, BsGoogle } from "react-icons/bs";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Formik, Form, Field } from "formik";
 
+//import google login component
+import GoogleLogin from '/src/components/googleLogin'
+
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -178,14 +181,7 @@ function Login() {
             </Stack>
             <Stack>
               <HStack spacing={5} px={5} justifyContent="space-around">
-                <IconButton
-                  aria-label="google"
-                  variant="ghost"
-                  size="lg"
-                  isRound={true}
-                  _hover={{ bg: "primary.500" }}
-                  icon={<BsGoogle size="40px" />}
-                />
+                <GoogleLogin/>
                 <IconButton
                   aria-label="github"
                   variant="ghost"
