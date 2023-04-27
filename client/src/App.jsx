@@ -8,6 +8,7 @@ import Checkout from '/src/pages/Checkout'
 import SignIn from '/src/pages/Sign_in'
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 
+
 function App() {  
   return (
     <BrowserRouter>
@@ -15,7 +16,7 @@ function App() {
         <Route path = '/' element = {<Home />}/>
         <Route path = '/contact' element = {<Contact />}/>
         <Route path = '/products' element = {<Products />}/>
-        <Route path = '/sign_in' element = {<SignIn />}/>
+        <Route path = '/login' element = {<SignIn />}/>
         <Route path = '/checkout' element = {<Checkout />}/>
         <Route path = '/about_us' element = {<AboutUs />}/>
       </Routes>
