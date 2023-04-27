@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import Home from "./pages/Home";
 import ResetPassword from "./components/resetPassword";
+import CheckEmail from "./components/checkEmail";
 
 function App() {
   return (
@@ -19,6 +20,9 @@ function App() {
       </Routes>
       <Routes>
         <Route path="/resetPassword" element={<ResetPassword />} />
+      </Routes>
+      <Routes>
+        <Route path="/checkEmail" element={<CheckEmail />} />
       </Routes>
     </Router>
   );

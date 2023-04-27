@@ -25,6 +25,7 @@ import { Formik, Form, Field } from "formik";
 
 function SendEmail() {
   const [showPassword, setShowPassword] = useState(false);
+  const [confirm, setConfirm] = useState(false);
   const initialValues = {
     email: "",
   };
@@ -66,10 +67,15 @@ function SendEmail() {
         })
         .catch((error) => {
           console.error(error);
+          alert("Eroro");
           actions.setSubmitting(false);
         });
     }
   };
+
+  if (confirm) {
+    <Success />;
+  }
 
   return (
     <Flex
