@@ -1,6 +1,7 @@
 import "./App.css";
 // import Login from "./components/Login";
 import ErrorPage from "./pages/Error";
+import Login from "./components/Login";
 import Footer from "./components/footer";
 import Home from "./pages/Home";
 // import Products from "./pages/Products.jsx";
@@ -27,10 +28,10 @@ const router = createBrowserRouter([
         path: "/",
         element: <Home />,
       },
-      // {
-      //   path: "/login",
-      //   element: <Login />,
-      // },
+      {
+        path: "/login",
+        element: <Login />,
+      },
       // {
       //   path: "/register",
       //   element: <Register />,
