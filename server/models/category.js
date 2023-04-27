@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import slugify from "slugify";
+import CategoryPropertySchema from "./categoryProperty.js";
 
 const categorySchema = new mongoose.Schema(
   {
@@ -8,7 +9,7 @@ const categorySchema = new mongoose.Schema(
       type: String,
       unique: true,
     },
-    allowedProperties: [{ type: String }],
+    allowedProperties: [CategoryPropertySchema],
   },
   {
     timestamps: true,

@@ -1,14 +1,15 @@
 import express from "express";
 import CategoryController from "../controllers/categoryController.js";
-import isAdmin from "../middlewares/isAdmin.js";
+import { verifyTokenAndAdmin } from "../middlewares/verifyToken.js";
 
 const router = express.Router();
 const categoryController = new CategoryController();
 
-router.post("/", isAdmin, categoryController.createCategory);
-router.put("/:id", isAdmin, categoryController.updateCategory);
-router.delete("/:id", isAdmin, categoryController.deleteCategory);
+router.post("/", verifyTokenAndAdmin, categoryController.createCategory);
 router.get("/", categoryController.getAllCategories);
-router.get("/:id", categoryController.getCategoryById);
+//change
+router.put("/:slug", verifyTokenAndAdmin, categoryController.updateCategory);
+router.delete("/:slug", verifyTokenAndAdmin, categoryController.deleteCategory);
+router.get("/:slug", categoryController.getCategoryBySlug);
 
 export default router;
