@@ -7,7 +7,6 @@ import { Text } from "@chakra-ui/react";
 const Home = () => {
   return (
     <div>
-      <Header />
       <Hero />
       <Text m="20">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime
@@ -23,7 +22,6 @@ const Home = () => {
         error harum maxime adipisci amet laborum. Perspiciatis minima nesciunt
         dolorem! Officiis iure rerum voluptates a cumque velit{" "}
       </Text>
-      <Footer />
     </div>
   );
 };

@@ -1,4 +1,11 @@
-import { Box, Container, SimpleGrid, Stack, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Container,
+  SimpleGrid,
+  Stack,
+  Text,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import Logo from "./logo";
 import SocialMedia from "./socialMedia";
 import Company from "./company";
@@ -7,7 +14,12 @@ import Subscribe from "./subscription";
 
 export default function Footer() {
   return (
-    <Box bg={"yellowgreen"} position={"fixed"} bottom={"0"} right={0} left={0}>
+    <Box
+      bg={useColorModeValue("blackAlpha.100", "whiteAlpha.100")}
+      bottom={"0"}
+      right={0}
+      left={0}
+    >
       <Container as={Stack} maxW={"6xl"} py={10}>
         <SimpleGrid
           templateColumns={{ sm: "1fr 1fr", md: "2fr 1fr 1fr 2fr" }}

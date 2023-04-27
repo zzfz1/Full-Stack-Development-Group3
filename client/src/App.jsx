@@ -4,6 +4,7 @@ import ErrorPage from "./pages/Error";
 import Login from "./components/Login";
 import Footer from "./components/footer";
 import Home from "./pages/Home";
+import Header from "./components/header/navbar";
 // import Products from "./pages/Products.jsx";
 // import AboutUs from "/src/pages/AboutUs.jsx";
 // import Contact from "/src/pages/Contacts.jsx";
@@ -17,7 +18,7 @@ const router = createBrowserRouter([
     path: "/",
     element: (
       <>
-        {/* <Header /> */}
+        <Header />
         <Outlet />
         <Footer />
       </>
