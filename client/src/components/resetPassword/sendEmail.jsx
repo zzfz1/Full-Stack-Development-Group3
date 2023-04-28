@@ -22,10 +22,14 @@ import { ViewIcon, ViewOffIcon, ArrowBackIcon } from "@chakra-ui/icons";
 import { BiArrowBack } from "react-icons/bi";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { Formik, Form, Field } from "formik";
+import Success from "./Confirm";
+import CheckEmail from "./checkEmail";
+//cuz@example.com
 
 function SendEmail() {
   const [showPassword, setShowPassword] = useState(false);
   const [confirm, setConfirm] = useState(false);
+  const [email, setEmail] = useState("");
   const initialValues = {
     email: "",
   };
@@ -62,7 +66,8 @@ function SendEmail() {
       })
         .then((response) => {
           console.log(response);
-          alert(response.status);
+          setEmail(values.email);
+          setConfirm(true);
           actions.setSubmitting(false);
         })
         .catch((error) => {
@@ -74,7 +79,7 @@ function SendEmail() {
   };
 
   if (confirm) {
-    <Success />;
+    return <CheckEmail email={email} />;
   }
 
   return (

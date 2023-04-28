@@ -9,8 +9,8 @@ import {
   Routes,
 } from "react-router-dom";
 import Home from "./pages/Home";
-import ResetPassword from "./components/resetPassword";
-import CheckEmail from "./components/checkEmail";
+import ResetPassword from "./components/resetPassword/resetPassword";
+import CheckEmail from "./components/resetPassword/checkEmail";
 
 function App() {
   return (

@@ -10,7 +10,7 @@ import {
 import { BiArrowBack } from "react-icons/bi";
 import { Link as ChakraLink } from "@chakra-ui/react";
 
-function CheckEmail() {
+function CheckEmail(props) {
   return (
     <Flex
       minH={"100vh"}
@@ -47,17 +47,17 @@ function CheckEmail() {
               We have sent a password reset link to
             </Box>
             <Box
-              pt={0}
+              mt={0}
               fontSize={{ base: "sm", sm: "md" }}
               fontWeight="bold"
               color={useColorModeValue("gray.800", "gray.400")}
             >
-              username@mail.com
+              {props.email}
             </Box>
           </VStack>
         </Center>
 
-        <Stack spacing={6}>
+        <Stack spacing={6} pt={2}>
           <Button
             bg={"blue.400"}
             color={"white"}
@@ -65,14 +65,15 @@ function CheckEmail() {
               bg: "blue.500",
             }}
           >
-            open email app
+            Open email app
           </Button>
           <Center
             pt={2}
             fontSize={{ base: "xs" }}
             color={useColorModeValue("gray.800", "gray.400")}
           >
-            Didn't receive the email? Click to resend
+            <Box pr="1">Didn't receive the email?</Box>{" "}
+            <ChakraLink color="primary.500">Click to resend</ChakraLink>
           </Center>
           <Stack pt={1} align="center">
             <ChakraLink
