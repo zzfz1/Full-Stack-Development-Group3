@@ -38,7 +38,6 @@ function SendEmail() {
     return errors;
   };
 
-  const notify = () => toast("Wow so easy !");
   const handleSubmit = (values, actions) => {
     const errors = {};
     if (!values.email) {
@@ -60,7 +59,6 @@ function SendEmail() {
       })
         .then((response) => {
           if (response.ok) {
-            toast.success("Email send it");
             setEmail(values.email);
             setConfirm(true);
           } else {
@@ -148,7 +146,6 @@ function SendEmail() {
                       _hover={{
                         bg: "primary.600",
                       }}
-                      onClick={() => notify}
                     >
                       Reset Password
                     </Button>

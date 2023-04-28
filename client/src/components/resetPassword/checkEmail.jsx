@@ -73,7 +73,7 @@ function CheckEmail(props) {
             color={useColorModeValue("gray.800", "gray.400")}
           >
             <Box pr="1">Didn't receive the email?</Box>{" "}
-            <ChakraLink color="primary.500">Click to resend</ChakraLink>
+            <ChakraLink color="primary.600">Click to resend</ChakraLink>
           </Center>
           <Stack pt={1} align="center">
             <ChakraLink
