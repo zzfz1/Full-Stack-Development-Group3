@@ -5,35 +5,28 @@ import {
   FormControl,
   FormLabel,
   Input,
-  InputGroup,
-  HStack,
-  InputRightElement,
   Stack,
   Button,
   Heading,
   Text,
   FormErrorMessage,
   useColorModeValue,
-  Link,
-  Checkbox,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { ViewIcon, ViewOffIcon, ArrowBackIcon } from "@chakra-ui/icons";
 import { BiArrowBack } from "react-icons/bi";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { Formik, Form, Field } from "formik";
-import Success from "./Confirm";
+import { toast } from "react-toastify";
+
 import CheckEmail from "./checkEmail";
 //cuz@example.com
 
 function SendEmail() {
-  const [showPassword, setShowPassword] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const [email, setEmail] = useState("");
   const initialValues = {
     email: "",
   };
-
   const validate = (values) => {
     const errors = {};
     if (!values.email) {
@@ -45,6 +38,7 @@ function SendEmail() {
     return errors;
   };
 
+  const notify = () => toast("Wow so easy !");
   const handleSubmit = (values, actions) => {
     const errors = {};
     if (!values.email) {
@@ -65,21 +59,35 @@ function SendEmail() {
         }),
       })
         .then((response) => {
-          console.log(response);
-          setEmail(values.email);
-          setConfirm(true);
+          if (response.ok) {
+            toast.success("Email send it");
+            setEmail(values.email);
+            setConfirm(true);
+          } else {
+            console.log("the erro block failed");
+            toast.error("User not found", {
+              position: toast.POSITION.TOP_CENTER,
+            });
+          }
+
           actions.setSubmitting(false);
         })
         .catch((error) => {
           console.error(error);
-          alert("Eroro");
+          toast.error("Server Error", {
+            position: toast.POSITION.TOP_CENTER,
+          });
           actions.setSubmitting(false);
         });
     }
   };
 
   if (confirm) {
-    return <CheckEmail email={email} />;
+    return (
+      <div>
+        <CheckEmail email={email} />
+      </div>
+    );
   }
 
   return (
@@ -140,6 +148,7 @@ function SendEmail() {
                       _hover={{
                         bg: "primary.600",
                       }}
+                      onClick={() => notify}
                     >
                       Reset Password
                     </Button>
