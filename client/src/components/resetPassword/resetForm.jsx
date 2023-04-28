@@ -14,14 +14,13 @@ import {
   Text,
   FormErrorMessage,
   useColorModeValue,
-  Link,
-  Checkbox,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { ViewIcon, ViewOffIcon, ArrowBackIcon } from "@chakra-ui/icons";
 import { BiArrowBack } from "react-icons/bi";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { Formik, Form, Field } from "formik";
+import { toast } from "react-toastify";
 
 function ResetForm(props) {
   const [showPassword, setShowPassword] = useState(false);
@@ -56,8 +55,6 @@ function ResetForm(props) {
     if (!values.confirmPassword) {
       errors.confirmPassword = "Required";
     }
-    console.log("password", values.password);
-    console.log("confirm", values.password);
     if (values.password != values.confirmPassword) {
       errors.confirmPassword =
         "The passwords you entered do not match, try again.";
@@ -67,23 +64,33 @@ function ResetForm(props) {
       actions.setErrors(errors);
     } else {
       actions.setSubmitting(true);
-      console.log("data", values.name, values.email, values.password);
+      console.log("data", values.password);
       // Send the form data to the server
       fetch(`http://localhost:3000/api/users/logi`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          username: user,
-          email: values.email,
           password: values.password,
         }),
       })
         .then((response) => {
-          console.log(response);
+          console.log("the response", response);
+          if (response.ok) {
+            toast.success("Password Successfully reset it", {
+              position: toast.POSITION.TOP_CENTER,
+            });
+          } else {
+            toast.error("Faild to reset the password", {
+              position: toast.POSITION.TOP_CENTER,
+            });
+          }
           actions.setSubmitting(false);
         })
         .catch((error) => {
           console.error(error);
+          toast.error("Server Error", {
+            position: toast.POSITION.TOP_CENTER,
+          });
           actions.setSubmitting(false);
         });
     }
