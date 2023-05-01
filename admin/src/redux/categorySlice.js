@@ -43,7 +43,7 @@ export const deleteCategoryAsync = createAsyncThunk("categories/deleteCategory",
 });
 
 const categorySlice = createSlice({
-  name: "category",
+  name: "user",
   initialState: { categories: [], category: null, status: "idle", error: null },
   reducers: {
     createCategory: (state, action) => {
