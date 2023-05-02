@@ -164,14 +164,26 @@ class UserController {
     }
   }
 
-  async sendEmail(req, res, next) {
-    const { slug, token } = req.params;
-    console.log("the params in sendEmail: ", slug);
-    const user = await User.findOne({ username: slug });
-    if (!user) {
-      res.status(404).json({ message: "User not found" });
+  async resetUserPassword(req, res) {
+    const newPassword = req.body.password;
+    const username = req.body.username;
+    console.log("the user name is ", username);
+    try {
+      const user = await User.findOne({ username: username });
+      console.log("the user", user);
+      if (user) {
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        const updatePass = User.updateOne(
+          { username: username },
+          { password: hashedPassword }
+        );
+        res.status(200).json({ message: "password reset it" });
+      } else {
+        res.status(400).json({ message: "Wrong User not found!" });
+      }
+    } catch (error) {
+      console.log("the Error: ", error);
     }
-    console.log("THE USER IS: ", user);
   }
 }
 
