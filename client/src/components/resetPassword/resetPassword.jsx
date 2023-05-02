@@ -6,7 +6,7 @@ import queryString from "query-string";
 import axios from "axios";
 import ResetForm from "./resetForm";
 import InvalidLink from "./invalidLink";
-import { toast } from "react-toastify";
+
 
 function ResetPassword() {
   let [validUser, setValidUser] = useState(false);
