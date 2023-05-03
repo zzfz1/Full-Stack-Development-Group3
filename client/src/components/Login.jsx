@@ -22,6 +22,8 @@ import { useState } from "react";
 import { BsGithub, BsDiscord, BsGoogle } from "react-icons/bs";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Formik, Form, Field } from "formik";
+import GoogleLogin from "../components/googleLogin.jsx";
+import axios from "axios";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -74,15 +76,16 @@ function Login() {
               initialValues={initialValues}
               onSubmit={async (values, actions) => {
                 try {
-                  const data = await fetch(
-                    `http://localhost:3000/api/users/login`,
+                  const data = await axios.post(
+                    "http://localhost:3000/api/users/login",
                     {
-                      method: "POST",
-                      headers: { "Content-Type": "application/json" },
-                      body: JSON.stringify({
-                        email: values.email,
-                        password: values.password,
-                      }),
+                      email: values.email,
+                      password: values.password,
+                    },
+                    {
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
                     }
                   );
                   console.log(data);
@@ -178,14 +181,7 @@ function Login() {
             </Stack>
             <Stack>
               <HStack spacing={5} px={5} justifyContent="space-around">
-                <IconButton
-                  aria-label="google"
-                  variant="ghost"
-                  size="lg"
-                  isRound={true}
-                  _hover={{ bg: "primary.500" }}
-                  icon={<BsGoogle size="40px" />}
-                />
+                <GoogleLogin></GoogleLogin>
                 <IconButton
                   aria-label="github"
                   variant="ghost"
