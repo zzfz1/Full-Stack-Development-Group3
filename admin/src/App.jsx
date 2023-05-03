@@ -20,11 +20,28 @@ function App() {
   const admin = useSelector((state) => state.user.currentUser);
   console.log('admin,', admin)
 
-  return (
-    // Use BrowserRouter (aliased as Router) to enable routing in the application
-    <Router>
-      {/* If the user is an admin, render the main application layout */}
-      {admin ? (
+
+  if (admin == null || !admin.isAdmin) {
+
+    return (
+      // Use BrowserRouter (aliased as Router) to enable routing in the application
+      <Router>
+        {/* If the user is an admin, render the main application layout */}
+        {/* // If the user is not an admin, only show the login page */}
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          {/* Catch-all route to redirect users to the login page */}
+          <Route path="/*" element={<Login />} />
+        </Routes>
+
+      </Router>
+    );
+  } else {
+    return (
+      // Use BrowserRouter (aliased as Router) to enable routing in the application
+      <Router>
+        {/* If the user is an admin, render the main application layout */}
+        {/* {admin ? ( */}
         <>
           <Topbar />
           <div className="container">
@@ -42,16 +59,51 @@ function App() {
             </Routes>
           </div>
         </>
-      ) : (
-        // If the user is not an admin, only show the login page
+        {/* // ) : ( */}
+        {/* // If the user is not an admin, only show the login page */}
         <Routes>
           <Route path="/login" element={<Login />} />
           {/* Catch-all route to redirect users to the login page */}
           <Route path="/*" element={<Login />} />
         </Routes>
-      )}
-    </Router>
-  );
+        {/* // )} */}
+      </Router>
+    );
+  }
+
+
+  // return (
+  //   // Use BrowserRouter (aliased as Router) to enable routing in the application
+  //   <Router>
+  //     {/* If the user is an admin, render the main application layout */}
+  //     {admin ? (
+  //       <>
+  //         <Topbar />
+  //         <div className="container">
+  //           <Sidebar />
+  //           {/* Use Routes component from react-router-dom v6 to define the available routes */}
+  //           <Routes>
+  //             {/* Define routes with the new syntax using the "element" prop */}
+  //             <Route path="/" element={<Home />} />
+  //             <Route path="/categories" element={<CategoryList />} />
+  //             <Route path="/categories/:slug" element={<Category />} />
+  //             <Route path="/newcategory" element={<NewCategory />} />
+  //             <Route path="/products" element={<ProductList />} />
+  //             <Route path="/product/:productId" element={<Product />} />
+  //             <Route path="/newproduct" element={<NewProduct />} />
+  //           </Routes>
+  //         </div>
+  //       </>
+  //     ) : (
+  //       // If the user is not an admin, only show the login page
+  //       <Routes>
+  //         <Route path="/login" element={<Login />} />
+  //         {/* Catch-all route to redirect users to the login page */}
+  //         <Route path="/*" element={<Login />} />
+  //       </Routes>
+  //     )}
+  //   </Router>
+  // );
 
 
 
