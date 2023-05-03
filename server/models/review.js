@@ -13,5 +13,12 @@ const reviewSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
+reviewSchema.pre("save", async function (next) {
+  try {
+    await validateReferences(reviewSchema, this);
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
 export default reviewSchema;

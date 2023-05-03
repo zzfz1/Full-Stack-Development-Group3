@@ -25,4 +25,13 @@ const orderItemSchema = new mongoose.Schema(
   { _id: false }
 );
 
+orderItemSchema.pre("save", async function (next) {
+  try {
+    await validateReferences(orderItemSchema, this);
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
+
 export default orderItemSchema;

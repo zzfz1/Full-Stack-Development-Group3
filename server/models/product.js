@@ -2,6 +2,7 @@
 import mongoose from "mongoose";
 import reviewSchema from "./review.js";
 import ProductPropertySchema from "./productProperty.js";
+import validateReferences from "./validateReferences.js";
 import slugify from "slugify";
 
 const productSchema = new mongoose.Schema(
@@ -61,11 +62,16 @@ const productSchema = new mongoose.Schema(
 );
 
 // Add a pre-save middleware to generate the slug before saving the document
-productSchema.pre("save", function (next) {
+productSchema.pre("save", async function (next) {
+  try {
+    await validateReferences(productSchema, this);
+    next();
+  } catch (err) {
+    next(err);
+  }
   if (!this.isModified("name")) {
     return next();
   }
-
   this.slug = slugify(this.name, { lower: true, strict: true });
   next();
 });
