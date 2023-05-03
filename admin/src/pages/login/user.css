@@ -3,32 +3,12 @@
   padding: 20px;
 }
 
-.userTitleContainer {
-  display: flex;
-  /* align-items: center; */
-  /* text-align: center; */
-  justify-content: center;
-}
-
-.userTitle{
-  display: flex;
-  justify-content: center;
-}
-
 .userContainer {
   display: flex;
   margin-top: 20px;
 }
 
-.userShow {
-  flex: 1;
-  padding: 20px;
-  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
-  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
-}
-
-.userUpdate {
-  /* flex: 2; */
+.userLogin {
   padding: 20px;
   -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
   box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
@@ -36,71 +16,83 @@
   margin-top: 5rem;
 }
 
-.userShowTop {
+.userTitle{
   display: flex;
-  align-items: center;
+  justify-content: center;
 }
 
-.userShowImg {
+/* .userShow {
+  flex: 1;
+  padding: 20px;
+  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+} */
+
+/* .userShowTop {
+  display: flex;
+  align-items: center;
+} */
+
+/* .userShowImg {
   width: 40px;
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
-}
+} */
 
-.userShowTopTitle {
+/* .userShowTopTitle {
   display: flex;
   flex-direction: column;
   margin-left: 20px;
-}
+} */
 
-.userShowUsername {
+/* .userShowUsername {
   font-weight: 600;
-}
+} */
 
-.userShowUserTitle {
+/* .userShowUserTitle {
   font-weight: 300;
-}
+} */
 
-.userShowBottom {
+/* .userShowBottom {
   margin-top: 20px;
-}
+} */
 
-.userShowTitle {
+/* .userShowTitle {
   font-size: 14px;
   font-weight: 600;
   color: rgb(175, 170, 170);
-}
+} */
 
-.userShowInfo {
+/* .userShowInfo {
   display: flex;
   align-items: center;
   margin: 20px 0px;
   color: #444;
-}
+} */
 
-.userShowInfoTitle {
+/* .userShowInfoTitle {
   margin-left: 10px;
-}
+} */
 
-.userUpdateTitle {
+/* .userUpdateTitle {
   font-size: 24px;
   font-weight: 600;
-}
+} */
 
-.userUpdateForm {
+.userLoginForm {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
 }
 
-.userUpdateItem {
+.userLoginItem {
   display: flex;
   flex-direction: column;
   margin-top: 10px;
 }
 
-.userUpdateItem>label {
+.userLoginItem>label {
   margin-bottom: 5px;
   font-size: 18px;
   padding-top: 1rem;
@@ -113,9 +105,11 @@
   border-bottom: 1px solid gray;
 }
 
-.userUpdateButton {
+.userLoginButton {
   border-radius: 5px;
   border: none;
+  margin: auto;
+  margin-top: 2rem;
   padding: 15px;
   cursor: pointer;
   background-color: darkblue;
@@ -123,10 +117,4 @@
   font-weight: 600;
   display: flex;
   justify-content: center;
-}
-
-button{
-  margin: auto;
-  margin-top: 2rem;
-  padding: 50rem;
 }
