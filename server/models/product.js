@@ -1,3 +1,4 @@
+// Product
 import mongoose from "mongoose";
 import reviewSchema from "./review.js";
 import ProductPropertySchema from "./productProperty.js";
@@ -32,7 +33,7 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    properties: [ProductPropertySchema],
+    properties: [ProductPropertySchema], // selectable from the belonging category
     rating: {
       type: Number,
       required: true,
@@ -59,6 +60,7 @@ const productSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
 // Add a pre-save middleware to generate the slug before saving the document
 productSchema.pre("save", async function (next) {
   try {

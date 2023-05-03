@@ -4,9 +4,9 @@ import slugify from "slugify";
 class CategoryController {
   async createCategory(req, res) {
     try {
-      const { name, allowedProperties } = req.body;
+      const { name, categoryProperties } = req.body;
       const slug = slugify(name, { lower: true, strict: true });
-      const category = new Category({ name, slug, allowedProperties });
+      const category = new Category({ name, slug, categoryProperties });
       await category.save();
       res.status(201).json(category);
     } catch (error) {
@@ -40,7 +40,7 @@ class CategoryController {
   async updateCategory(req, res) {
     try {
       const oldslug = req.params.slug;
-      const { name, allowedProperties } = req.body;
+      const { name, categoryProperties } = req.body;
       const category = await Category.findOne({ slug: oldslug });
 
       if (!category) {
@@ -48,7 +48,7 @@ class CategoryController {
       }
 
       category.name = name;
-      category.allowedProperties = allowedProperties;
+      category.categoryProperties = categoryProperties;
       category.slug = slugify(name, { lower: true, strict: true });
       await category.save();
       res.status(200).json(category);

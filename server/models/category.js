@@ -9,7 +9,7 @@ const categorySchema = new mongoose.Schema(
       type: String,
       unique: true,
     },
-    allowedProperties: [CategoryPropertySchema],
+    categoryProperties: [CategoryPropertySchema], // Properties from here should be selectable in the product
   },
   {
     timestamps: true,
@@ -17,9 +17,6 @@ const categorySchema = new mongoose.Schema(
     toObject: { virtuals: true },
   }
 );
-
-// Middleware to automatically generate the slug based on the category name before the validation step.
-// This ensures that the slug is created or updated whenever the category name is created or modified.
 
 categorySchema.pre("validate", function (next) {
   if (this.name) {
