@@ -3,8 +3,16 @@ import Order from "../models/order.js";
 class OrderController {
   async createOrder(req, res) {
     try {
-      const { userId, products, amount, address } = req.body;
-      const newOrder = new Order({ userId, products, amount, address });
+      const { user, orderItems, shippingAddress, paymentMethod, taxPrice, shippingPrice, totalPrice } = req.body;
+      const newOrder = new Order({
+        user,
+        orderItems,
+        shippingAddress,
+        paymentMethod,
+        taxPrice,
+        shippingPrice,
+        totalPrice,
+      });
 
       const savedOrder = await newOrder.save();
       res.status(201).json(savedOrder);

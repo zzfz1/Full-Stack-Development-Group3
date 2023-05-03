@@ -6,11 +6,8 @@ class ProductController {
     try {
       const { name, image, brand, category, description, properties, rating, numReviews, price, countInStock } = req.body;
 
-      const slug = slugify(name, { lower: true, strict: true });
-
       const product = new Product({
         name,
-        slug,
         image,
         brand,
         category,
@@ -52,15 +49,45 @@ class ProductController {
     }
   }
 
+  // async updateProduct(req, res) {
+  //   try {
+  //     const { name, image, brand, category, description, properties, rating, numReviews, price, countInStock } = req.body;
+
+  //     const product = await Product.findOne({ slug: req.params.slug });
+
+  //     if (!product) {
+  //       return res.status(404).json({ message: "Product not found" });
+  //     }
+
+  //     product.name = name;
+  //     product.image = image;
+  //     product.brand = brand;
+  //     product.category = category;
+  //     product.description = description;
+  //     product.properties = properties;
+  //     product.rating = rating;
+  //     product.numReviews = numReviews;
+  //     product.price = price;
+  //     product.countInStock = countInStock;
+
+  //     await product.save();
+  //     res.status(200).json(product);
+  //   } catch (error) {
+  //     res.status(500).json({ message: "Internal server error" });
+  //   }
+  // }
+
   async updateProduct(req, res) {
     try {
-      const { name, image, brand, category, description, properties, rating, numReviews, price, countInStock } = req.body;
+      const { _id, name, image, brand, category, description, properties, rating, numReviews, price, countInStock } = req.body;
 
       const product = await Product.findOne({ slug: req.params.slug });
 
       if (!product) {
         return res.status(404).json({ message: "Product not found" });
       }
+
+      const nameChanged = product.name !== name;
 
       product.name = name;
       product.image = image;
@@ -73,9 +100,14 @@ class ProductController {
       product.price = price;
       product.countInStock = countInStock;
 
+      if (nameChanged) {
+        product.slug = slugify(name, { lower: true, strict: true });
+      }
+
       await product.save();
       res.status(200).json(product);
     } catch (error) {
+      console.log(error);
       res.status(500).json({ message: "Internal server error" });
     }
   }
