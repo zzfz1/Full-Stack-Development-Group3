@@ -22,6 +22,8 @@ import { useState } from "react";
 import { BsGithub, BsDiscord, BsGoogle } from "react-icons/bs";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Formik, Form, Field } from "formik";
+import GoogleLogin from "../components/googleLogin.jsx";
+import axios from "axios";
 
 //import google login component
 import GoogleLogin from '/src/components/googleLogin'
@@ -77,15 +79,16 @@ function Login() {
               initialValues={initialValues}
               onSubmit={async (values, actions) => {
                 try {
-                  const data = await fetch(
-                    `http://localhost:3000/api/users/login`,
+                  const data = await axios.post(
+                    "http://localhost:3000/api/users/login",
                     {
-                      method: "POST",
-                      headers: { "Content-Type": "application/json" },
-                      body: JSON.stringify({
-                        email: values.email,
-                        password: values.password,
-                      }),
+                      email: values.email,
+                      password: values.password,
+                    },
+                    {
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
                     }
                   );
                   console.log(data);
