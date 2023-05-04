@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { GoogleOAuthProvider,GoogleLogin } from '@react-oauth/google';
 import App from "./App";
 import "./index.css";
 import { extendTheme, ChakraProvider } from "@chakra-ui/react";
@@ -8,10 +9,12 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <ChakraProvider theme={theme}>
-      <ToastContainer />
-      <App />
-    </ChakraProvider>
-  </React.StrictMode>
+  <GoogleOAuthProvider clientId="1068486314099-n87h1p1p97rvjt88kkajmqinn4u0lf9f.apps.googleusercontent.com">
+    <React.StrictMode>
+        <ChakraProvider theme={theme}>
+           <ToastContainer />
+          <App />
+        </ChakraProvider> 
+    </React.StrictMode>
+  </GoogleOAuthProvider>
 );

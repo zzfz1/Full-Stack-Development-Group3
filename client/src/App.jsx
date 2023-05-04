@@ -1,31 +1,54 @@
 import "./App.css";
-import { Button, ButtonGroup } from "@chakra-ui/react";
-
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  useParams,
-  Routes,
-} from "react-router-dom";
+// import Login from "./components/Login";
+import ErrorPage from "./pages/Error";
+import Login from "./components/Login";
+import Footer from "./components/footer";
 import Home from "./pages/Home";
-import ResetPassword from "./components/resetPassword/resetPassword";
-import CheckEmail from "./components/resetPassword/checkEmail";
+import Header from "./components/header/navbar";
+// import Products from "./pages/Products.jsx";
+// import AboutUs from "/src/pages/AboutUs.jsx";
+// import Contact from "/src/pages/Contacts.jsx";
+// import Checkout from "/src/pages/Checkout.jsx";
+// import SignIn from "/src/pages/Sign_in.jsx";
+import { Outlet } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: (
+      <>
+        <Header />
+        <Outlet />
+        <Footer />
+      </>
+    ),
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      // {
+      //   path: "/register",
+      //   element: <Register />,
+      // },
+      // {
+      //   path: "/reset",
+      //   element: <Reset />,
+      // // },
+      // { path: "/checkout", element: <Checkout /> },
+      // { path: "/about_us", element: <AboutUs /> },
+    ],
+  },
+]);
 
 function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-      </Routes>
-      <Routes>
-        <Route path="/resetPassword" element={<ResetPassword />} />
-      </Routes>
-      <Routes>
-        <Route path="/checkEmail" element={<CheckEmail />} />
-      </Routes>
-    </Router>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
