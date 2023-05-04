@@ -10,6 +10,9 @@ import Header from "./components/header/navbar";
 // import Contact from "/src/pages/Contacts.jsx";
 // import Checkout from "/src/pages/Checkout.jsx";
 // import SignIn from "/src/pages/Sign_in.jsx";
+import Register from "../src/components/register";
+import SendEmail from "../src/components/resetPassword/sendEmail";
+import ResetPassword from "../src/components/resetPassword/resetPassword";
 import { Outlet } from "react-router-dom";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -33,6 +36,19 @@ const router = createBrowserRouter([
         path: "/login",
         element: <Login />,
       },
+      {
+        path: "/register",
+        element: <Register />,
+      },
+      {
+        path: "/reset",
+        element: <SendEmail />,
+      },
+      {
+        path: "/resetPassword",
+        element: <ResetPassword />,
+      },
+
       // {
       //   path: "/register",
       //   element: <Register />,

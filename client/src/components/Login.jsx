@@ -25,9 +25,6 @@ import { Formik, Form, Field } from "formik";
 import GoogleLogin from "../components/googleLogin.jsx";
 import axios from "axios";
 
-//import google login component
-import GoogleLogin from '/src/components/googleLogin'
-
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -184,7 +181,7 @@ function Login() {
             </Stack>
             <Stack>
               <HStack spacing={5} px={5} justifyContent="space-around">
-                <GoogleLogin/>
+                <GoogleLogin />
                 <IconButton
                   aria-label="github"
                   variant="ghost"
