@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import orderItemSchema from "./orderItem.js";
+import validateReferences from "./validateReferences.js";
 
 const orderSchema = new mongoose.Schema(
   {

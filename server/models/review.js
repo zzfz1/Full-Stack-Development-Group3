@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import validateReferences from "./validateReferences.js";
 
 const reviewSchema = new mongoose.Schema(
   {
