@@ -58,5 +58,14 @@ const orderSchema = new mongoose.Schema(
   }
 );
 
+orderSchema.pre("save", async function (next) {
+  try {
+    await validateReferences(orderSchema, this);
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
+
 const Order = mongoose.model("Order", orderSchema);
 export default Order;
