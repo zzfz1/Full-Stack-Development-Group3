@@ -6,10 +6,12 @@ class UserController {
   async registerUser(req, res) {
     try {
       const { name, username, email, password, isAdmin, img } = req.body;
+      console.log(req.body);
 
-      const userExists = await User.findOne({ email });
+      const userEmailExists = await User.findOne({ email });
+      const userUsernameExists = await User.findOne({ username });
 
-      if (userExists) {
+      if (userEmailExists || userUsernameExists) {
         res.status(400).json({ message: "User already exists" });
         return;
       }
@@ -24,8 +26,8 @@ class UserController {
         isAdmin,
         img,
       });
-
       const savedUser = await newUser.save();
+      console.log("the new user is " + savedUser);
       res.cookie("token", generateToken(savedUser._id, savedUser.isAdmin), {
         httpOnly: true,
       });
@@ -37,6 +39,7 @@ class UserController {
         isAdmin: savedUser.isAdmin,
       });
     } catch (error) {
+      console.log(error);
       res.status(500).json({ message: "Internal server error: ", error });
     }
   }
