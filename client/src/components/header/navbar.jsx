@@ -14,6 +14,7 @@ import {
   useColorModeValue,
   useBreakpointValue,
   useDisclosure,
+  Image,
 } from "@chakra-ui/react";
 import {
   HamburgerIcon,
@@ -63,6 +64,7 @@ const links = [
   },
 ];
 export default function WithSubnavigation() {
+  const user = true;
   const { isOpen, onToggle } = useDisclosure();
 
   return (
@@ -112,30 +114,42 @@ export default function WithSubnavigation() {
           direction={"row"}
           spacing={6}
         >
-          <Button
-            as={"a"}
-            fontSize={"sm"}
-            fontWeight={400}
-            variant={"link"}
-            color={"primary.700"}
-            href={"#"}
-          >
-            Sign In
-          </Button>
-          <Button
-            as={"a"}
-            display={{ base: "none", md: "inline-flex" }}
-            fontSize={"sm"}
-            fontWeight={600}
-            color={"white"}
-            bg={"primary.500"}
-            href={"#"}
-            _hover={{
-              bg: "primary.700",
-            }}
-          >
-            Sign Up
-          </Button>
+          {" "}
+          {!user ? (
+            <>
+              <Button
+                as={"a"}
+                fontSize={"sm"}
+                fontWeight={400}
+                variant={"link"}
+                color={"primary.700"}
+                href={"#"}
+              >
+                Sign In
+              </Button>
+              <Button
+                as={"a"}
+                display={{ base: "none", md: "inline-flex" }}
+                fontSize={"sm"}
+                fontWeight={600}
+                color={"white"}
+                bg={"primary.500"}
+                href={"#"}
+                _hover={{
+                  bg: "primary.700",
+                }}
+              >
+                Sign Up
+              </Button>
+            </>
+          ) : (
+            <img
+              src="/images/profile.gif"
+              class="img-fluid"
+              width="50"
+              height="50"
+            />
+          )}
         </Stack>
       </Flex>
 
@@ -195,7 +209,7 @@ const DesktopNav = () => {
   );
 };
 
-const MobileNav = () => {
+const MobileNav = ({ user }) => {
   return (
     <Stack
       bg={useColorModeValue("white", "gray.800")}
@@ -205,19 +219,23 @@ const MobileNav = () => {
       {links.map((navItem) => (
         <MobileNavItem key={navItem.label} {...navItem} />
       ))}
-      <Button
-        as={"a"}
-        fontSize={"sm"}
-        fontWeight={600}
-        color={"white"}
-        bg={"primary.500"}
-        href={"#"}
-        _hover={{
-          bg: "primary.700",
-        }}
-      >
-        Sign Up
-      </Button>
+      {user ? (
+        <Button
+          as={"a"}
+          fontSize={"sm"}
+          fontWeight={600}
+          color={"white"}
+          bg={"primary.500"}
+          href={"#"}
+          _hover={{
+            bg: "primary.700",
+          }}
+        >
+          Sign Up
+        </Button>
+      ) : (
+        ""
+      )}
     </Stack>
   );
 };
