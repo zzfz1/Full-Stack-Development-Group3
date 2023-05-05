@@ -175,35 +175,9 @@ function Login() {
                 </Text>
               </Link>
             </Stack>
+
             <Stack>
-              <Box textAlign="center" py={4}>
-                <Divider borderColor="gray" />
-                <Text fontSize="xl" fontWeight="semibold">
-                  Or Continue With
-                </Text>
-                <Divider borderColor="gray" />
-              </Box>
-            </Stack>
-            <Stack>
-              <HStack spacing={5} px={5} justifyContent="space-around">
-                <GoogleLogin />
-                <IconButton
-                  aria-label="github"
-                  variant="ghost"
-                  size="lg"
-                  isRound={true}
-                  _hover={{ bg: "primary.500" }}
-                  icon={<BsGithub size="40px" />}
-                />
-                <IconButton
-                  aria-label="discord"
-                  variant="ghost"
-                  size="lg"
-                  isRound={true}
-                  _hover={{ bg: "primary.500" }}
-                  icon={<BsDiscord size="40px" />}
-                />
-              </HStack>
+              <GoogleLogin />
             </Stack>
           </Stack>
         </Box>

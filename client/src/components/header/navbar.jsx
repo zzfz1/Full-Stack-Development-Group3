@@ -93,7 +93,7 @@ export default function WithSubnavigation() {
           <div>
             <img
               src="images/logo.png"
-              class="img-fluid"
+              className="img-fluid"
               width="50"
               height="50"
             />
