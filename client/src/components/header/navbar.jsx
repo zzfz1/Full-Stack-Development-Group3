@@ -1,27 +1,20 @@
 import {
   Box,
   Flex,
-  Text,
   IconButton,
   Button,
   Stack,
   Collapse,
-  Icon,
+  HStack,
   Link,
   Popover,
   PopoverTrigger,
   PopoverContent,
   useColorModeValue,
-  useBreakpointValue,
   useDisclosure,
   Image,
 } from "@chakra-ui/react";
-import {
-  HamburgerIcon,
-  CloseIcon,
-  ChevronDownIcon,
-  ChevronRightIcon,
-} from "@chakra-ui/icons";
+import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { DesktopSubNav, MobileNavItem } from "./subNav";
 
 const links = [
@@ -64,7 +57,7 @@ const links = [
   },
 ];
 export default function WithSubnavigation() {
-  const user = true;
+  const user = false;
   const { isOpen, onToggle } = useDisclosure();
 
   return (
@@ -81,7 +74,7 @@ export default function WithSubnavigation() {
         align={"center"}
       >
         <Flex
-          flex={{ base: 1, md: "auto" }}
+          flex={{ base: 1, md: 0 }}
           ml={{ base: -2 }}
           display={{ base: "flex", md: "none" }}
         >
@@ -94,8 +87,8 @@ export default function WithSubnavigation() {
             aria-label={"Toggle Navigation"}
           />
         </Flex>
-        <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
-          <div class="logo-image">
+        <Flex flex={{ base: 1 }} justify={{ base: "none", md: "start" }}>
+          <div>
             <img
               src="images/logo.png"
               class="img-fluid"
@@ -108,12 +101,7 @@ export default function WithSubnavigation() {
           </Flex>
         </Flex>
 
-        <Stack
-          flex={{ base: 1, md: 0 }}
-          justify={"flex-end"}
-          direction={"row"}
-          spacing={6}
-        >
+        <HStack justify={"flex-end"} direction={"row"} spacing={6}>
           {" "}
           {!user ? (
             <>
@@ -143,18 +131,20 @@ export default function WithSubnavigation() {
               </Button>
             </>
           ) : (
-            <img
-              src="/images/profile.gif"
-              class="img-fluid"
-              width="50"
-              height="50"
-            />
+            <stack flex={1}>
+              <Image
+                src="/images/profile.gif"
+                boxSize="2rem"
+                borderRadius="full "
+                Color="black"
+              />
+            </stack>
           )}
-        </Stack>
+        </HStack>
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>
-        <MobileNav />
+        <MobileNav user={user} />
       </Collapse>
     </Box>
   );
@@ -219,7 +209,7 @@ const MobileNav = ({ user }) => {
       {links.map((navItem) => (
         <MobileNavItem key={navItem.label} {...navItem} />
       ))}
-      {user ? (
+      {!user ? (
         <Button
           as={"a"}
           fontSize={"sm"}
@@ -234,7 +224,7 @@ const MobileNav = ({ user }) => {
           Sign Up
         </Button>
       ) : (
-        ""
+        <div></div>
       )}
     </Stack>
   );
