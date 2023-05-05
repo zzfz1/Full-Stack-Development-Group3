@@ -15,8 +15,10 @@ const userController = new UserController();
 
 router.post("/register", userController.registerUser);
 router.post("/login", userController.loginUser);
+router.post("/login/google", userController.googleLogin);
 router.post("/reset", resetPassword);
 router.get("/reset/verify/:token", verifyLinkToken);
+router.get("/check/:email", userController.checkUser);
 router.get("/", verifyTokenAndAdmin, userController.getUsers);
 router.get("/:slug", verifyTokenAndAuthorization, userController.getUserBySlug);
 router.put("/reset/:slug", userController.resetUserPassword);

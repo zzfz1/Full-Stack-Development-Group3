@@ -6,7 +6,6 @@ class UserController {
   async registerUser(req, res) {
     try {
       const { name, username, email, password, isAdmin, img } = req.body;
-      console.log(req.body);
 
       const userEmailExists = await User.findOne({ email });
       const userUsernameExists = await User.findOne({ username });
@@ -65,6 +64,43 @@ class UserController {
         res.status(401).json({ message: "Invalid email or password" });
       }
     } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }
+
+  async checkUser(req, res) {
+    try {
+      const email = req.params.email;
+      const user = await User.findOne({ email });
+      res.status(200).json(user ? true : false);
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }
+
+  async googleLogin(req, res) {
+    try {
+      const { email } = req.body;
+
+      const user = await User.findOne({ email });
+
+      if (user) {
+        res.cookie("token", generateToken(user._id, user.isAdmin), {
+          httpOnly: true,
+        });
+        res.status(200).json({
+          _id: user._id,
+          name: user.name,
+          username: user.username,
+          email: user.email,
+          isAdmin: user.isAdmin,
+        });
+      } else {
+        res.status(404).json({ message: "No such User" });
+      }
+    } catch (error) {
+      console.error(error.message);
       res.status(500).json({ message: "Internal server error" });
     }
   }
@@ -168,19 +204,18 @@ class UserController {
   }
 
   async resetUserPassword(req, res) {
-    const newPassword = req.body.password;
-    const username = req.body.username;
-    console.log("the user name is ", username);
+    const newPassword = req.body.newPassword;
+    const slug = req.params.slug;
     try {
-      const user = await User.findOne({ username: username });
+      const user = await User.findOne({ slug: slug });
       console.log("the user", user);
       if (user) {
         const hashedPassword = await bcrypt.hash(newPassword, 10);
-        const updatePass = User.updateOne(
-          { username: username },
+        const updatePass = await User.updateOne(
+          { slug: slug },
           { password: hashedPassword }
         );
-        res.status(200).json({ message: "password reset it" });
+        res.status(200).json({ message: "password reseted" });
       } else {
         res.status(400).json({ message: "Wrong User not found!" });
       }
