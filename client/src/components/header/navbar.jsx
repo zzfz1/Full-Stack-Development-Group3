@@ -16,6 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { DesktopSubNav, MobileNavItem } from "./subNav";
+import { BsPersonCircle } from "react-icons/bs";
 
 const links = [
   {
@@ -57,7 +58,7 @@ const links = [
   },
 ];
 export default function WithSubnavigation() {
-  const user = false;
+  const user = true;
   const { isOpen, onToggle } = useDisclosure();
 
   return (
@@ -131,14 +132,10 @@ export default function WithSubnavigation() {
               </Button>
             </>
           ) : (
-            <stack flex={1}>
-              <Image
-                src="/images/profile.gif"
-                boxSize="2rem"
-                borderRadius="full "
-                Color="black"
-              />
-            </stack>
+            <IconButton
+              icon={<BsPersonCircle size="2rem" />}
+              aria-label="User profile"
+            />
           )}
         </HStack>
       </Flex>
