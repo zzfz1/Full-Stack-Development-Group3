@@ -5,7 +5,7 @@ import Login from "./components/Login";
 import Footer from "./components/footer";
 import Home from "./pages/Home";
 import Header from "./components/header/navbar";
-// import Products from "./pages/Products.jsx";
+import Products_Printers from "./pages/Products_3dPrinters.jsx";
 // import AboutUs from "/src/pages/AboutUs.jsx";
 // import Contact from "/src/pages/Contacts.jsx";
 // import Checkout from "/src/pages/Checkout.jsx";
@@ -47,6 +47,10 @@ const router = createBrowserRouter([
       {
         path: "/resetPassword",
         element: <ResetPassword />,
+      },
+      {
+        path: "/products/3dPrinters",
+        element: <Products_Printers />,
       },
 
       // {
