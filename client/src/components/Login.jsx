@@ -71,7 +71,7 @@ function Login() {
         </Stack>
         <Box
           rounded={"lg"}
-          bg={useColorModeValue("white", "gray.700")}
+          bg={useColorModeValue("white", "gray.900")}
           boxShadow={"lg"}
           p={8}
         >
@@ -111,7 +111,8 @@ function Login() {
                         isRequired
                       >
                         <FormLabel>Email</FormLabel>
-                        <Input {...field} />
+
+                        <Input borderColor={"gray.700"} {...field} />
                         <FormErrorMessage>{form.errors.email}</FormErrorMessage>
                       </FormControl>
                     )}
@@ -126,6 +127,7 @@ function Login() {
                         <FormLabel>Password</FormLabel>
                         <InputGroup>
                           <Input
+                            borderColor={"gray.700"}
                             {...field}
                             type={showPassword ? "text" : "password"}
                           />

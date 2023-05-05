@@ -56,6 +56,7 @@ function googleLogin() {
           w={"full"}
           maxW={"md"}
           variant={"outline"}
+          _hover={{ bg: "gray700" }}
           leftIcon={<FcGoogle />}
           onClick={() => login()}
         >

@@ -144,7 +144,7 @@ function Register() {
                         isInvalid={form.errors.name && form.touched.name}
                       >
                         <FormLabel>Full Name</FormLabel>
-                        <Input {...field} />
+                        <Input {...field} borderColor={"gray.700"} />
                         <FormErrorMessage color="red">
                           {form.errors.name}
                         </FormErrorMessage>
@@ -159,7 +159,7 @@ function Register() {
                         }
                       >
                         <FormLabel>Username</FormLabel>
-                        <Input {...field} />
+                        <Input {...field} borderColor={"gray.700"} />
                         <FormErrorMessage color="red">
                           {form.errors.username}
                         </FormErrorMessage>
@@ -172,7 +172,7 @@ function Register() {
                         isInvalid={form.errors.email && form.touched.email}
                       >
                         <FormLabel>Email</FormLabel>
-                        <Input {...field} />
+                        <Input {...field} borderColor={"gray.700"} />
                         <FormErrorMessage color="red">
                           {form.errors.email}
                         </FormErrorMessage>
@@ -189,6 +189,7 @@ function Register() {
                         <FormLabel>Password</FormLabel>
                         <InputGroup>
                           <Input
+                            borderColor={"gray.700"}
                             {...field}
                             type={showPassword ? "text" : "password"}
                           />
