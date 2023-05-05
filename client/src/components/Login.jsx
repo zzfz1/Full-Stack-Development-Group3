@@ -22,11 +22,15 @@ import { useState } from "react";
 import { BsGithub, BsDiscord, BsGoogle } from "react-icons/bs";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Formik, Form, Field } from "formik";
+import { useDispatch } from "react-redux";
 import GoogleLogin from "../components/googleLogin.jsx";
 import axios from "axios";
+import { login } from "../redux/apiReq.jsx";
+import { loginSuccess } from "../redux/userRedux.jsx";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useDispatch();
 
   const initialValues = {
     email: "",
@@ -76,7 +80,7 @@ function Login() {
               initialValues={initialValues}
               onSubmit={async (values, actions) => {
                 try {
-                  const data = await axios.post(
+                  const res = await axios.post(
                     "http://localhost:3000/api/users/login",
                     {
                       email: values.email,
@@ -88,7 +92,8 @@ function Login() {
                       },
                     }
                   );
-                  console.log(data);
+                  console.log(res.data);
+                  dispatch(loginSuccess(res.data));
                   actions.setSubmitting(false);
                 } catch (err) {
                   console.error(err.message);
@@ -208,3 +213,26 @@ function Login() {
 }
 
 export default Login;
+
+/* 
+{async (values, actions) => {
+                try {
+                  const data = await axios.post(
+                    "http://localhost:3000/api/users/login",
+                    {
+                      email: values.email,
+                      password: values.password,
+                    },
+                    {
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                    }
+                  );
+                  console.log(data);
+                  actions.setSubmitting(false);
+                } catch (err) {
+                  console.error(err.message);
+                  actions.setSubmitting(false);
+                }
+              }} */

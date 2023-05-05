@@ -8,14 +8,17 @@ import theme from "./style/theme";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Provider } from "react-redux";
-import store from "../src/redux/store";
+import { store, persistor } from "./redux/store";
+import { PersistGate } from "redux-persist/integration/react";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <GoogleOAuthProvider clientId="1068486314099-n87h1p1p97rvjt88kkajmqinn4u0lf9f.apps.googleusercontent.com">
     <Provider store={store}>
       <ChakraProvider theme={theme}>
-        <ToastContainer />
-        <App />
+        <PersistGate loading="null" persistor={persistor}>
+          <ToastContainer />
+          <App />
+        </PersistGate>
       </ChakraProvider>
     </Provider>
   </GoogleOAuthProvider>

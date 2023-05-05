@@ -17,6 +17,7 @@ import {
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { DesktopSubNav, MobileNavItem } from "./subNav";
 import { BsPersonCircle } from "react-icons/bs";
+import { useSelector } from "react-redux";
 
 const links = [
   {
@@ -58,7 +59,7 @@ const links = [
   },
 ];
 export default function WithSubnavigation() {
-  const user = true;
+  const user = useSelector((state) => state.user.currentUser);
   const { isOpen, onToggle } = useDisclosure();
 
   return (
