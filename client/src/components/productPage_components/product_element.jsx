@@ -1,73 +1,44 @@
-import {
-    AspectRatio,
-    Box,
-    Button,
-    HStack,
-    Image,
-    Link,
-    Skeleton,
-    Stack,
-    Text,
-    useColorModeValue,
-  } from '@chakra-ui/react'
-  //import { Rating } from './Rating'
-  //import { FavouriteButton } from './FavouriteButton'
+import { Card, CardBody, CardFooter, Image, Divider, Button, ButtonGroup, Text, Stack, Heading, Center } from '@chakra-ui/react'
   
 function ProductElement ({item})
 {
     return (
-      <Stack
-        spacing={{
-          base: '4',
-          md: '5',
-        }}
-      >
-        <Box position="relative">
-          <AspectRatio ratio={3 / 3}>
+      <Card maxW='12rem'  >
+
+        <CardBody>
+          <div size = "100%">
             <Image
               src={item.img}
-              alt={item.model}
-              draggable="false"
-              fallback={<Skeleton />}
-              borderRadius={{
-                base: 'md',
-                md: 'xl',
-              }}
+              borderRadius='lg'
             />
-          </AspectRatio>
-          {/* <FavouriteButton
-            position="absolute"
-            top="4"
-            right="4"
-            aria-label={`Add ${name} to your favourites`}
-          /> */}
-        </Box>
-        <Stack>
-          <Stack spacing="1">
-            <Text fontWeight="medium" color={useColorModeValue('gray.700', 'gray.400')}>
-              {item.model}
+          </div>
+          <Stack mt='6' spacing='2'>
+            <Heading size='sm'>{item.brand} - {item.model}</Heading>
+            <Text color='blue.600' fontSize='sm'>
+              {item.price}$
             </Text>
           </Stack>
-          {/* <HStack>
-            <Rating defaultValue={rating} size="sm" />
-            <Text fontSize="sm" color={useColorModeValue('gray.600', 'gray.400')}>
-              12 Reviews
-            </Text>
-          </HStack> */}
-        </Stack>
-        <Stack align="center">
-          <Button colorScheme="blue" width="full">
-            Add to cart
-          </Button>
-          <Link
-            textDecoration="underline"
-            fontWeight="medium"
-            color={useColorModeValue('gray.600', 'gray.400')}
-          >
-            View Details
-          </Link>
-        </Stack>
-      </Stack>
+
+        </CardBody>
+
+        <Divider />
+        
+        <CardFooter >
+          
+          <ButtonGroup   spacing='2' maxW='12rem'>
+          <Stack direction= {{base : "column", md : "row"}}  align = "center" justify="center">
+            <Button  variant='solid' colorScheme='blue'>
+              Buy now
+            </Button>
+            <Button  variant='ghost' colorScheme='blue'>
+              Add to cart
+            </Button>
+          </Stack>
+          </ButtonGroup>
+        
+        </CardFooter>
+
+      </Card>
     )
   }
 export default ProductElement;
