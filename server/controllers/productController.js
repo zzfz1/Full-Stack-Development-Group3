@@ -1,5 +1,4 @@
 import Product from "../models/product.js";
-import Category from "../models/category.js";
 import slugify from "slugify";
 
 class ProductController {
@@ -7,8 +6,6 @@ class ProductController {
     /// DO THIS LIKE CATEGORY SLUG!!!!
     try {
       const { name, image, brand, category, description, properties, rating, numReviews, price, countInStock } = req.body;
-
-      const slug = slugify(name, { lower: true, strict: true });
 
       const product = new Product({
         name,
@@ -32,11 +29,7 @@ class ProductController {
 
   async getAllProducts(req, res) {
     try {
-      const products = await Product.find({}).populate({
-        path: "category",
-        select: "name slug",
-        options: { lean: true },
-      });
+      const products = await Product.find({});
       res.json(products);
     } catch (error) {
       res.status(500).json({ message: "Internal server error" });
@@ -45,14 +38,12 @@ class ProductController {
 
   async getProductBySlug(req, res) {
     try {
-      const product = await Product.findOne({ slug: req.params.slug }).populate({
-        path: "category",
-        select: "name slug",
-        options: { lean: true },
-      });
+      const product = await Product.findOne({ slug: req.params.slug });
+
       if (!product) {
         return res.status(404).json({ message: "Product not found" });
       }
+
       res.status(200).json(product);
     } catch (error) {
       res.status(500).json({ message: "Internal server error" });

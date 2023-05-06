@@ -15,7 +15,7 @@ import cookieParser from "cookie-parser";
 app.use(
   cors({
     origin: "http://localhost:5173",
-    allowedHeaders: ["Content-Type", "Authorization", ],
+    allowedHeaders: ["Content-Type", "Authorization", "withcredentials"],
     credentials: true,
   })
 );
