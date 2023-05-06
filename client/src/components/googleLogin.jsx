@@ -4,7 +4,10 @@ import { BsGoogle } from "react-icons/bs";
 import { useState, useEffect } from "react";
 import { useGoogleLogin, googleLogout } from "@react-oauth/google";
 import axios from "axios";
+import { FcGoogle } from "react-icons/fc";
+import { Button, Center, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+
 
 function googleLogin() {
   const [user, setUser] = useState([]);
@@ -61,7 +64,6 @@ function googleLogin() {
         .catch((err) => console.log(err));
     }
   }, [user]);
-
   return (
     <div>
       <IconButton

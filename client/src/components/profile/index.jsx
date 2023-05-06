@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Flex,
   Text,
@@ -17,15 +17,22 @@ import {
   FiSettings,
 } from "react-icons/fi";
 import { IoPawOutline } from "react-icons/io5";
+import { useMediaQuery } from "@chakra-ui/react";
 import NavItem from "./navItem";
 
 function Profile() {
-  const [navSize, changeNavSize] = useState("large");
+  const [isSmallScreen] = useMediaQuery("(max-width: 768px)");
+  const [navSize, changeNavSize] = useState(isSmallScreen ? "small" : "large");
+
+  useEffect(() => {
+    changeNavSize(isSmallScreen ? "small" : "large");
+  }, [isSmallScreen]);
+
   return (
     <Flex
       pos="sticky"
       left="1"
-      h="100vh"
+      h="100%"
       boxShadow="0 4px 12px 0 rgba(0, 0, 0, 0.05)"
       borderRadius={navSize == "small" ? "15px" : "30px"}
       w={navSize == "small" ? "75px" : "200px"}
@@ -33,29 +40,18 @@ function Profile() {
       justifyContent="space-between"
     >
       <Flex
-        p="5%"
         flexDir="column"
         w="100%"
         alignItems={navSize == "small" ? "center" : "flex-start"}
         as="nav"
       >
-        {/*    <IconButton
-          background="none"
-          mt={}
-          _hover={{ background: "none" }}
-          icon={<FiMenu />}
-          onClick={() => {
-            if (navSize == "small") changeNavSize("large");
-            else changeNavSize("small");
-          }}
-        /> */}
         <NavItem
-          navSize={"large"}
+          navSize={navSize}
           icon={FiHome}
           title="Dashboard"
           description="This is the description for the dashboard."
         />
-        <NavItem navSize={navSize} icon={FiCalendar} title="Calendar" active />
+        <NavItem navSize={navSize} icon={FiCalendar} title="Calendar" />
         <NavItem navSize={navSize} icon={FiUser} title="Clients" />
         <NavItem navSize={navSize} icon={IoPawOutline} title="Animals" />
         <NavItem navSize={navSize} icon={FiDollarSign} title="Stocks" />

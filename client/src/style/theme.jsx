@@ -39,7 +39,7 @@ const theme = extendTheme({
     green: "#009700", // order  and buy button
     white: "#FDFDFD", // text color for title or text
     black: "#0B0B0B",
-    gray: "#1A202C", // text color for text
+    gray: { 300: "#CBD5E0", 900: "#1A202C", 600: "#4A5568", 700: "#2D3748" }, // text color for text
   },
   // Global font family
   fonts: {

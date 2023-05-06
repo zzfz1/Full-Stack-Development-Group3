@@ -16,6 +16,8 @@ import ResetPassword from "../src/components/resetPassword/resetPassword";
 import { Outlet } from "react-router-dom";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Profile from "./components/profile";
+import { useSelector } from "react-redux";
+import { Route } from "react-router-dom";
 
 const router = createBrowserRouter([
   {
@@ -69,7 +71,9 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  const user = useSelector((state) => state.user);
+
+  return <RouterProvider router={router}></RouterProvider>;
 }
 
 export default App;

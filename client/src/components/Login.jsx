@@ -17,16 +17,28 @@ import {
   useColorModeValue,
   IconButton,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { BsGithub, BsDiscord, BsGoogle } from "react-icons/bs";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Formik, Form, Field } from "formik";
+import { useDispatch } from "react-redux";
 import GoogleLogin from "../components/googleLogin.jsx";
 import axios from "axios";
+import { login } from "../redux/apiReq.jsx";
+import { loginSuccess } from "../redux/userRedux.jsx";
+import { useSelector } from "react-redux";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.user.currentUser);
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, []);
 
   const initialValues = {
     email: "",
@@ -67,7 +79,7 @@ function Login() {
         </Stack>
         <Box
           rounded={"lg"}
-          bg={useColorModeValue("white", "gray.700")}
+          bg={useColorModeValue("white", "gray.900")}
           boxShadow={"lg"}
           p={8}
         >
@@ -76,7 +88,7 @@ function Login() {
               initialValues={initialValues}
               onSubmit={async (values, actions) => {
                 try {
-                  const data = await axios.post(
+                  const res = await axios.post(
                     "http://localhost:3000/api/users/login",
                     {
                       email: values.email,
@@ -88,7 +100,8 @@ function Login() {
                       },
                     }
                   );
-                  console.log(data);
+                  console.log(res.data);
+                  dispatch(loginSuccess(res.data));
                   actions.setSubmitting(false);
                 } catch (err) {
                   console.error(err.message);
@@ -106,7 +119,8 @@ function Login() {
                         isRequired
                       >
                         <FormLabel>Email</FormLabel>
-                        <Input {...field} />
+
+                        <Input borderColor={"gray.700"} {...field} />
                         <FormErrorMessage>{form.errors.email}</FormErrorMessage>
                       </FormControl>
                     )}
@@ -121,6 +135,7 @@ function Login() {
                         <FormLabel>Password</FormLabel>
                         <InputGroup>
                           <Input
+                            borderColor={"gray.700"}
                             {...field}
                             type={showPassword ? "text" : "password"}
                           />
@@ -170,35 +185,9 @@ function Login() {
                 </Text>
               </Link>
             </Stack>
+
             <Stack>
-              <Box textAlign="center" py={4}>
-                <Divider borderColor="gray" />
-                <Text fontSize="xl" fontWeight="semibold">
-                  Or Continue With
-                </Text>
-                <Divider borderColor="gray" />
-              </Box>
-            </Stack>
-            <Stack>
-              <HStack spacing={5} px={5} justifyContent="space-around">
-                <GoogleLogin />
-                <IconButton
-                  aria-label="github"
-                  variant="ghost"
-                  size="lg"
-                  isRound={true}
-                  _hover={{ bg: "primary.500" }}
-                  icon={<BsGithub size="40px" />}
-                />
-                <IconButton
-                  aria-label="discord"
-                  variant="ghost"
-                  size="lg"
-                  isRound={true}
-                  _hover={{ bg: "primary.500" }}
-                  icon={<BsDiscord size="40px" />}
-                />
-              </HStack>
+              <GoogleLogin />
             </Stack>
           </Stack>
         </Box>
@@ -208,3 +197,26 @@ function Login() {
 }
 
 export default Login;
+
+/* 
+{async (values, actions) => {
+                try {
+                  const data = await axios.post(
+                    "http://localhost:3000/api/users/login",
+                    {
+                      email: values.email,
+                      password: values.password,
+                    },
+                    {
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                    }
+                  );
+                  console.log(data);
+                  actions.setSubmitting(false);
+                } catch (err) {
+                  console.error(err.message);
+                  actions.setSubmitting(false);
+                }
+              }} */
