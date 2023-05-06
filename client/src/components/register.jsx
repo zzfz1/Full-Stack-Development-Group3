@@ -20,13 +20,18 @@ import {
 import { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Formik, Form, Field } from "formik";
+import { useLocation } from "react-router-dom";
 
 function Register() {
   const [showPassword, setShowPassword] = useState(false);
+  const searchParams = new URLSearchParams(useLocation().search);
+  const name = searchParams.get("name");
+  const email = searchParams.get("email");
+
   const initialValues = {
-    name: "",
+    name: name || "",
     username: "",
-    email: "",
+    email: email || "",
     password: "",
     checkbox: true,
   };
