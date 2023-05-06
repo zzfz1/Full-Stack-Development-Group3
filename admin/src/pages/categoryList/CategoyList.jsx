@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchCategoriesAsync } from "../../redux/categorySlice";
+import { getAllCategoriesAsync } from "../../redux/categorySlice";
 import { Link } from "react-router-dom";
 import { Box, Button, Card, CardHeader, CardContent, Typography, Grid, CardActions, IconButton, AppBar, Toolbar } from "@mui/material";
 import { Delete as DeleteIcon, Edit as EditIcon } from "@mui/icons-material";
@@ -14,14 +14,14 @@ const CategoryList = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(fetchCategoriesAsync());
+    dispatch(getAllCategoriesAsync());
   }, [dispatch]);
 
   const handleCreateCategory = async () => {
     try {
       const blankData = {
         name: "New Category",
-        allowedProperties: [],
+        categoryProperties: [],
       };
 
       const newCategory = await createCategoryAPI(blankData);
