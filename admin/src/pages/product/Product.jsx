@@ -1,9 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
-import { getProductBySlugAsync, editProductAsync } from "../../redux/productSlice";
+import { getProductBySlugAsync, editProductAsync, deleteProductAsync } from "../../redux/productSlice";
 import { getCategoryByIdAsync, getAllCategoriesAsync } from "../../redux/categorySlice";
-import { Container, TextField, Button, Select, MenuItem, FormControl, InputLabel, IconButton, AppBar, Toolbar, Typography, Grid, Box } from "@mui/material";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  TextField,
+  Button,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  IconButton,
+  AppBar,
+  Toolbar,
+  Typography,
+  Container,
+  Grid,
+  Box,
+} from "@mui/material";
 import { Add, Remove } from "@mui/icons-material";
 
 function deepCopy(obj) {
@@ -37,6 +56,7 @@ const Product = () => {
 
   const [editedProduct, setEditedProduct] = useState(product);
   const [selectedCategoryId, setSelectedCategoryId] = useState(product ? product.category : "");
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   useEffect(() => {
     fetchProductData();
@@ -50,6 +70,14 @@ const Product = () => {
 
   const setDefaultValues = async () => {
     await fetchProductData();
+  };
+
+  const openDeleteDialog = () => {
+    setDeleteDialogOpen(true);
+  };
+
+  const closeDeleteDialog = () => {
+    setDeleteDialogOpen(false);
   };
 
   useEffect(() => {
@@ -87,6 +115,15 @@ const Product = () => {
 
   const handleProductChange = (e) => {
     setEditedProduct({ ...editedProduct, [e.target.name]: e.target.value });
+  };
+
+  const handleDeleteProduct = async (slug) => {
+    try {
+      await dispatch(deleteProductAsync(slug));
+      navigate("/products"); // Redirect to the home page after deleting
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
   };
 
   const handlePropertyChange = (index, e) => {
@@ -183,136 +220,173 @@ const Product = () => {
   };
   // console.log(category);
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="sticky">
-        <Toolbar>
-          <Typography variant="h6" flexGrow={1}>
-            Edit Product
-          </Typography>
-          <Button type="submit" variant="contained" color="primary" form="product-edit-form">
-            Save
-          </Button>
-          <Button variant="contained" onClick={setDefaultValues} style={{ marginRight: "8px" }}>
-            Set to Default
-          </Button>
-        </Toolbar>
-      </AppBar>
-      <Grid container spacing={0}>
-        <Grid item xs={12}>
-          <Container maxWidth="md">
-            {category && product && allCategories && editedProduct && editedProduct.category && (
-              <form onSubmit={handleSubmit} id="product-edit-form">
-                <TextField label="Name" variant="outlined" name="name" value={editedProduct.name} onChange={handleProductChange} fullWidth margin="normal" />
-                <TextField label="Image" variant="outlined" name="image" value={editedProduct.image} onChange={handleProductChange} fullWidth margin="normal" />
-                <TextField label="Brand" variant="outlined" name="brand" value={editedProduct.brand} onChange={handleProductChange} fullWidth margin="normal" />
-                <TextField label="Price" variant="outlined" name="price" value={editedProduct.price} onChange={handleProductChange} fullWidth margin="normal" />
-                <TextField
-                  label="Count in Stock"
-                  variant="outlined"
-                  name="countInStock"
-                  value={editedProduct.countInStock}
-                  onChange={handleProductChange}
-                  fullWidth
-                  margin="normal"
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                />
-                <TextField label="Description" variant="outlined" name="description" value={editedProduct.description} onChange={handleProductChange} fullWidth margin="normal" />
-                <TextField
-                  label="Rating"
-                  variant="outlined"
-                  name="rating"
-                  value={editedProduct.rating}
-                  onChange={handleProductChange}
-                  fullWidth
-                  margin="normal"
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                />
-                <TextField
-                  label="Number of Reviews"
-                  variant="outlined"
-                  name="numReviews"
-                  value={editedProduct.numReviews}
-                  onChange={handleProductChange}
-                  fullWidth
-                  margin="normal"
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                />
-                <FormControl fullWidth margin="normal">
-                  <InputLabel id="category-select-label">Category</InputLabel>
-                  {/* <Select labelId="category-select-label" name="category" value={editedProduct.category} onChange={handleCategoryChange}> */}
-                  <Select labelId="category-select-label" name="category" defaultValue="" value={selectedCategoryId || ""} onChange={handleCategoryChange}>
-                    {allCategories.map((cat) => (
-                      <MenuItem key={cat._id} value={cat._id || ""}>
-                        {cat.name || ""}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+    <Box
+      sx={{
+        flexGrow: 1,
+        overflowY: "fixed",
+        paddingRight: (theme) => theme.spacing(1),
+      }}
+    >
+      <Container maxWidth="lg">
+        <AppBar position="sticky">
+          <Toolbar>
+            <Typography variant="h6" flexGrow={1}>
+              Edit Product
+            </Typography>
+            <Button type="submit" variant="contained" color="primary" form="product-edit-form">
+              Save
+            </Button>
+            <Button variant="contained" color="secondary" onClick={openDeleteDialog} style={{ marginRight: "8px" }}>
+              Delete
+            </Button>
+            <Button variant="contained" onClick={setDefaultValues} style={{ marginRight: "8px" }}>
+              Set to Default
+            </Button>
+          </Toolbar>
+        </AppBar>
+        <Grid container spacing={0}>
+          <Grid item xs={12}>
+            <Box
+              mt={3}
+              sx={{
+                maxHeight: "calc(100vh - 190px)",
+                overflowY: "auto",
+              }}
+            >
+              {category && product && allCategories && editedProduct && editedProduct.category && (
+                <form onSubmit={handleSubmit} id="product-edit-form">
+                  <TextField label="Name" variant="outlined" name="name" value={editedProduct.name} onChange={handleProductChange} fullWidth margin="normal" />
+                  <TextField label="Image" variant="outlined" name="image" value={editedProduct.image} onChange={handleProductChange} fullWidth margin="normal" />
+                  <TextField label="Brand" variant="outlined" name="brand" value={editedProduct.brand} onChange={handleProductChange} fullWidth margin="normal" />
+                  <TextField label="Price" variant="outlined" name="price" value={editedProduct.price} onChange={handleProductChange} fullWidth margin="normal" />
+                  <TextField
+                    label="Count in Stock"
+                    variant="outlined"
+                    name="countInStock"
+                    value={editedProduct.countInStock}
+                    onChange={handleProductChange}
+                    fullWidth
+                    margin="normal"
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                  />
+                  <TextField label="Description" variant="outlined" name="description" value={editedProduct.description} onChange={handleProductChange} fullWidth margin="normal" />
+                  <TextField
+                    label="Rating"
+                    variant="outlined"
+                    name="rating"
+                    value={editedProduct.rating}
+                    onChange={handleProductChange}
+                    fullWidth
+                    margin="normal"
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                  />
+                  <TextField
+                    label="Number of Reviews"
+                    variant="outlined"
+                    name="numReviews"
+                    value={editedProduct.numReviews}
+                    onChange={handleProductChange}
+                    fullWidth
+                    margin="normal"
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                  />
+                  <FormControl fullWidth margin="normal">
+                    <InputLabel id="category-select-label">Category</InputLabel>
+                    {/* <Select labelId="category-select-label" name="category" value={editedProduct.category} onChange={handleCategoryChange}> */}
+                    <Select labelId="category-select-label" name="category" defaultValue="" value={selectedCategoryId || ""} onChange={handleCategoryChange}>
+                      {allCategories.map((cat) => (
+                        <MenuItem key={cat._id} value={cat._id || ""}>
+                          {cat.name || ""}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
 
-                {editedProduct.properties.map((property, index) => (
-                  <div key={index}>
-                    <FormControl fullWidth margin="normal">
-                      <InputLabel id={`property-select-label-${index}`}>Property</InputLabel>
-                      <Select
-                        labelId={`property-select-label-${index}`}
-                        name="categoryProperty"
-                        defaultValue=""
-                        value={property.categoryProperty || ""}
-                        onChange={(e) => handlePropertyChange(index, e)}
-                      >
-                        {category && category.categoryProperties ? (
-                          category.categoryProperties.map((categoryProperty) => (
-                            <MenuItem key={categoryProperty._id} value={categoryProperty._id || ""}>
-                              {categoryProperty.key || ""}
-                            </MenuItem>
-                          ))
-                        ) : (
-                          <MenuItem disabled>{category ? "No properties assigned" : "No category selected"}</MenuItem>
-                        )}
-                      </Select>
+                  {editedProduct.properties.map((property, index) => (
+                    <div key={index}>
+                      <FormControl fullWidth margin="normal">
+                        <InputLabel id={`property-select-label-${index}`}>Property</InputLabel>
+                        <Select
+                          labelId={`property-select-label-${index}`}
+                          name="categoryProperty"
+                          defaultValue=""
+                          value={property.categoryProperty || ""}
+                          onChange={(e) => handlePropertyChange(index, e)}
+                        >
+                          {category && category.categoryProperties ? (
+                            category.categoryProperties.map((categoryProperty) => (
+                              <MenuItem key={categoryProperty._id} value={categoryProperty._id || ""}>
+                                {categoryProperty.key || ""}
+                              </MenuItem>
+                            ))
+                          ) : (
+                            <MenuItem disabled>{category ? "No properties assigned" : "No category selected"}</MenuItem>
+                          )}
+                        </Select>
 
-                      <Button variant="outlined" color="error" onClick={() => removeProperty(index)}>
-                        Remove Property
-                      </Button>
-                    </FormControl>
-                    {property.categoryProperty && (
-                      <div>
-                        {property.values.map((valueObj) => (
-                          <div key={valueObj._id} style={{ display: "flex", alignItems: "center" }}>
-                            <TextField
-                              label="Value"
-                              variant="outlined"
-                              name="values"
-                              value={valueObj.value || ""}
-                              onChange={(e) => handleValueChange(index, valueObj._id, e.target.value)}
-                              margin="normal"
-                            />
-                            <IconButton onClick={() => removeValue(index, valueObj._id)} color="secondary">
-                              <Remove />
-                            </IconButton>
-                          </div>
-                        ))}
-                        <IconButton onClick={() => addValue(index)} color="primary">
-                          <Add />
-                        </IconButton>
-                      </div>
-                    )}
-                  </div>
-                ))}
-                <Button variant="outlined" color="success" onClick={addProperty}>
-                  Add Property
-                </Button>
-              </form>
-            )}
-          </Container>
+                        <Button variant="outlined" color="error" onClick={() => removeProperty(index)}>
+                          Remove Property
+                        </Button>
+                      </FormControl>
+                      {property.categoryProperty && (
+                        <div>
+                          {property.values.map((valueObj) => (
+                            <div key={valueObj._id} style={{ display: "flex", alignItems: "center" }}>
+                              <TextField
+                                label="Value"
+                                variant="outlined"
+                                name="values"
+                                value={valueObj.value || ""}
+                                onChange={(e) => handleValueChange(index, valueObj._id, e.target.value)}
+                                margin="normal"
+                              />
+                              <IconButton onClick={() => removeValue(index, valueObj._id)} color="secondary">
+                                <Remove />
+                              </IconButton>
+                            </div>
+                          ))}
+                          <IconButton onClick={() => addValue(index)} color="primary">
+                            <Add />
+                          </IconButton>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                  <Button variant="outlined" color="success" onClick={addProperty}>
+                    Add Property
+                  </Button>
+                </form>
+              )}
+            </Box>
+          </Grid>
         </Grid>
-      </Grid>
+      </Container>
+      <Dialog open={deleteDialogOpen} onClose={closeDeleteDialog}>
+        <DialogTitle>Delete Category</DialogTitle>
+        <DialogContent>
+          <DialogContentText>Are you sure you want to delete this product? This action cannot be undone.</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeDeleteDialog} color="primary">
+            Cancel
+          </Button>
+          <Button
+            onClick={() => {
+              handleDeleteProduct(editedProduct.slug);
+              closeDeleteDialog();
+            }}
+            color="secondary"
+          >
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };

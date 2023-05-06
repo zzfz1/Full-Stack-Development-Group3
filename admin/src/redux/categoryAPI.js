@@ -2,20 +2,13 @@ import axios from "axios";
 
 const API_URL = "http://localhost:3000/api/categories";
 
-// for testing set a token in the local storage
-// localStorage.setItem(
-//   "authToken",
-//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDM4MDI3MTBjOTllZjVjNDhhNTZmNTUiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2ODIwNzY3NTksImV4cCI6MTY4NDY2ODc1OX0.u6aGLEc7avyetBNeealg9CnG4m6_euC3FLDcfZlMZSw"
-// );
-
 export const getAllCategoriesAPI = async () => {
   try {
-    const token = localStorage.getItem("authToken");
     const config = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
+      withCredentials: true,
     };
     const response = await axios.get(API_URL, config);
     return response.data;
@@ -27,13 +20,11 @@ export const getAllCategoriesAPI = async () => {
 
 export const getCategoryBySlugAPI = async (slug) => {
   try {
-    const token = localStorage.getItem("authToken");
     const config = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-        withCredentials: true,
       },
+      withCredentials: true,
     };
     const response = await axios.get(`${API_URL}/${slug}`, config);
     return response.data;
@@ -46,13 +37,11 @@ export const getCategoryBySlugAPI = async (slug) => {
 export const getCategoryByIdAPI = async (id) => {
   //woher weis die api den unterschied? route?
   try {
-    const token = localStorage.getItem("authToken");
     const config = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-        withCredentials: true,
       },
+      withCredentials: true,
     };
     const response = await axios.get(`${API_URL}/id/${id}`, config);
     console.log("getCategoryByIdAPI ", response);
@@ -65,12 +54,11 @@ export const getCategoryByIdAPI = async (id) => {
 
 export const createCategoryAPI = async (blankData) => {
   try {
-    const token = localStorage.getItem("authToken");
     const config = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
+      withCredentials: true,
     };
     const response = await axios.post(`${API_URL}/`, blankData, config);
     return response.data;
@@ -83,12 +71,11 @@ export const createCategoryAPI = async (blankData) => {
 export const editCategoryAPI = async (oldslug, updatedCategory) => {
   console.log("oldslugAPI: ", oldslug);
   try {
-    const token = localStorage.getItem("authToken");
     const config = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
+      withCredentials: true,
     };
     const response = await axios.put(`${API_URL}/${oldslug}`, updatedCategory, config);
     return response.data;
@@ -100,12 +87,11 @@ export const editCategoryAPI = async (oldslug, updatedCategory) => {
 
 export const deleteCategoryAPI = async (slug) => {
   try {
-    const token = localStorage.getItem("authToken");
     const config = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
+      withCredentials: true,
     };
     const response = await axios.delete(`${API_URL}/${slug}`, config);
     return response.data;

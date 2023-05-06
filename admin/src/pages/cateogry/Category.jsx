@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategoryBySlugAsync, editCategoryAsync, deleteCategoryAsync } from "../../redux/categorySlice";
-import { AppBar, Box, Button, TextField, Toolbar, Typography, IconButton, List, ListItem, ListItemText, Card, CardContent, Grid } from "@mui/material";
-import { Add as AddIcon, Remove as RemoveIcon } from "@mui/icons-material";
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import { AppBar, Box, Button, TextField, Toolbar, Typography, Grid } from "@mui/material";
+import { Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 import slugify from "slugify";
 
 const deepCopy = (obj) => {
@@ -56,7 +55,7 @@ const Category = () => {
     }
   };
 
-  const addNewAttribute = () => {
+  const addNewProperty = () => {
     const newProperty = { key: "" };
     setLocalCategory({
       ...localCategory,
@@ -64,7 +63,7 @@ const Category = () => {
     });
   };
 
-  const removeAttribute = (index) => {
+  const removeProperty = (index) => {
     const updatedProperties = deepCopy(localCategory.categoryProperties);
     updatedProperties.splice(index, 1);
     setLocalCategory({
@@ -92,7 +91,7 @@ const Category = () => {
           <Box key={index} mt={3}>
             <TextField
               fullWidth
-              label="Attribute Key"
+              label="Property Key"
               value={property.key}
               onChange={(e) => {
                 const updatedProperties = deepCopy(localCategory.categoryProperties);
@@ -103,18 +102,15 @@ const Category = () => {
                 });
               }}
             />
-            <IconButton
-              onClick={() => {
-                removeAttribute(index);
-              }}
-            >
-              <RemoveIcon />
-            </IconButton>
+
+            <Button variant="outlined" color="error" onClick={() => removeProperty(index)}>
+              Remove Property
+            </Button>
           </Box>
         ))}
         <Box mt={2}>
-          <Button variant="contained" color="primary" onClick={addNewAttribute}>
-            Add Attribute Key
+          <Button variant="outlined" color="success" onClick={addNewProperty}>
+            Add Property
           </Button>
         </Box>
       </>
@@ -122,68 +118,88 @@ const Category = () => {
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="sticky">
-        <Toolbar>
-          <Typography variant="h6" flexGrow={1}>
-            Edit Category
-          </Typography>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() =>
-              handleEditCategory(slug, {
-                name: localCategory.name,
-                categoryProperties: localCategory.categoryProperties,
-              })
-            }
-            style={{ marginRight: "8px" }}
-          >
-            Save
-          </Button>{" "}
-          <Button variant="contained" color="secondary" onClick={openDeleteDialog} style={{ marginRight: "8px" }}>
-            Delete
-          </Button>
-          <Button variant="contained" onClick={resetToDefault} style={{ marginRight: "8px" }}>
-            Set to Default
-          </Button>
-        </Toolbar>
-      </AppBar>
-      <Grid container spacing={0}>
-        <Grid item xs={12}>
-          {category ? (
-            <>
-              <Box mt={8}>
-                <TextField id="category-name" label="Category Name" value={localCategory?.name || ""} onChange={(e) => setLocalCategory({ ...localCategory, name: e.target.value })} fullWidth />
-                {renderCategoryProperties()}
-                <Box mt={2}>...</Box>
-              </Box>
-            </>
-          ) : (
-            <Typography>Loading...</Typography>
-          )}
+    <Box
+      sx={{
+        flexGrow: 1,
+        overflowY: "fixed",
+        paddingRight: (theme) => theme.spacing(1),
+      }}
+    >
+      <Container maxWidth="lg">
+        <AppBar position="sticky">
+          <Toolbar>
+            <Typography variant="h6" flexGrow={1}>
+              Edit Category
+            </Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() =>
+                handleEditCategory(slug, {
+                  name: localCategory.name,
+                  categoryProperties: localCategory.categoryProperties,
+                })
+              }
+              style={{ marginRight: "8px" }}
+            >
+              Save
+            </Button>{" "}
+            <Button variant="contained" color="secondary" onClick={openDeleteDialog} style={{ marginRight: "8px" }}>
+              Delete
+            </Button>
+            <Button variant="contained" onClick={resetToDefault} style={{ marginRight: "8px" }}>
+              Set to Default
+            </Button>
+          </Toolbar>
+        </AppBar>
+        <Grid container spacing={0}>
+          <Grid item xs={12}>
+            <Box
+              mt={3}
+              sx={{
+                maxHeight: "calc(100vh - 190px)",
+                overflowY: "auto",
+              }}
+            >
+              {category ? (
+                <>
+                  <TextField
+                    id="category-name"
+                    label="Category Name"
+                    value={localCategory?.name || ""}
+                    onChange={(e) => setLocalCategory({ ...localCategory, name: e.target.value })}
+                    fullWidth
+                    margin="normal"
+                  />
+                  {renderCategoryProperties()}
+                </>
+              ) : (
+                <Typography>Loading...</Typography>
+              )}
+            </Box>
+          </Grid>
         </Grid>
-      </Grid>
-      <Dialog open={deleteDialogOpen} onClose={closeDeleteDialog}>
-        <DialogTitle>Delete Category</DialogTitle>
-        <DialogContent>
-          <DialogContentText>Are you sure you want to delete this category? This action cannot be undone.</DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={closeDeleteDialog} color="primary">
-            Cancel
-          </Button>
-          <Button
-            onClick={() => {
-              handleDeleteCategory(localCategory.slug);
-              closeDeleteDialog();
-            }}
-            color="secondary"
-          >
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
+        <Dialog open={deleteDialogOpen} onClose={closeDeleteDialog}>
+          <DialogTitle>Delete Category</DialogTitle>
+          <DialogContent>
+            <DialogContentText>Are you sure you want to delete this category? This action cannot be undone.</DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={closeDeleteDialog} color="primary">
+              Cancel
+            </Button>
+            <Button
+              onClick={() => {
+                handleDeleteCategory(localCategory.slug);
+                closeDeleteDialog();
+              }}
+              color="secondary"
+            >
+              Delete
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </Container>
     </Box>
   );
 };

@@ -66,5 +66,4 @@ const loginSlice = createSlice({
 // export const { createUser } = loginSlice.actions;
 export const { loginStart, loginSuccess, loginFailure } = loginSlice.actions;
 
-
-export default loginSlice.reducer;
+export const loginReducer = loginSlice.reducer;

@@ -1,21 +1,8 @@
-// The state store holds the entire application's state in a single object
-
-// reducers are pure functions that take the current state and an action, then return the new state.
-
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import loginReducer from "./loginAdminSlice";
+import { loginReducer } from "./loginAdminSlice";
 import { categoryReducer } from "./categorySlice";
 import { productReducer } from "./productSlice";
-import {
-  persistStore,
-  persistReducer,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-} from "redux-persist";
+import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
 const persistConfig = {

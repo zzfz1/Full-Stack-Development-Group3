@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getAllProductsAsync, createProductAsync } from "../../redux/productSlice";
 import { getAllCategoriesAsync } from "../../redux/categorySlice"; // Import getAllCategoriesAsync from the correct file
 import { Link } from "react-router-dom";
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 
-import { TextField, FormHelperText, Box, Button, Card, CardHeader, CardContent, Typography, Grid, CardActions, IconButton, AppBar, Toolbar } from "@mui/material";
+import { Container, TextField, FormHelperText, Box, Button, Card, CardHeader, CardContent, Typography, Grid, CardActions, IconButton, AppBar, Toolbar } from "@mui/material";
 import { Delete as DeleteIcon, Edit as EditIcon } from "@mui/icons-material";
 
 const ProductList = () => {
@@ -74,46 +74,54 @@ const ProductList = () => {
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="sticky">
-        <Toolbar>
-          <Typography variant="h6" flexGrow={1}>
-            Product List
-          </Typography>
-          <Button variant="contained" color="primary" onClick={handleCategoryDialogOpen}>
-            Create New Product
-          </Button>
-        </Toolbar>
-      </AppBar>
-      <Grid container spacing={0}>
-        <Grid item xs={12}>
-          <Box mt={8}>
-            {status === "loading" ? (
-              <Typography>Loading...</Typography>
-            ) : (
-              <Grid container spacing={2}>
-                {products.map((product) => (
-                  <Grid item xs={12} md={12} key={product._id}>
-                    <Card>
-                      <CardHeader title={product.name} />
-                      <CardContent>
-                        <Typography variant="body2" color="text.secondary">
-                          {/* You can add any additional details about the product here */}
-                        </Typography>
-                      </CardContent>
-                      <CardActions>
-                        <IconButton color="primary" component={Link} to={`/products/${product.slug}`}>
-                          <EditIcon />
-                        </IconButton>
-                      </CardActions>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
-            )}
-          </Box>
+    <Box
+      sx={{
+        flexGrow: 1,
+        overflowY: "fixed",
+        paddingRight: (theme) => theme.spacing(1),
+      }}
+    >
+      <Container maxWidth="lg">
+        <AppBar position="sticky">
+          <Toolbar>
+            <Typography variant="h6" flexGrow={1}>
+              Product List
+            </Typography>
+            <Button variant="contained" color="primary" onClick={handleCategoryDialogOpen}>
+              Create New Product
+            </Button>
+          </Toolbar>
+        </AppBar>
+        <Grid container spacing={0}>
+          <Grid item xs={12}>
+            <Box
+              mt={3}
+              sx={{
+                maxHeight: "calc(100vh - 128px)",
+                overflowY: "auto",
+              }}
+            >
+              {status === "loading" ? (
+                <Typography>Loading...</Typography>
+              ) : (
+                <Grid container spacing={2}>
+                  {products.map((product) => (
+                    <Grid item xs={12} md={12} key={product._id}>
+                      <Card>
+                        <CardActions>
+                          <Button size="large" component={Link} to={`/products/${product.slug}`}>
+                            {product.name}
+                          </Button>
+                        </CardActions>
+                      </Card>
+                    </Grid>
+                  ))}
+                </Grid>
+              )}
+            </Box>
+          </Grid>
         </Grid>
-      </Grid>
+      </Container>
       <Dialog open={openCategoryDialog} onClose={handleCategoryDialogClose} aria-labelledby="select-category-dialog-title">
         <DialogTitle id="select-category-dialog-title">Select Category</DialogTitle>
         <DialogContent>
