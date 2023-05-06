@@ -3,10 +3,10 @@ import { Card, CardBody, CardFooter, Image, Divider, Button, ButtonGroup, Text, 
 function ProductElement ({item})
 {
     return (
-      <Card maxW='12rem'  >
+      <Card>
 
         <CardBody>
-          <div size = "100%">
+          <div minH={"100vh"} >
             <Image
               src={item.img}
               borderRadius='lg'
