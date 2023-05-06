@@ -10,11 +10,15 @@ import Category from "./pages/cateogry/Category.jsx";
 import ProductList from "./pages/productList/ProductList";
 import Product from "./pages/product/Product";
 import Login from "./pages/login/Login";
+import { useState } from "react";
+// import { useSelector } from "react-redux";
 
 function App() {
   // Use useSelector to access the Redux store and check if the user is an admin
-
-  const admin = true;
+  // const user = useSelector((state) => state.user);
+  // console.log('user', user);
+  // const admin = false;
+  let [admin, setAdmin] = useState(false);
 
   return (
     // Use BrowserRouter (aliased as Router) to enable routing in the application
