@@ -22,19 +22,19 @@ export default function Sidebar() {
             <ListItemIcon>
               <Timeline />
             </ListItemIcon>
-            <ListItemText primary="Analytics" />
+            <ListItemText primary="User Analytics" />
           </ListItemButton>
           <ListItemButton>
             <ListItemIcon>
               <TrendingUp />
             </ListItemIcon>
-            <ListItemText primary="Sales" />
+            <ListItemText primary="Sales Analytics" />
           </ListItemButton>
         </List>
       </Box>
       <Box>
         <Typography variant="h6" sx={{ mt: 2, ml: 2 }}>
-          Quick Menu
+          Main Menus
         </Typography>
         <List>
           <Link to="/categories" style={{ textDecoration: "none" }}>
@@ -53,25 +53,35 @@ export default function Sidebar() {
               <ListItemText primary="Products" />
             </ListItemButton>
           </Link>
+          <Link to="/orders" style={{ textDecoration: "none" }}>
+            <ListItemButton>
+              <ListItemIcon>
+                <Storefront />
+              </ListItemIcon>
+              <ListItemText primary="Orders" />
+            </ListItemButton>
+          </Link>
+          <Link to="/users" style={{ textDecoration: "none" }}>
+            <ListItemButton>
+              <ListItemIcon>
+                <Storefront />
+              </ListItemIcon>
+              <ListItemText primary="Users" />
+            </ListItemButton>
+          </Link>
+        </List>
+      </Box>
+      <Box>
+        <Typography variant="h6" sx={{ mt: 2, ml: 2 }}>
+          Other Menus
+        </Typography>
+        <List>
           <ListItemButton>
             <ListItemIcon>
               <AttachMoney />
             </ListItemIcon>
             <ListItemText primary="Transactions" />
           </ListItemButton>
-          <ListItemButton>
-            <ListItemIcon>
-              <BarChart />
-            </ListItemIcon>
-            <ListItemText primary="Reports" />
-          </ListItemButton>
-        </List>
-      </Box>
-      <Box>
-        <Typography variant="h6" sx={{ mt: 2, ml: 2 }}>
-          Notifications
-        </Typography>
-        <List>
           <ListItemButton>
             <ListItemIcon>
               <MailOutline />
@@ -82,38 +92,7 @@ export default function Sidebar() {
             <ListItemIcon>
               <DynamicFeed />
             </ListItemIcon>
-            <ListItemText primary="Feedback" />
-          </ListItemButton>
-          <ListItemButton>
-            <ListItemIcon>
-              <ChatBubbleOutline />
-            </ListItemIcon>
-            <ListItemText primary="Messages" />
-          </ListItemButton>
-        </List>
-      </Box>
-      <Box>
-        <Typography variant="h6" sx={{ mt: 2, ml: 2 }}>
-          Staff
-        </Typography>
-        <List>
-          <ListItemButton>
-            <ListItemIcon>
-              <WorkOutline />
-            </ListItemIcon>
-            <ListItemText primary="Manage" />
-          </ListItemButton>
-          <ListItemButton>
-            <ListItemIcon>
-              <Timeline />
-            </ListItemIcon>
-            <ListItemText primary="Analytics" />
-          </ListItemButton>
-          <ListItemButton>
-            <ListItemIcon>
-              <Report />
-            </ListItemIcon>
-            <ListItemText primary="Reports" />
+            <ListItemText primary="Reviews" />
           </ListItemButton>
         </List>
       </Box>

@@ -1,14 +1,14 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3000/api/categories";
+const API_URL = "http://localhost:3000/api/products";
 
 // for testing set a token in the local storage
-// localStorage.setItem(
-//   "authToken",
-//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDM4MDI3MTBjOTllZjVjNDhhNTZmNTUiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2ODIwNzY3NTksImV4cCI6MTY4NDY2ODc1OX0.u6aGLEc7avyetBNeealg9CnG4m6_euC3FLDcfZlMZSw"
-// );
+localStorage.setItem(
+  "authToken",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDM4MDI3MTBjOTllZjVjNDhhNTZmNTUiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2ODIwNzY3NTksImV4cCI6MTY4NDY2ODc1OX0.u6aGLEc7avyetBNeealg9CnG4m6_euC3FLDcfZlMZSw"
+);
 
-export const getAllCategoriesAPI = async () => {
+export const getAllProductsAPI = async () => {
   try {
     const token = localStorage.getItem("authToken");
     const config = {
@@ -25,14 +25,13 @@ export const getAllCategoriesAPI = async () => {
   }
 };
 
-export const getCategoryBySlugAPI = async (slug) => {
+export const getProductBySlugAPI = async (slug) => {
   try {
     const token = localStorage.getItem("authToken");
     const config = {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
-        withCredentials: true,
       },
     };
     const response = await axios.get(`${API_URL}/${slug}`, config);
@@ -43,27 +42,7 @@ export const getCategoryBySlugAPI = async (slug) => {
   }
 };
 
-export const getCategoryByIdAPI = async (id) => {
-  //woher weis die api den unterschied? route?
-  try {
-    const token = localStorage.getItem("authToken");
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-        withCredentials: true,
-      },
-    };
-    const response = await axios.get(`${API_URL}/id/${id}`, config);
-    console.log("getCategoryByIdAPI ", response);
-    return response.data;
-  } catch (error) {
-    console.error("Error getting category by id:", error);
-    throw error;
-  }
-};
-
-export const createCategoryAPI = async (blankData) => {
+export const createProductAPI = async (blankData) => {
   try {
     const token = localStorage.getItem("authToken");
     const config = {
@@ -80,7 +59,7 @@ export const createCategoryAPI = async (blankData) => {
   }
 };
 
-export const editCategoryAPI = async (oldslug, updatedCategory) => {
+export const editProductAPI = async (oldslug, updatedProduct) => {
   console.log("oldslugAPI: ", oldslug);
   try {
     const token = localStorage.getItem("authToken");
@@ -90,7 +69,7 @@ export const editCategoryAPI = async (oldslug, updatedCategory) => {
         Authorization: `Bearer ${token}`,
       },
     };
-    const response = await axios.put(`${API_URL}/${oldslug}`, updatedCategory, config);
+    const response = await axios.put(`${API_URL}/${oldslug}`, updatedProduct, config);
     return response.data;
   } catch (error) {
     console.error("Error editing category:", error);
@@ -98,7 +77,7 @@ export const editCategoryAPI = async (oldslug, updatedCategory) => {
   }
 };
 
-export const deleteCategoryAPI = async (slug) => {
+export const deleteProductAPI = async (slug) => {
   try {
     const token = localStorage.getItem("authToken");
     const config = {

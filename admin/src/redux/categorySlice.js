@@ -1,49 +1,73 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchCategories, createCategoryAPI, editCategoryAPI, getCategoryBySlugAPI, deleteCategoryAPI } from "./categoryAPI";
+import * as categoryAPI from "../redux/categoryAPI";
 
-export const fetchCategoriesAsync = createAsyncThunk("categories/fetchCategories", async () => {
-  const response = await fetchCategories();
+export const getAllCategoriesAsync = createAsyncThunk("categories/getAllCategories", async () => {
+  const response = await categoryAPI.getAllCategoriesAPI(); // corrected function name
   return response;
 });
 
-export const fetchCategoryBySlugAsync = createAsyncThunk("categories/fetchCategoryBySlug", async (slug, { rejectWithValue }) => {
-  try {
-    const category = await getCategoryBySlugAPI(slug);
-    return category;
-  } catch (error) {
-    return rejectWithValue(error.message);
+export const getCategoryBySlugAsync = createAsyncThunk(
+  "categories/getCategoryBySlug", //
+  async (slug, { rejectWithValue }) => {
+    try {
+      const response = await categoryAPI.getCategoryBySlugAPI(slug);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
   }
-});
-export const createCategoryAsync = createAsyncThunk("categories/createCategory", async (newCategory, { rejectWithValue }) => {
-  try {
-    const response = await createCategoryAPI(newCategory);
-    return response; // Return the created category
-  } catch (error) {
-    return rejectWithValue(error.message);
-  }
-});
+);
 
-export const editCategoryAsync = createAsyncThunk("categories/editCategory", async ({ oldslug, updatedCategory }, { rejectWithValue }) => {
-  console.log("oldslugAPI: ", oldslug);
-  try {
-    const response = await editCategoryAPI(oldslug, updatedCategory);
-    return response;
-  } catch (error) {
-    return rejectWithValue(error.message);
+export const getCategoryByIdAsync = createAsyncThunk(
+  "categories/getCategoryById", //
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await categoryAPI.getCategoryByIdAPI(id);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
   }
-});
+);
 
-export const deleteCategoryAsync = createAsyncThunk("categories/deleteCategory", async (slug, { rejectWithValue }) => {
-  try {
-    const response = await deleteCategoryAPI(slug);
-    return response;
-  } catch (error) {
-    return rejectWithValue(error.message);
+export const createCategoryAsync = createAsyncThunk(
+  "categories/createCategory", //
+  async (newCategory, { rejectWithValue }) => {
+    try {
+      const response = await categoryAPI.createCategoryAPI(newCategory);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
   }
-});
+);
+
+export const editCategoryAsync = createAsyncThunk(
+  "categories/editCategory", //
+  async ({ oldslug, updatedCategory }, { rejectWithValue }) => {
+    try {
+      const response = await categoryAPI.editCategoryAPI(oldslug, updatedCategory);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const deleteCategoryAsync = createAsyncThunk(
+  "categories/deleteCategory", //
+  async (slug, { rejectWithValue }) => {
+    try {
+      const response = await categoryAPI.deleteCategoryAPI(slug);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
 
 const categorySlice = createSlice({
-  name: "user",
+  name: "categorySlice",
   initialState: { categories: [], category: null, status: "idle", error: null },
   reducers: {
     createCategory: (state, action) => {
@@ -64,31 +88,44 @@ const categorySlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchCategoriesAsync.pending, (state) => {
+      .addCase(getAllCategoriesAsync.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(fetchCategoriesAsync.fulfilled, (state, action) => {
+      .addCase(getAllCategoriesAsync.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.categories = action.payload;
         state.error = null;
       })
-      .addCase(fetchCategoriesAsync.rejected, (state, action) => {
+      .addCase(getAllCategoriesAsync.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
       })
-      .addCase(fetchCategoryBySlugAsync.pending, (state) => {
+      .addCase(getCategoryBySlugAsync.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(fetchCategoryBySlugAsync.fulfilled, (state, action) => {
+      .addCase(getCategoryBySlugAsync.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.category = action.payload; // Set the fetched category
+        state.category = action.payload; // Set the geted category
         state.error = null;
       })
-      .addCase(fetchCategoryBySlugAsync.rejected, (state, action) => {
+      .addCase(getCategoryBySlugAsync.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
       })
-      // ... other cases
+
+      .addCase(getCategoryByIdAsync.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getCategoryByIdAsync.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.category = action.payload; // Set the geted category
+        state.error = null;
+      })
+      .addCase(getCategoryByIdAsync.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      })
+
       .addCase(createCategoryAsync.pending, (state) => {
         state.status = "loading";
       })
@@ -136,4 +173,4 @@ const categorySlice = createSlice({
 
 export const { createCategory, updateCategory, deleteCategory } = categorySlice.actions;
 
-export default categorySlice.reducer;
+export const categoryReducer = categorySlice.reducer;

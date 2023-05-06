@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCategoryBySlugAsync, editCategoryAsync, deleteCategoryAsync } from "../../redux/categorySlice";
+import { getCategoryBySlugAsync, editCategoryAsync, deleteCategoryAsync } from "../../redux/categorySlice";
 import { AppBar, Box, Button, TextField, Toolbar, Typography, IconButton, List, ListItem, ListItemText, Card, CardContent, Grid } from "@mui/material";
 import { Add as AddIcon, Remove as RemoveIcon } from "@mui/icons-material";
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
@@ -28,7 +28,7 @@ const Category = () => {
   }, [status, category]);
 
   useEffect(() => {
-    dispatch(fetchCategoryBySlugAsync(slug));
+    dispatch(getCategoryBySlugAsync(slug));
   }, [slug, dispatch]);
 
   const handleEditCategory = async (oldslug, updatedCategory) => {
@@ -57,14 +57,21 @@ const Category = () => {
   };
 
   const addNewAttribute = () => {
-    const newProperty = { key: "", allowedValues: [""] };
+    const newProperty = { key: "" };
     setLocalCategory({
       ...localCategory,
-      allowedProperties: [...localCategory.allowedProperties, newProperty],
+      categoryProperties: [...localCategory.categoryProperties, newProperty],
     });
   };
 
-  // das brauche ich doch....
+  const removeAttribute = (index) => {
+    const updatedProperties = deepCopy(localCategory.categoryProperties);
+    updatedProperties.splice(index, 1);
+    setLocalCategory({
+      ...localCategory,
+      categoryProperties: updatedProperties,
+    });
+  };
 
   const resetToDefault = () => {
     setLocalCategory(category);
@@ -78,69 +85,30 @@ const Category = () => {
     setDeleteDialogOpen(false);
   };
 
-  const renderAllowedProperties = () => {
+  const renderCategoryProperties = () => {
     return (
       <>
-        {localCategory?.allowedProperties?.map((property, index) => (
+        {localCategory?.categoryProperties?.map((property, index) => (
           <Box key={index} mt={3}>
-            {/* <Typography variant="h6">{"Category Attribute " + (index + 1)}</Typography> */}
             <TextField
               fullWidth
               label="Attribute Key"
               value={property.key}
               onChange={(e) => {
-                const updatedProperties = deepCopy(localCategory.allowedProperties);
+                const updatedProperties = deepCopy(localCategory.categoryProperties);
                 updatedProperties[index].key = e.target.value;
                 setLocalCategory({
                   ...localCategory,
-                  allowedProperties: updatedProperties,
+                  categoryProperties: updatedProperties,
                 });
               }}
             />
-            <List>
-              {property.allowedValues.map((allowedValue, valueIndex) => (
-                <ListItem key={valueIndex}>
-                  <ListItemText>
-                    <TextField
-                      fullWidth
-                      label="Allowed Value"
-                      value={allowedValue}
-                      onChange={(e) => {
-                        const updatedProperties = deepCopy(localCategory.allowedProperties);
-                        updatedProperties[index].allowedValues[valueIndex] = e.target.value;
-                        setLocalCategory({
-                          ...localCategory,
-                          allowedProperties: updatedProperties,
-                        });
-                      }}
-                    />
-                  </ListItemText>
-                  <IconButton
-                    onClick={() => {
-                      const updatedProperties = deepCopy(localCategory.allowedProperties);
-                      updatedProperties[index].allowedValues.splice(valueIndex, 1);
-                      setLocalCategory({
-                        ...localCategory,
-                        allowedProperties: updatedProperties,
-                      });
-                    }}
-                  >
-                    <RemoveIcon />
-                  </IconButton>
-                </ListItem>
-              ))}
-            </List>
             <IconButton
               onClick={() => {
-                const updatedProperties = deepCopy(localCategory.allowedProperties);
-                updatedProperties[index].allowedValues.push("");
-                setLocalCategory({
-                  ...localCategory,
-                  allowedProperties: updatedProperties,
-                });
+                removeAttribute(index);
               }}
             >
-              <AddIcon />
+              <RemoveIcon />
             </IconButton>
           </Box>
         ))}
@@ -166,18 +134,16 @@ const Category = () => {
             onClick={() =>
               handleEditCategory(slug, {
                 name: localCategory.name,
-                allowedProperties: localCategory.allowedProperties,
+                categoryProperties: localCategory.categoryProperties,
               })
             }
             style={{ marginRight: "8px" }}
           >
             Save
-          </Button>
-
+          </Button>{" "}
           <Button variant="contained" color="secondary" onClick={openDeleteDialog} style={{ marginRight: "8px" }}>
             Delete
           </Button>
-
           <Button variant="contained" onClick={resetToDefault} style={{ marginRight: "8px" }}>
             Set to Default
           </Button>
@@ -189,7 +155,7 @@ const Category = () => {
             <>
               <Box mt={8}>
                 <TextField id="category-name" label="Category Name" value={localCategory?.name || ""} onChange={(e) => setLocalCategory({ ...localCategory, name: e.target.value })} fullWidth />
-                {renderAllowedProperties()}
+                {renderCategoryProperties()}
                 <Box mt={2}>...</Box>
               </Box>
             </>

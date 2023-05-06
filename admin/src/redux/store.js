@@ -1,17 +1,6 @@
-// import { configureStore } from "@reduxjs/toolkit";
-import categoryReducer from "./categorySlice"
-
-// export default configureStore({
-//   reducer: {
-//     user: loginAdminReducer,
-//     category: categoryReducer,
-//   },
-// });
-
 // The state store holds the entire application's state in a single object
 
 // reducers are pure functions that take the current state and an action, then return the new state.
-
 
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import loginReducer from "./loginAdminSlice";
@@ -36,6 +25,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   user: loginReducer,
   category: categoryReducer,
+  product: productReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
