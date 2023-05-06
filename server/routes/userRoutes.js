@@ -19,6 +19,7 @@ router.post("/reset", resetPassword);
 router.get("/reset/verify/:token", verifyLinkToken);
 router.get("/", verifyTokenAndAdmin, userController.getUsers);
 router.get("/:slug", verifyTokenAndAuthorization, userController.getUserBySlug);
+router.get("/stats", verifyTokenAndAdmin, userController.userStats);
 router.put("/reset/:slug", userController.resetUserPassword);
 router.put(
   "/update/:slug",
