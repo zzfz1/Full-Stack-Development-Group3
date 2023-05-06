@@ -57,14 +57,7 @@ const router = createBrowserRouter([
 function App() {
   const user = useSelector((state) => state.user);
 
-  return (
-    <RouterProvider router={router}>
-      <Route
-        path="/login"
-        render={() => (user ? <Redirect to="/" /> : <Login />)}
-      />
-    </RouterProvider>
-  );
+  return <RouterProvider router={router}></RouterProvider>;
 }
 
 export default App;

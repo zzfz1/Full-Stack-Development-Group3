@@ -17,8 +17,8 @@ import {
   useColorModeValue,
   IconButton,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { BsGithub, BsDiscord, BsGoogle } from "react-icons/bs";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Formik, Form, Field } from "formik";
@@ -27,10 +27,18 @@ import GoogleLogin from "../components/googleLogin.jsx";
 import axios from "axios";
 import { login } from "../redux/apiReq.jsx";
 import { loginSuccess } from "../redux/userRedux.jsx";
+import { useSelector } from "react-redux";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.user.currentUser);
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, []);
 
   const initialValues = {
     email: "",
