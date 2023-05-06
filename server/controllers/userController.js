@@ -1,15 +1,17 @@
 import bcrypt from "bcryptjs";
 import User from "../models/user.js";
-import generateToken from "../utils/generateToken.js";
+import { generateToken } from "../utils/generateToken.js";
 
 class UserController {
   async registerUser(req, res) {
     try {
       const { name, username, email, password, isAdmin, img } = req.body;
+      console.log(req.body);
 
-      const userExists = await User.findOne({ email });
+      const userEmailExists = await User.findOne({ email });
+      const userUsernameExists = await User.findOne({ username });
 
-      if (userExists) {
+      if (userEmailExists || userUsernameExists) {
         res.status(400).json({ message: "User already exists" });
         return;
       }
@@ -24,8 +26,8 @@ class UserController {
         isAdmin,
         img,
       });
-
       const savedUser = await newUser.save();
+      console.log("the new user is " + savedUser);
       res.cookie("token", generateToken(savedUser._id, savedUser.isAdmin), {
         httpOnly: true,
       });
@@ -37,6 +39,7 @@ class UserController {
         isAdmin: savedUser.isAdmin,
       });
     } catch (error) {
+      console.log(error);
       res.status(500).json({ message: "Internal server error: ", error });
     }
   }
@@ -67,6 +70,7 @@ class UserController {
   }
 
   async getUserBySlug(req, res) {
+    console.log(" inside the getUserBySlug func", req.body);
     try {
       const user = await User.findOne({ slug: req.params.slug });
 
@@ -127,7 +131,10 @@ class UserController {
 
       if (username) {
         const existingUsername = await User.findOne({ username });
-        if (existingUsername && existingUsername._id.toString() !== user._id.toString()) {
+        if (
+          existingUsername &&
+          existingUsername._id.toString() !== user._id.toString()
+        ) {
           return res.status(400).json({ message: "Username already taken" });
         }
         user.username = username;
@@ -157,6 +164,28 @@ class UserController {
       res.status(200).json({ message: "User has been deleted" });
     } catch (err) {
       res.status(500).json({ message: "Internal server error" });
+    }
+  }
+
+  async resetUserPassword(req, res) {
+    const newPassword = req.body.password;
+    const username = req.body.username;
+    console.log("the user name is ", username);
+    try {
+      const user = await User.findOne({ username: username });
+      console.log("the user", user);
+      if (user) {
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        const updatePass = User.updateOne(
+          { username: username },
+          { password: hashedPassword }
+        );
+        res.status(200).json({ message: "password reset it" });
+      } else {
+        res.status(400).json({ message: "Wrong User not found!" });
+      }
+    } catch (error) {
+      console.log("the Error: ", error);
     }
   }
 }

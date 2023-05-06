@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import orderItemSchema from "./orderItem.js";
+import validateReferences from "./validateReferences.js";
 
 const orderSchema = new mongoose.Schema(
   {
@@ -57,6 +58,15 @@ const orderSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+orderSchema.pre("save", async function (next) {
+  try {
+    await validateReferences(orderSchema, this);
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
 
 const Order = mongoose.model("Order", orderSchema);
 export default Order;

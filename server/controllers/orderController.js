@@ -1,15 +1,35 @@
 import Order from "../models/order.js";
+import User from "../models/user.js";
+import { mailTransport } from "../utils/sendInvoice.js";
 
 class OrderController {
   async createOrder(req, res) {
     try {
-      const { userId, products, amount, address } = req.body;
-      const newOrder = new Order({ userId, products, amount, address });
-
+      const {
+        user,
+        orderItems,
+        shippingAddress,
+        paymentMethod,
+        taxPrice,
+        shippingPrice,
+        totalPrice,
+      } = req.body;
+      const newOrder = new Order({
+        user,
+        orderItems,
+        shippingAddress,
+        paymentMethod,
+        taxPrice,
+        shippingPrice,
+        totalPrice,
+      });
       const savedOrder = await newOrder.save();
+      const userInfo = await User.findById(user);
+      const email = userInfo.email;
+      mailTransport(email, savedOrder);
       res.status(201).json(savedOrder);
     } catch (error) {
-      res.status(500).json({ message: "Internal server error" });
+      res.status(500).json({ message: error.message });
     }
   }
 
@@ -33,7 +53,6 @@ class OrderController {
   async deleteOrder(req, res) {
     try {
       const order = await Order.findById(req.params.id);
-
       if (!order) {
         return res.status(404).json({ message: "Order not found" });
       }
@@ -47,16 +66,24 @@ class OrderController {
 
   async getAllOrders(req, res) {
     try {
-      const orders = await Order.find().populate("userId", "username email");
+      const orders = await Order.find();
+      // .populate({
+      //   path: "user",
+      //   select: "username email",
+      //   options: { lean: true },
+      // });
       res.status(200).json(orders);
     } catch (error) {
-      res.status(500).json({ message: "Internal server error" });
+      res.status(500).json({ message: error.message });
     }
   }
 
   async getOrderById(req, res) {
     try {
-      const order = await Order.findById(req.params.id).populate("userId", "username email");
+      const order = await Order.findById(req.params.id).populate(
+        "userId",
+        "username email"
+      );
 
       if (!order) {
         return res.status(404).json({ message: "Order not found" });
