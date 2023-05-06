@@ -1,6 +1,17 @@
 import mongoose from "mongoose";
 import slugify from "slugify";
 
+const ShippingAddressSchema = new mongoose.Schema({
+  fisrtName: { type: String, required: true },
+  lastName: { type: String, required: true },
+  streetAddress: { type: String, required: true },
+  apartmentNumber: { type: String },
+  city: { type: String, required: true },
+  postalCode: { type: String, required: true },
+  country: { type: String, required: true },
+  phoneNumber: { type: String },
+});
+
 const UserSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
@@ -13,6 +24,7 @@ const UserSchema = new mongoose.Schema(
       default: false,
     },
     img: { type: String },
+    shippingAddress: [ShippingAddressSchema],
   },
   { timestamps: true }
 );

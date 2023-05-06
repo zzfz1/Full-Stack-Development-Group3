@@ -11,10 +11,14 @@ const orderSchema = new mongoose.Schema(
     },
     orderItems: [orderItemSchema],
     shippingAddress: {
-      address: { type: String, required: true },
+      fisrtName: { type: String, required: true },
+      lastName: { type: String, required: true },
+      streetAddress: { type: String, required: true },
+      apartmentNumber: { type: String },
       city: { type: String, required: true },
       postalCode: { type: String, required: true },
       country: { type: String, required: true },
+      phoneNumber: { type: String },
     },
     paymentMethod: {
       type: String,
