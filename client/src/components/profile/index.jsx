@@ -24,9 +24,8 @@ function Profile() {
   return (
     <Flex
       pos="sticky"
-      left="5"
-      h="95vh"
-      marginTop="2.5vh"
+      left="1"
+      h="100vh"
       boxShadow="0 4px 12px 0 rgba(0, 0, 0, 0.05)"
       borderRadius={navSize == "small" ? "15px" : "30px"}
       w={navSize == "small" ? "75px" : "200px"}
@@ -40,18 +39,18 @@ function Profile() {
         alignItems={navSize == "small" ? "center" : "flex-start"}
         as="nav"
       >
-        <IconButton
+        {/*    <IconButton
           background="none"
-          mt={5}
+          mt={}
           _hover={{ background: "none" }}
           icon={<FiMenu />}
           onClick={() => {
             if (navSize == "small") changeNavSize("large");
             else changeNavSize("small");
           }}
-        />
+        /> */}
         <NavItem
-          navSize={navSize}
+          navSize={"large"}
           icon={FiHome}
           title="Dashboard"
           description="This is the description for the dashboard."
