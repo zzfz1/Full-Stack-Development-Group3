@@ -8,7 +8,7 @@ localStorage.setItem(
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDM4MDI3MTBjOTllZjVjNDhhNTZmNTUiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2ODIwNzY3NTksImV4cCI6MTY4NDY2ODc1OX0.u6aGLEc7avyetBNeealg9CnG4m6_euC3FLDcfZlMZSw"
 );
 
-export const fetchCategories = async () => {
+export const getAllCategoriesAPI = async () => {
   try {
     const token = localStorage.getItem("authToken");
     const config = {
@@ -20,7 +20,7 @@ export const fetchCategories = async () => {
     const response = await axios.get(API_URL, config);
     return response.data;
   } catch (error) {
-    console.error("Error fetching categories:", error);
+    console.error("Error geting categories:", error);
     throw error;
   }
 };
@@ -32,12 +32,33 @@ export const getCategoryBySlugAPI = async (slug) => {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
+        withCredentials: true,
       },
     };
     const response = await axios.get(`${API_URL}/${slug}`, config);
     return response.data;
   } catch (error) {
-    console.error("Error fetching category by slug:", error);
+    console.error("Error geting category by slug:", error);
+    throw error;
+  }
+};
+
+export const getCategoryByIdAPI = async (id) => {
+  //woher weis die api den unterschied? route?
+  try {
+    const token = localStorage.getItem("authToken");
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+        withCredentials: true,
+      },
+    };
+    const response = await axios.get(`${API_URL}/id/${id}`, config);
+    console.log("getCategoryByIdAPI ", response);
+    return response.data;
+  } catch (error) {
+    console.error("Error getting category by id:", error);
     throw error;
   }
 };

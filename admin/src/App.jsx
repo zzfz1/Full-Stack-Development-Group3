@@ -7,10 +7,8 @@ import Home from "./pages/home/Home";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import CategoryList from "./pages/categoryList/CategoyList.jsx";
 import Category from "./pages/cateogry/Category.jsx";
-import NewCategory from "./pages/newCategory/newCategory.jsx";
 import ProductList from "./pages/productList/ProductList";
 import Product from "./pages/product/Product";
-import NewProduct from "./pages/newProduct/NewProduct";
 import Login from "./pages/login/Login";
 
 function App() {
@@ -33,10 +31,8 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/categories" element={<CategoryList />} />
               <Route path="/categories/:slug" element={<Category />} />
-              <Route path="/newcategory" element={<NewCategory />} />
               <Route path="/products" element={<ProductList />} />
-              <Route path="/product/:productId" element={<Product />} />
-              <Route path="/newproduct" element={<NewProduct />} />
+              <Route path="/products/:slug" element={<Product />} />
             </Routes>
           </div>
         </>
