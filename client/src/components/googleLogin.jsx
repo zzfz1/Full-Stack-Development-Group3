@@ -6,10 +6,13 @@ import { useGoogleLogin, googleLogout } from "@react-oauth/google";
 import axios from "axios";
 import { FcGoogle } from "react-icons/fc";
 import { Button, Center, Text } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
+
 
 function googleLogin() {
   const [user, setUser] = useState([]);
   const [profile, setProfile] = useState([]);
+  const navigate = useNavigate();
 
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => setUser(codeResponse),
@@ -34,37 +37,44 @@ function googleLogin() {
             },
           }
         )
-        .then((res) => {
-          console.log("res data".res);
+        .then(async (res) => {
           setProfile(res.data);
+          let exists = await axios.get(
+            `http://localhost:3000/api/users/check/${res.data.email}`
+          );
+          if (exists.data) {
+            const user = await axios.post(
+              "http://localhost:3000/api/users/login/google",
+              {
+                email: res.data.email,
+              },
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+            navigate(`/`);
+          } else {
+            navigate(
+              `/register?name=${res.data.given_name}&email=${res.data.email}`
+            );
+          }
         })
         .catch((err) => console.log(err));
     }
   }, [user]);
-  console.log("the profile", profile);
-
   return (
     <div>
-      {profile ? (
-        <div>
-          <h3>User {profile.name} Logged in</h3>
-          <h3>{profile.email}</h3>
-          <button onClick={logOut}>Log out</button>
-        </div>
-      ) : (
-        <Button
-          w={"full"}
-          maxW={"md"}
-          variant={"outline"}
-          _hover={{ bg: "gray700" }}
-          leftIcon={<FcGoogle />}
-          onClick={() => login()}
-        >
-          <Center>
-            <Text>Sign up with Google</Text>
-          </Center>
-        </Button>
-      )}
+      <IconButton
+        onClick={() => login()}
+        aria-label="google"
+        variant="ghost"
+        size="lg"
+        isRound={true}
+        _hover={{ bg: "primary.500" }}
+        icon={<BsGoogle size="40px" />}
+      />
     </div>
   );
 }

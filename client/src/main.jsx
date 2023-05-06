@@ -12,14 +12,12 @@ import { store, persistor } from "./redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <GoogleOAuthProvider clientId="1068486314099-n87h1p1p97rvjt88kkajmqinn4u0lf9f.apps.googleusercontent.com">
-    <Provider store={store}>
+  <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+    <React.StrictMode>
       <ChakraProvider theme={theme}>
-        <PersistGate loading="null" persistor={persistor}>
-          <ToastContainer />
-          <App />
-        </PersistGate>
+        <ToastContainer />
+        <App />
       </ChakraProvider>
-    </Provider>
+    </React.StrictMode>
   </GoogleOAuthProvider>
 );
