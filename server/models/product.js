@@ -12,45 +12,44 @@ const productSchema = new mongoose.Schema(
     },
     slug: {
       type: String,
-      required: true,
       unique: true,
     },
     image: {
       type: String,
-      required: true,
+      required: false,
     },
     brand: {
       type: String,
-      required: true,
+      required: false,
     },
     category: {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
+      required: false,
       ref: "Category",
     },
     description: {
       type: String,
-      required: true,
+      required: false,
     },
     properties: [ProductPropertySchema], // selectable from the belonging category
     rating: {
       type: Number,
-      required: true,
+      required: false,
       default: 0,
     },
     numReviews: {
       type: Number,
-      required: true,
+      required: false,
       default: 0,
     },
     price: {
       type: Number,
-      required: true,
+      required: false,
       default: 0,
     },
     countInStock: {
       type: Number,
-      required: true,
+      required: false,
       default: 0,
     },
     reviews: [reviewSchema],

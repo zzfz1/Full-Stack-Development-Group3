@@ -14,10 +14,11 @@ import cookieParser from "cookie-parser";
 // Middleware
 app.use(
   cors({
-    origin: "*", // or specify your frontend origin, e.g., 'http://localhost:5173'
-    allowedHeaders: ["Content-Type", "Authorization"],
+    origin: "http://localhost:5173",
+    allowedHeaders: ["Content-Type", "Authorization", "withcredentials"],
   })
 );
+
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());

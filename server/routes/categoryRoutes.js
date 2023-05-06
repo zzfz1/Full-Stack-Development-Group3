@@ -11,5 +11,6 @@ router.get("/", categoryController.getAllCategories);
 router.put("/:slug", verifyTokenAndAdmin, categoryController.updateCategory);
 router.delete("/:slug", verifyTokenAndAdmin, categoryController.deleteCategory);
 router.get("/:slug", categoryController.getCategoryBySlug);
+router.get("/id/:id", categoryController.getCategoryByID);
 
 export default router;

@@ -3,6 +3,7 @@ import slugify from "slugify";
 
 class ProductController {
   async createProduct(req, res) {
+    /// DO THIS LIKE CATEGORY SLUG!!!!
     try {
       const { name, image, brand, category, description, properties, rating, numReviews, price, countInStock } = req.body;
 
@@ -79,7 +80,7 @@ class ProductController {
 
   async updateProduct(req, res) {
     try {
-      const { _id, name, image, brand, category, description, properties, rating, numReviews, price, countInStock } = req.body;
+      const { name, image, brand, category, description, properties, rating, numReviews, price, countInStock } = req.body;
 
       const product = await Product.findOne({ slug: req.params.slug });
 
