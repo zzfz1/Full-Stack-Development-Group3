@@ -10,21 +10,34 @@ import Category from "./pages/cateogry/Category.jsx";
 import ProductList from "./pages/productList/ProductList";
 import Product from "./pages/product/Product";
 import Login from "./pages/login/Login";
-import { useState } from "react";
-// import { useSelector } from "react-redux";
+// import { useState } from "react";
+import { useSelector } from "react-redux";
 
 function App() {
   // Use useSelector to access the Redux store and check if the user is an admin
-  // const user = useSelector((state) => state.user);
-  // console.log('user', user);
-  // const admin = false;
-  let [admin, setAdmin] = useState(false);
+  const admin = useSelector((state) => state.user.currentUser);
+  console.log('admin,', admin)
 
-  return (
-    // Use BrowserRouter (aliased as Router) to enable routing in the application
-    <Router>
-      {/* If the user is an admin, render the main application layout */}
-      {admin ? (
+
+  if (admin == null || !admin.isAdmin) {
+
+    return (
+      // Use BrowserRouter (aliased as Router) to enable routing in the application
+      <Router>
+        {/* If the user is an admin, render the main application layout */}
+        {/* // If the user is not an admin, only show the login page */}
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          {/* Catch-all route to redirect users to the login page */}
+          <Route path="/*" element={<Login />} />
+        </Routes>
+
+      </Router>
+    );
+  } else {
+    return (
+      // Use BrowserRouter (aliased as Router) to enable routing in the application
+      <Router>
         <>
           <Topbar />
           <div className="container">
@@ -36,20 +49,13 @@ function App() {
               <Route path="/categories" element={<CategoryList />} />
               <Route path="/categories/:slug" element={<Category />} />
               <Route path="/products" element={<ProductList />} />
-              <Route path="/products/:slug" element={<Product />} />
+              <Route path="/product/:productId" element={<Product />} />
             </Routes>
           </div>
         </>
-      ) : (
-        // If the user is not an admin, only show the login page
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          {/* Catch-all route to redirect users to the login page */}
-          <Route path="/*" element={<Login />} />
-        </Routes>
-      )}
-    </Router>
-  );
+      </Router>
+    );
+  }
 }
 
 export default App;
