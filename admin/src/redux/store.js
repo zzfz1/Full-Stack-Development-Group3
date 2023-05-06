@@ -4,6 +4,8 @@
 
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import loginReducer from "./loginAdminSlice";
+import { categoryReducer } from "./categorySlice";
+import { productReducer } from "./productSlice";
 import {
   persistStore,
   persistReducer,
