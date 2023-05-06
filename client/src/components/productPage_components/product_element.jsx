@@ -1,7 +1,20 @@
-import { Card, CardBody, CardFooter, Image, Divider, Button, ButtonGroup, Text, Stack, Heading, Center } from '@chakra-ui/react'
+import React,{useState} from "react";
+import ProductCard from "./product_popup";
+import { Card, CardBody, CardFooter, Image, Divider, Button, ButtonGroup, Text, Stack, Heading, Flex, Box } from '@chakra-ui/react'
   
 function ProductElement ({item})
 {
+  const [openProductCard, setOpenProductCard] = useState(null);
+  
+  const handleOpenProductCard = (id) =>
+  {
+    setOpenProductCard(id);
+  }
+
+  const handleCloseProductCard = () => {
+    setOpenProductCard(null);
+  };
+
     return (
       <Card>
 
@@ -23,19 +36,20 @@ function ProductElement ({item})
 
         <Divider />
         
-        <CardFooter >
-          
-          <ButtonGroup   spacing='2' maxW='12rem'>
-          <Stack direction= {{base : "column", md : "row"}}  align = "center" justify="center">
-            <Button  variant='solid' colorScheme='blue'>
-              Buy now
-            </Button>
-            <Button  variant='ghost' colorScheme='blue'>
-              Add to cart
-            </Button>
-          </Stack>
+        <CardFooter>
+
+          <ButtonGroup spacing='2'>
+            <Stack direction= {{base : "column", md : "row"}}  align = "center" justify="center">
+              <Button  variant='solid' colorScheme='blue' onClick={() => handleOpenProductCard(item.id)}>
+                View
+              </Button>
+              {openProductCard === item.id && (<ProductCard item={item} isOpen={true} onClose={handleCloseProductCard} />)}
+              <Button  variant='ghost' colorScheme='blue'>
+                Add to cart
+              </Button>
+            </Stack>
           </ButtonGroup>
-        
+          
         </CardFooter>
 
       </Card>
