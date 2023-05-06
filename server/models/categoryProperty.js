@@ -5,7 +5,7 @@ const CategoryPropertySchema = new mongoose.Schema(
   {
     key: { type: String, required: true },
   },
-  { _id: false }
+  { _id: true }
 );
 
 export default CategoryPropertySchema;
