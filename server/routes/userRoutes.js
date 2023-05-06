@@ -20,8 +20,8 @@ router.post("/reset", resetPassword);
 router.get("/reset/verify/:token", verifyLinkToken);
 router.get("/check/:email", userController.checkUser);
 router.get("/", verifyTokenAndAdmin, userController.getUsers);
-router.get("/:slug", verifyTokenAndAuthorization, userController.getUserBySlug);
 router.get("/stats", verifyTokenAndAdmin, userController.userStats);
+router.get("/:slug", verifyTokenAndAuthorization, userController.getUserBySlug);
 router.put("/reset/:slug", userController.resetUserPassword);
 router.put(
   "/update/:slug",
