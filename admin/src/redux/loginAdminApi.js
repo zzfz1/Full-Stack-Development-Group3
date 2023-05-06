@@ -32,8 +32,7 @@ export const login = async (dispatch, user) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      // withCredentials: true,
-      credentials: 'include'
+      withCredentials: true,
     }
     const res = await axios.post(`${API_URL}`, user, config);
     console.log('respones', res, 'dat', res.data);
