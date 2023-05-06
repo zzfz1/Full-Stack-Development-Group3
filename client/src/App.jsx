@@ -15,6 +15,7 @@ import SendEmail from "../src/components/resetPassword/sendEmail";
 import ResetPassword from "../src/components/resetPassword/resetPassword";
 import { Outlet } from "react-router-dom";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Profile from "./components/profile";
 
 const router = createBrowserRouter([
   {
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
       {
         path: "/resetPassword",
         element: <ResetPassword />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
       },
 
       // {
