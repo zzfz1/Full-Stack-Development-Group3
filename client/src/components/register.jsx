@@ -21,9 +21,15 @@ import { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Formik, Form, Field } from "formik";
 import { useLocation } from "react-router-dom";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../redux/userRedux.jsx";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
   const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const searchParams = new URLSearchParams(useLocation().search);
   const name = searchParams.get("name");
   const email = searchParams.get("email");
@@ -67,7 +73,7 @@ function Register() {
     return errors;
   };
 
-  const handleSubmit = (values, actions) => {
+  const handleSubmit = async (values, actions) => {
     const errors = {};
     if (!values.name) {
       errors.name = "Required";
@@ -88,27 +94,30 @@ function Register() {
       actions.setErrors(errors);
     } else {
       actions.setSubmitting(true);
-      console.log("data", values.name, values.email, values.password);
+      // console.log("data", values.name, values.email, values.password);
       // Send the form data to the server
-      fetch(`http://localhost:3000/api/users/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: values.name,
-          username: values.username,
-          email: values.email,
-          password: values.password,
-        }),
-      })
-        .then((response) => {
-          console.log(response);
-          alert(response.status);
-          actions.setSubmitting(false);
-        })
-        .catch((error) => {
-          console.error(error);
-          actions.setSubmitting(false);
-        });
+      try {
+        const userInfo = await axios.post(
+          "http://localhost:3000/api/users/register",
+          {
+            name: values.name,
+            username: values.username,
+            email: values.email,
+            password: values.password,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        dispatch(loginSuccess(userInfo.data));
+        actions.setSubmitting(false);
+        navigate("/");
+      } catch (error) {
+        console.error(error);
+        actions.setSubmitting(false);
+      }
     }
   };
 

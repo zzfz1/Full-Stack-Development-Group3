@@ -100,7 +100,6 @@ function Login() {
                       },
                     }
                   );
-                  console.log(res.data);
                   dispatch(loginSuccess(res.data));
                   actions.setSubmitting(false);
                 } catch (err) {
