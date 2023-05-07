@@ -2,7 +2,12 @@
 [
     {
         "id":1,
-        "img": "https://cdn03.plentymarkets.com/ioseuwg7moqp/item/images/28195/full/Creality-Ender-3-Neo-1001020444-28195_3.png",
+        "images": 
+        [
+            "https://cdn03.plentymarkets.com/ioseuwg7moqp/item/images/28195/full/Creality-Ender-3-Neo-1001020444-28195_3.png",
+            "https://www.3dnatives.com/3D-compare/wp-content/uploads/sites/6/2020/04/Ender1.jpg",
+            "https://cdn.shopify.com/s/files/1/2180/6871/products/ender3-v2_600x.jpg?v=1618838553"    
+        ], 
         "model": "Ender 3",
         "brand": "Creality",
         "price": 199.99,
@@ -10,7 +15,12 @@
     },
     {
         "id":2,
-        "img": "https://3dverkstan.se/wp-content/uploads/2019/09/ultimaker-s3_front-1920x1920.jpg",
+        "images": 
+        [
+            "https://3dverkstan.se/wp-content/uploads/2019/09/ultimaker-s3_front-1920x1920.jpg",
+            "https://3dverkstan.se/wp-content/uploads/2013/11/UMprodukt2-1.jpg",
+            "https://www.dc.umich.edu/wp-content/uploads/sites/487/2021/04/Ultimaker-Class-3DP-IMG_2705-small.jpeg"
+        ],
         "model": "Ultimaker 3",
         "brand": "Ultimaker",
         "price": 3295,
@@ -18,7 +28,12 @@
     },
     {
         "id":3,
-        "img": "https://en.fss.flashforge.com/10000/picture/product/2d2859f145f717eeec3c2980c5e38b95.png",
+        "images":
+        [
+            "https://en.fss.flashforge.com/10000/picture/product/2d2859f145f717eeec3c2980c5e38b95.png",
+            "https://c-3d.niceshops.com/upload/image/product/large/default/flashforge-creator-3-pro-1-st-418920-sv.jpg",
+            "https://m.media-amazon.com/images/I/51U9EmEbDUL.jpg"
+        ],
         "model": "FlashForge Creator Pro",
         "brand": "FlashForge",
         "price": 899,
@@ -26,7 +41,12 @@
     },
     {
         "id":4,
-        "img": "https://www.3dbazaar.in/wp-content/uploads/2022/09/Original-Prusa-i3MK3S-3D-Bazaar-01.jpg",
+        "images": 
+        [
+            "https://www.3dbazaar.in/wp-content/uploads/2022/09/Original-Prusa-i3MK3S-3D-Bazaar-01.jpg",
+            "https://c-3d.niceshops.com/upload/image/product/large/default/e3d-prusa-v6-hotend-290271-sv.jpg",
+            "https://hackaday.com/wp-content/uploads/2018/10/prusa_thumb.jpg?w=600&h=600"
+        ],
         "model": "Prusa i3 MK3S+",
         "brand": "Prusa Research",
         "price": 999,
@@ -34,7 +54,12 @@
     },
     {
         "id":5,
-        "img": "https://cdn.shopify.com/s/files/1/0987/4280/products/Mini2_Angled_800x800_cbc942ab-5259-499e-b348-dacc578f7300_1024x1024.png?v=159565932",
+        "images": 
+        [
+            "https://cdn.shopify.com/s/files/1/0987/4280/products/Mini2_Angled_800x800_cbc942ab-5259-499e-b348-dacc578f7300_1024x1024.png?v=159565932",
+            "https://lulzbot-shop-assets.s3-us-west-1.amazonaws.com/mini2_featureslider_tetherless02-551.png",
+            "https://m.media-amazon.com/images/S/aplus-media/vc/543a22d5-124a-4ca1-87b4-28c2019cf9ca._CR0,0,1299,1299_PT0_SX300__.png"
+        ],
         "model": "LulzBot Mini 2",
         "brand": "LulzBot",
         "price": 1495,
@@ -42,7 +67,12 @@
     },
     {
         "id":6,
-        "img": "https://store.makerbot.com/media/catalog/product/cache/75b2125818f23adb3f72d90831c39808/r/e/replicator__1.png",
+        "images": 
+        [
+            "https://store.makerbot.com/media/catalog/product/cache/75b2125818f23adb3f72d90831c39808/r/e/replicator__1.png",
+            "https://www.makerbot.com/wp-content/uploads/2018/03/reliability_module_4.jpg",
+            "https://cf-images.dustin.eu/cdn-cgi/image/format=auto,quality=75,width=500,,fit=contain/image/d200001004138419/makerbot-replicator-3d-printer.jpg"
+        ],
         "model": "MakerBot Replicator+",
         "brand": "MakerBot",
         "price": 1999,

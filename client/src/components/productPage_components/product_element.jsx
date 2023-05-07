@@ -9,7 +9,7 @@ function ProductElement ({item})
   const handleOpenProductCard = (id) =>
   {
     setOpenProductCard(id);
-  }
+  };
 
   const handleCloseProductCard = () => {
     setOpenProductCard(null);
@@ -19,10 +19,10 @@ function ProductElement ({item})
       <Card>
 
         <CardBody>
-        
+
           <AspectRatio maxW='100%' ratio={1}>
             <Image
-              src={item.img}
+              src={item.images[0]}
               borderRadius='lg'
             />
           </AspectRatio>
