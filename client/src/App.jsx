@@ -15,6 +15,7 @@ import SendEmail from "../src/components/resetPassword/sendEmail";
 import ResetPassword from "../src/components/resetPassword/resetPassword";
 import { Outlet } from "react-router-dom";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Profile from "./components/profile";
 import { useSelector } from "react-redux";
 import AddressForm from "./components/addressForm";
 
@@ -54,6 +55,20 @@ const router = createBrowserRouter([
         path: "/addressForm",
         element: <AddressForm />,
       },
+        path: "/profile",
+        element: <Profile />,
+      },
+
+      // {
+      //   path: "/register",
+      //   element: <Register />,
+      // },
+      // {
+      //   path: "/reset",
+      //   element: <Reset />,
+      // // },
+      // { path: "/checkout", element: <Checkout /> },
+      // { path: "/about_us", element: <AboutUs /> },
     ],
   },
 ]);
