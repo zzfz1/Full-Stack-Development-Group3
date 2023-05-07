@@ -67,48 +67,37 @@ function Register() {
     return errors;
   };
 
-  const handleSubmit = (values, actions) => {
-    const errors = {};
-    if (!values.name) {
-      errors.name = "Required";
-    }
-    if (!values.name) {
-      errors.username = "Required";
-    }
-    if (!values.email) {
-      errors.email = "Required";
-    }
-    if (!values.password) {
-      errors.password = "Required";
-    }
-    if (!values.checkbox) {
-      errors.checkbox = "You must agree to the terms of service";
-    }
+  const handleSubmit = async (values, actions) => {
+    const errors = validate(values);
     if (Object.keys(errors).length > 0) {
       actions.setErrors(errors);
     } else {
       actions.setSubmitting(true);
       console.log("data", values.name, values.email, values.password);
       // Send the form data to the server
-      fetch(`http://localhost:3000/api/users/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: values.name,
-          username: values.username,
-          email: values.email,
-          password: values.password,
-        }),
-      })
-        .then((response) => {
-          console.log(response);
-          alert(response.status);
-          actions.setSubmitting(false);
-        })
-        .catch((error) => {
-          console.error(error);
-          actions.setSubmitting(false);
-        });
+      try {
+        const userInfo = await axios.post(
+          "http://localhost:3000/api/users/register",
+          {
+            name: values.name,
+            username: values.username,
+            email: values.email,
+            password: values.password,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            withCredentials: true,
+          }
+        );
+        dispatch(loginSuccess(userInfo.data));
+        actions.setSubmitting(false);
+        navigate("/");
+      } catch (error) {
+        console.error(error);
+        actions.setSubmitting(false);
+      }
     }
   };
 

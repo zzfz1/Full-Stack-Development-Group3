@@ -52,6 +52,7 @@ function googleLogin() {
                 headers: {
                   "Content-Type": "application/json",
                 },
+                withCredentials: true,
               }
             );
             navigate(`/`);

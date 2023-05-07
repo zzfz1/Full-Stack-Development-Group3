@@ -16,7 +16,7 @@ import ResetPassword from "../src/components/resetPassword/resetPassword";
 import { Outlet } from "react-router-dom";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Route } from "react-router-dom";
+import AddressForm from "./components/addressForm";
 
 const router = createBrowserRouter([
   {
@@ -49,6 +49,10 @@ const router = createBrowserRouter([
       {
         path: "/resetPassword",
         element: <ResetPassword />,
+      },
+      {
+        path: "/addressForm",
+        element: <AddressForm />,
       },
     ],
   },
