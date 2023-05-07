@@ -18,7 +18,7 @@ import { isValidNumber } from "libphonenumber-js";
 import { Formik, Form, Field } from "formik";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { loginSuccess } from "../redux/userRedux.jsx";
+import { loginSuccess } from "../../redux/userRedux.jsx";
 
 export default function AddressForm({ originalAddress = {}, userID }) {
   const dispatch = useDispatch();

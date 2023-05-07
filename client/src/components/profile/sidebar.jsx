@@ -8,6 +8,7 @@ import {
   Heading,
   Icon,
   VStack,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import {
   FiMenu,
@@ -45,6 +46,7 @@ function SideBar({ onNavItemClick }) {
       w={navSize == "small" ? "75px" : "200px"}
       flexDir="column"
       justifyContent="space-between"
+      /*  bg={useColorModeValue("white", "gray.900")} */
     >
       <VStack
         flexDir="column"
