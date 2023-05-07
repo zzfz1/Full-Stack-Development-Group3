@@ -92,9 +92,33 @@ const CategoryList = () => {
               <Grid container spacing={2}>
                 {categories.map((category) => (
                   <Grid item xs={12} md={12} key={category._id}>
-                    <Card>
+                    <Card
+                      sx={{
+                        textDecoration: "none",
+                        width: "100%",
+                        borderRadius: 1,
+                        borderColor: (theme) => theme.palette.divider,
+                        borderWidth: 1,
+                        borderStyle: "solid",
+                        "&:hover": {
+                          boxShadow: (theme) => theme.shadows[6],
+                          textDecoration: "none",
+                          cursor: "pointer",
+                        },
+                      }}
+                    >
                       <CardActions>
-                        <Button size="large" component={Link} to={`/categories/${category.slug}`}>
+                        <Button
+                          component={Link}
+                          to={`/categories/${category.slug}`}
+                          size="large"
+                          sx={{
+                            textDecoration: "none",
+                            width: "100%",
+                            justifyContent: "flex-start",
+                            textTransform: "none",
+                          }}
+                        >
                           {category.name}
                         </Button>
                       </CardActions>

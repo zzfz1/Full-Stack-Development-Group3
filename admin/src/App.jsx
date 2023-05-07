@@ -12,10 +12,28 @@ import Login from "./pages/login/Login";
 // import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Grid, Box, Container } from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material";
+
 function App() {
   // Use useSelector to access the Redux store and check if the user is an admin
   const admin = useSelector((state) => state.user.currentUser);
   console.log("admin,", admin);
+
+  const customTheme = createTheme({
+    components: {
+      MuiListItemButton: {
+        styleOverrides: {
+          root: {
+            "&:hover": {
+              backgroundColor: (theme) => theme.palette.action.hover,
+              textDecoration: "none",
+              cursor: "pointer",
+            },
+          },
+        },
+      },
+    },
+  });
 
   if (admin == null || !admin.isAdmin) {
     return (
@@ -32,31 +50,33 @@ function App() {
     );
   } else {
     return (
-      <Router>
-        <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
-          <Topbar />
-          <Box sx={{ display: "flex", flexGrow: 1, overflow: "hidden" }}>
-            <Sidebar />
-            <Box
-              component="main"
-              mt={9}
-              sx={{
-                flexGrow: 1,
-                overflowY: "fixed",
-              }}
-            >
-              <Routes>
-                {/* Define routes with the new syntax using the "element" prop */}
-                <Route path="/" element={<Home />} />
-                <Route path="/categories" element={<CategoryList />} />
-                <Route path="/categories/:slug" element={<Category />} />
-                <Route path="/products" element={<ProductList />} />
-                <Route path="/products/:slug" element={<Product />} />
-              </Routes>
+      <ThemeProvider theme={customTheme}>
+        <Router>
+          <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+            <Topbar />
+            <Box sx={{ display: "flex", flexGrow: 1, overflow: "hidden" }}>
+              <Sidebar />
+              <Box
+                component="main"
+                mt={9}
+                sx={{
+                  flexGrow: 1,
+                  overflowY: "fixed",
+                }}
+              >
+                <Routes>
+                  {/* Define routes with the new syntax using the "element" prop */}
+                  <Route path="/" element={<Home />} />
+                  <Route path="/categories" element={<CategoryList />} />
+                  <Route path="/categories/:slug" element={<Category />} />
+                  <Route path="/products" element={<ProductList />} />
+                  <Route path="/products/:slug" element={<Product />} />
+                </Routes>
+              </Box>
             </Box>
           </Box>
-        </Box>
-      </Router>
+        </Router>
+      </ThemeProvider>
     );
   }
 }

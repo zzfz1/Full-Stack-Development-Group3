@@ -5,6 +5,7 @@ import { getAllProductsAsync, createProductAsync } from "../../redux/productSlic
 import { getAllCategoriesAsync } from "../../redux/categorySlice"; // Import getAllCategoriesAsync from the correct file
 import { Link } from "react-router-dom";
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import { ButtonBase } from "@mui/material";
 
 import { Container, TextField, FormHelperText, Box, Button, Card, CardHeader, CardContent, Typography, Grid, CardActions, IconButton, AppBar, Toolbar } from "@mui/material";
 import { Delete as DeleteIcon, Edit as EditIcon } from "@mui/icons-material";
@@ -107,9 +108,33 @@ const ProductList = () => {
                 <Grid container spacing={2}>
                   {products.map((product) => (
                     <Grid item xs={12} md={12} key={product._id}>
-                      <Card>
+                      <Card
+                        sx={{
+                          textDecoration: "none",
+                          width: "100%",
+                          borderRadius: 1,
+                          borderColor: (theme) => theme.palette.divider,
+                          borderWidth: 1,
+                          borderStyle: "solid",
+                          "&:hover": {
+                            boxShadow: (theme) => theme.shadows[6],
+                            textDecoration: "none",
+                            cursor: "pointer",
+                          },
+                        }}
+                      >
                         <CardActions>
-                          <Button size="large" component={Link} to={`/products/${product.slug}`}>
+                          <Button
+                            component={Link}
+                            to={`/products/${product.slug}`}
+                            size="large"
+                            sx={{
+                              textDecoration: "none",
+                              width: "100%",
+                              justifyContent: "flex-start",
+                              textTransform: "none",
+                            }}
+                          >
                             {product.name}
                           </Button>
                         </CardActions>
