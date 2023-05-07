@@ -1,6 +1,6 @@
 import React,{useState} from "react";
 import ProductCard from "./product_popup";
-import { Card, CardBody, CardFooter, Image, Divider, Button, ButtonGroup, Text, Stack, Heading, Flex, Box } from '@chakra-ui/react'
+import { AspectRatio, Card, CardBody, CardFooter, Image, Divider, Button, ButtonGroup, Text, Stack, Heading, Flex, Box } from '@chakra-ui/react'
   
 function ProductElement ({item})
 {
@@ -19,12 +19,14 @@ function ProductElement ({item})
       <Card>
 
         <CardBody>
-          <div minH={"100vh"} >
+        
+          <AspectRatio maxW='100%' ratio={1}>
             <Image
               src={item.img}
               borderRadius='lg'
             />
-          </div>
+          </AspectRatio>
+
           <Stack mt='6' spacing='2'>
             <Heading size='sm'>{item.brand} - {item.model}</Heading>
             <Text color='blue.600' fontSize='sm'>
