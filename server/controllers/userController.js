@@ -178,7 +178,7 @@ class UserController {
         return res.status(404).json({ message: "User not found" });
       }
 
-      const { name, username, email, isAdmin, img } = req.body;
+      const { name, username, email, isAdmin, img, shippingAddress } = req.body;
 
       if (name) user.name = name;
 
@@ -196,6 +196,7 @@ class UserController {
       if (email) user.email = email;
       if (isAdmin !== undefined) user.isAdmin = isAdmin;
       if (img) user.img = img;
+      if (shippingAddress) user.shippingAddress = shippingAddress;
 
       const updatedUser = await user.save();
 
@@ -211,6 +212,38 @@ class UserController {
       });
     } catch (error) {
       res.status(500).json({ message: "Internal server error", error });
+    }
+  }
+  async updateOrAddShippingAddress(req, res) {
+    try {
+      const user = await User.findById(req.params.id); // ID of the user
+      const body = req.body;
+      const shippingAddressId = body._id; // ID of the shipping address (optional)
+
+      if (user) {
+        if (shippingAddressId) {
+          const shippingAddressIndex = user.shippingAddress.findIndex(
+            (address) => address._id.toString() === shippingAddressId
+          );
+
+          if (shippingAddressIndex !== -1) {
+            user.shippingAddress[shippingAddressIndex] = body;
+            const updatedUser = await user.save();
+            res.status(200).json(updatedUser);
+          } else {
+            res.status(404).json({ message: "Shipping address not found" });
+          }
+        } else {
+          const newShippingAddress = req.body;
+          user.shippingAddress.push(newShippingAddress);
+          const updatedUser = await user.save();
+          res.status(200).json(updatedUser);
+        }
+      } else {
+        res.status(404).json({ message: "User not found" });
+      }
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
     }
   }
 
