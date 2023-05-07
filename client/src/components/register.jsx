@@ -21,9 +21,15 @@ import { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Formik, Form, Field } from "formik";
 import { useLocation } from "react-router-dom";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../redux/userRedux.jsx";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
   const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const searchParams = new URLSearchParams(useLocation().search);
   const name = searchParams.get("name");
   const email = searchParams.get("email");
@@ -73,7 +79,7 @@ function Register() {
       actions.setErrors(errors);
     } else {
       actions.setSubmitting(true);
-      console.log("data", values.name, values.email, values.password);
+      // console.log("data", values.name, values.email, values.password);
       // Send the form data to the server
       try {
         const userInfo = await axios.post(
