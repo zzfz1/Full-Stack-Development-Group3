@@ -17,7 +17,7 @@ import { Outlet } from "react-router-dom";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Profile from "./components/profile";
 import { useSelector } from "react-redux";
-import AddressForm from "./components/addressForm";
+import AddressForm from "./components/profile/addressForm";
 
 const router = createBrowserRouter([
   {
@@ -55,6 +55,7 @@ const router = createBrowserRouter([
         path: "/addressForm",
         element: <AddressForm />,
       },
+      {
         path: "/profile",
         element: <Profile />,
       },
