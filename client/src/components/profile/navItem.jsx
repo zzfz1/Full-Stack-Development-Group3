@@ -10,7 +10,14 @@ import {
 } from "@chakra-ui/react";
 import NavContent from "./navContent";
 
-export default function NavItem({ icon, title, description, active, navSize }) {
+export default function NavItem({
+  icon,
+  title,
+  description,
+  active,
+  navSize,
+  onNavItemClick,
+}) {
   return (
     <Flex
       mt={30}
@@ -25,6 +32,7 @@ export default function NavItem({ icon, title, description, active, navSize }) {
           borderRadius={8}
           _hover={{ textDecor: "none", backgroundColor: "#AEC8CA" }}
           w={navSize == "large" && "100%"}
+          onClick={() => (onNavItemClick = "clenader")}
         >
           <MenuButton w="100%">
             <Flex>
@@ -39,9 +47,9 @@ export default function NavItem({ icon, title, description, active, navSize }) {
             </Flex>
           </MenuButton>
         </Link>
-        <MenuList py={0} border="none" w={200} h={200} ml={5}>
+        {/*     <MenuList py={0} border="none" w={200} h={200} ml={5}>
           <NavContent title={title} icon={icon} description={description} />
-        </MenuList>
+        </MenuList> */}
       </Menu>
     </Flex>
   );
