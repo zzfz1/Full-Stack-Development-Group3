@@ -1,13 +1,17 @@
 import { 
-    Button, 
+    Button,
+    IconButton,
     Modal,
     ModalHeader,
     ModalBody, 
     ModalFooter, 
     ModalOverlay, 
     ModalContent, 
-    ModalCloseButton
+    ModalCloseButton,
+    Stack,
+    Text
 } from '@chakra-ui/react'
+import { ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons'
 
 function ProductCard({item, isOpen, onClose})
 {
@@ -18,7 +22,14 @@ function ProductCard({item, isOpen, onClose})
       <ModalHeader>{item.brand} - {item.model}</ModalHeader>
       <ModalCloseButton />
       <ModalBody>
-        <img src={item.img}/>
+          <div >
+            <IconButton aria-label='slide left' icon={<ArrowBackIcon />} />
+            <img src={item.img}/>
+            <IconButton aria-label='slide right' icon={<ArrowForwardIcon />} />
+          </div>
+        <Stack>
+          <Text>{item.description}</Text>
+        </Stack>
       </ModalBody>
 
       <ModalFooter>
