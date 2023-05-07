@@ -98,10 +98,11 @@ function Login() {
                       headers: {
                         "Content-Type": "application/json",
                       },
+                      withCredentials: true,
                     }
                   );
-                  console.log(res.data);
                   dispatch(loginSuccess(res.data));
+                  navigate("/");
                   actions.setSubmitting(false);
                 } catch (err) {
                   console.error(err.message);
