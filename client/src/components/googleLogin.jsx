@@ -46,6 +46,7 @@ function googleLogin() {
                 headers: {
                   "Content-Type": "application/json",
                 },
+                withCredentials: true,
               }
             );
             dispatch(loginSuccess(userInfo.data));

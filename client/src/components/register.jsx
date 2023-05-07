@@ -74,22 +74,7 @@ function Register() {
   };
 
   const handleSubmit = async (values, actions) => {
-    const errors = {};
-    if (!values.name) {
-      errors.name = "Required";
-    }
-    if (!values.name) {
-      errors.username = "Required";
-    }
-    if (!values.email) {
-      errors.email = "Required";
-    }
-    if (!values.password) {
-      errors.password = "Required";
-    }
-    if (!values.checkbox) {
-      errors.checkbox = "You must agree to the terms of service";
-    }
+    const errors = validate(values);
     if (Object.keys(errors).length > 0) {
       actions.setErrors(errors);
     } else {
@@ -109,6 +94,7 @@ function Register() {
             headers: {
               "Content-Type": "application/json",
             },
+            withCredentials: true,
           }
         );
         dispatch(loginSuccess(userInfo.data));
