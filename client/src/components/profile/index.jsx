@@ -6,7 +6,7 @@ import OrderHistory from "./orderHistory";
 import AddressForm from "./addressForm";
 
 function Profile() {
-  const [selectedNavItem, setSelectedNavItem] = useState("settings");
+  const [selectedNavItem, setSelectedNavItem] = useState("address");
 
   const handleNavItemClick = (navItem) => {
     setSelectedNavItem(navItem);
@@ -18,15 +18,14 @@ function Profile() {
       <SideBar onNavItemClick={handleNavItemClick} />
       <Box
         /*  bg={useColorModeValue("gray.50", "gray.800")} */
-
         h="100%"
         w="100%"
         p={0}
         m={0}
       >
-        {selectedNavItem === "settings" && <Settings />}
-        {selectedNavItem === "order" && <OrderHistory />}
-        {selectedNavItem === "address" && <AddressForm />}
+        {selectedNavItem === "Settings" && <Settings />}
+        {selectedNavItem === "History" && <OrderHistory />}
+        {selectedNavItem === "Address" && <AddressForm />}
       </Box>
     </HStack>
   );

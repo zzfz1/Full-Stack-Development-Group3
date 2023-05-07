@@ -60,7 +60,7 @@ function OrderHistory() {
           </Thead>
           <Tbody>
             {data.map((product) => (
-              <Tr>
+              <Tr key={product.name}>
                 <Td>
                   <img
                     src={product.image}

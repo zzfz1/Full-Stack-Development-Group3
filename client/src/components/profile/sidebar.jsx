@@ -9,6 +9,7 @@ import {
   Icon,
   VStack,
   useColorModeValue,
+  Button,
 } from "@chakra-ui/react";
 import {
   FiMenu,
@@ -58,16 +59,23 @@ function SideBar({ onNavItemClick }) {
           navSize={navSize}
           icon={FiHome}
           title="Address"
+          onNavItemClick={onNavItemClick}
           description="This is the description for the dashboard."
         />
         <NavItem
           navSize={navSize}
           onNavItemClick={onNavItemClick}
           icon={FiPackage}
-          title="Order History"
+          title="History"
         />
 
-        <NavItem navSize={navSize} icon={FiSettings} title="Settings" />
+        <NavItem
+          navSize={navSize}
+          icon={FiSettings}
+          title="Settings"
+          onNavItemClick={onNavItemClick}
+        />
+        {/*      <Button onClick={() => onNavItemClick("order")}>button</Button> */}
       </VStack>
 
       <Flex
@@ -87,7 +95,7 @@ function SideBar({ onNavItemClick }) {
             display={navSize == "small" ? "none" : "flex"}
           >
             <Heading as="h3" size="sm">
-              logout
+              Logout
             </Heading>
           </Flex>
         </Flex>
