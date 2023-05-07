@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import SideBar from "./sidebar";
 import { Box, HStack, useColorModeValue } from "@chakra-ui/react";
 import Settings from "./Settings";
+import OrderHistory from "./orderHistory";
 
 function Profile() {
-  const [selectedNavItem, setSelectedNavItem] = useState("Settings");
+  const [selectedNavItem, setSelectedNavItem] = useState("order");
 
   const handleNavItemClick = (navItem) => {
     setSelectedNavItem(navItem);
@@ -23,6 +24,7 @@ function Profile() {
         m={0}
       >
         {selectedNavItem === "Settings" && <Settings />}
+        {selectedNavItem === "order" && <OrderHistory />}
       </Box>
     </HStack>
   );

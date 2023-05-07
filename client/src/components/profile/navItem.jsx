@@ -8,7 +8,6 @@ import {
   MenuButton,
   MenuList,
 } from "@chakra-ui/react";
-import NavContent from "./navContent";
 
 export default function NavItem({
   icon,
