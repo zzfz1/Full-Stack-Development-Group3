@@ -6,16 +6,18 @@ import {
   Divider,
   Avatar,
   Heading,
+  Icon,
+  VStack,
 } from "@chakra-ui/react";
 import {
   FiMenu,
   FiHome,
   FiCalendar,
   FiUser,
-  FiDollarSign,
-  FiBriefcase,
+  FiPackage,
   FiSettings,
 } from "react-icons/fi";
+import { BiLogOut } from "react-icons/bi";
 import { IoPawOutline } from "react-icons/io5";
 import { useMediaQuery } from "@chakra-ui/react";
 import NavItem from "./navItem";
@@ -35,17 +37,16 @@ function SideBar({ onNavItemClick }) {
   ];
   return (
     <Flex
-      border="red solid 2px"
+      /*     border="red solid 2px" */
       pos="sticky"
       left="1"
       h="100%"
-      boxShadow="0 4px 12px 0 rgba(0, 0, 0, 0.05)"
-      borderRadius={navSize == "small" ? "15px" : "30px"}
+      /*       boxShadow="0 4px 12px 0 rgba(0, 0, 0, 0.05)" */
       w={navSize == "small" ? "75px" : "200px"}
       flexDir="column"
       justifyContent="space-between"
     >
-      <Flex
+      <VStack
         flexDir="column"
         w="100%"
         alignItems={navSize == "small" ? "center" : "flex-start"}
@@ -54,19 +55,18 @@ function SideBar({ onNavItemClick }) {
         <NavItem
           navSize={navSize}
           icon={FiHome}
-          title="Dashboard"
+          title="Address"
           description="This is the description for the dashboard."
         />
         <NavItem
           navSize={navSize}
           onNavItemClick={onNavItemClick}
-          icon={FiCalendar}
-          title="Calendar"
+          icon={FiPackage}
+          title="Order History"
         />
-        <NavItem navSize={navSize} icon={FiUser} title="Clients" />
 
         <NavItem navSize={navSize} icon={FiSettings} title="Settings" />
-      </Flex>
+      </VStack>
 
       <Flex
         p="5%"
@@ -77,16 +77,16 @@ function SideBar({ onNavItemClick }) {
       >
         <Divider display={navSize == "small" ? "none" : "flex"} />
         <Flex mt={4} align="center">
-          <Avatar size="sm" src="avatar-1.jpg" />
+          {/* <Avatar size="sm" src="avatar-1.jpg" /> */}
+          <Icon as={BiLogOut} fontSize="xl" />
           <Flex
             flexDir="column"
             ml={4}
             display={navSize == "small" ? "none" : "flex"}
           >
             <Heading as="h3" size="sm">
-              Sylwia Weller
+              logout
             </Heading>
-            <Text color="gray">Admin</Text>
           </Flex>
         </Flex>
       </Flex>
