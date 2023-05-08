@@ -8,6 +8,7 @@ import {
   Heading,
   Icon,
   VStack,
+
   useColorModeValue,
   Button,
 } from "@chakra-ui/react";
@@ -41,7 +42,7 @@ function SideBar({ onNavItemClick }) {
       navigate("/");
     }
   }, [isSmallScreen, user]);
-
+  
   const menu = [
     {
       title: "Home",
@@ -59,6 +60,7 @@ function SideBar({ onNavItemClick }) {
       flexDir="column"
       justifyContent="space-between"
       /*  bg={useColorModeValue("white", "gray.900")} */
+
     >
       <VStack
         flexDir="column"
@@ -70,7 +72,9 @@ function SideBar({ onNavItemClick }) {
           navSize={navSize}
           icon={FiHome}
           title="Address"
+
           onNavItemClick={onNavItemClick}
+
           description="This is the description for the dashboard."
         />
         <NavItem
@@ -87,6 +91,7 @@ function SideBar({ onNavItemClick }) {
           onNavItemClick={onNavItemClick}
         />
         {/*      <Button onClick={() => onNavItemClick("order")}>button</Button> */}
+
       </VStack>
 
       <Flex
