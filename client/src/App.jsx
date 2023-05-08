@@ -15,6 +15,10 @@ import SendEmail from "../src/components/resetPassword/sendEmail";
 import ResetPassword from "../src/components/resetPassword/resetPassword";
 import { Outlet } from "react-router-dom";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Profile from "./components/profile";
+import { useSelector } from "react-redux";
+import AddressForm from "./components/profile/addressForm";
+
 
 const router = createBrowserRouter([
   {
@@ -49,6 +53,7 @@ const router = createBrowserRouter([
         element: <ResetPassword />,
       },
       {
+
         path: "/products/3dPrinters",
         element: <Products_Printers />,
       },
@@ -63,12 +68,19 @@ const router = createBrowserRouter([
       // // },
       // { path: "/checkout", element: <Checkout /> },
       // { path: "/about_us", element: <AboutUs /> },
+
+      {
+        path: "/profile",
+        element: <Profile />,
+      },
     ],
   },
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  const user = useSelector((state) => state.user);
+
+  return <RouterProvider router={router}></RouterProvider>;
 }
 
 export default App;
