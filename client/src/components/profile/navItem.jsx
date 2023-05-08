@@ -31,7 +31,7 @@ export default function NavItem({
           borderRadius={8}
           _hover={{ textDecor: "none", backgroundColor: "#AEC8CA" }}
           w={navSize == "large" && "100%"}
-          onClick={() => onNavItemClick(title)}
+          onClick={() => onNavItemClick(tit)}
         >
           <MenuButton w="100%">
             <Flex>
