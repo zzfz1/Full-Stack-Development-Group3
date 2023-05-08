@@ -4,8 +4,6 @@ import { BsGoogle } from "react-icons/bs";
 import { useState, useEffect } from "react";
 import { useGoogleLogin, googleLogout } from "@react-oauth/google";
 import axios from "axios";
-import { FcGoogle } from "react-icons/fc";
-import { Button, Center, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../redux/userRedux.jsx";
@@ -33,6 +31,7 @@ function googleLogin() {
           }
         )
         .then(async (res) => {
+          console.log(res.data);
           let exists = await axios.get(
             `http://localhost:3000/api/users/check/${res.data.email}`
           );
@@ -53,7 +52,7 @@ function googleLogin() {
             navigate(`/`);
           } else {
             navigate(
-              `/register?name=${res.data.given_name}&email=${res.data.email}`
+              `/register?name=${res.data.given_name}&email=${res.data.email}&img=${res.data.picture}`
             );
           }
         })
