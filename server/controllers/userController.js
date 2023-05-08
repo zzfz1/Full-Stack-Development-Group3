@@ -246,6 +246,30 @@ class UserController {
       res.status(500).json({ message: "Internal server error" });
     }
   }
+  async deleteShippingAddress(req, res) {
+    try {
+      const user = await User.findById(req.params.userId); // ID of the user
+      const shippingAddressId = req.params.shippingAddressId; // ID of the shipping address
+
+      if (user) {
+        const shippingAddressIndex = user.shippingAddress.findIndex(
+          (address) => address._id.toString() === shippingAddressId
+        );
+
+        if (shippingAddressIndex !== -1) {
+          user.shippingAddress.splice(shippingAddressIndex, 1);
+          const updatedUser = await user.save();
+          res.status(200).json(updatedUser);
+        } else {
+          res.status(404).json({ message: "Shipping address not found" });
+        }
+      } else {
+        res.status(404).json({ message: "User not found" });
+      }
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }
 
   async deleteUser(req, res) {
     try {
