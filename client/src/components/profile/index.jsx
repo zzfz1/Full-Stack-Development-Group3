@@ -4,7 +4,7 @@ import { Box, HStack, useColorModeValue } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import Settings from "./Settings";
 import OrderHistory from "./orderHistory";
-import AddressForm from "./addressForm";
+import AddressList from "./addressList";
 import { useSelector } from "react-redux";
 
 function Profile() {
@@ -35,7 +35,7 @@ function Profile() {
       >
         {selectedNavItem === "Settings" && <Settings />}
         {selectedNavItem === "History" && <OrderHistory />}
-        {selectedNavItem === "Address" && <AddressForm />}
+        {selectedNavItem === "Address" && <AddressList />}
       </Box>
     </HStack>
   );

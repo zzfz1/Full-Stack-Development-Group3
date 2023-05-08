@@ -33,6 +33,7 @@ function Register() {
   const searchParams = new URLSearchParams(useLocation().search);
   const name = searchParams.get("name");
   const email = searchParams.get("email");
+  const img = searchParams.get("img");
 
   const initialValues = {
     name: name || "",
@@ -89,6 +90,7 @@ function Register() {
             username: values.username,
             email: values.email,
             password: values.password,
+            img: img,
           },
           {
             headers: {

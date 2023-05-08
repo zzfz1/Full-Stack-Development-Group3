@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Flex,
+  SimpleGrid,
   Box,
   FormControl,
   FormLabel,
@@ -11,7 +12,6 @@ import {
   Text,
   FormErrorMessage,
   useColorModeValue,
-  Spacer,
   FormHelperText,
 } from "@chakra-ui/react";
 import { isValidNumber } from "libphonenumber-js";
@@ -20,20 +20,8 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../../redux/userRedux.jsx";
 
-export default function AddressForm({ originalAddress = {}, userID }) {
+export default function AddressForm({ originalAddress = {}, userID, onClose }) {
   const dispatch = useDispatch();
-  // const originalAddress = {
-  //   _id: "6456ea9348a82b5ba9bacd55",
-  //   firstName: "first2",
-  //   lastName: "last2",
-  //   streetAddress: "streetAddress",
-  //   apartmentNumber: "apartmentNumber",
-  //   city: "city2",
-  //   postalCode: "postalCode",
-  //   country: "country",
-  //   phoneNumber: "phoneNumber",
-  // };
-  // const userID = "645671d468d88f1110654a96";
   const initialValues = originalAddress
     ? originalAddress
     : {
@@ -99,6 +87,7 @@ export default function AddressForm({ originalAddress = {}, userID }) {
         );
         dispatch(loginSuccess(userInfo.data));
         actions.setSubmitting(false);
+        onClose();
       } catch (error) {
         console.error(error);
         actions.setSubmitting(false);
@@ -107,12 +96,12 @@ export default function AddressForm({ originalAddress = {}, userID }) {
   };
   return (
     <Flex
-      minH={"100vh"}
+      minH={"80vh"}
       align={"center"}
       justify={"center"}
       bg={useColorModeValue("gray.50", "gray.800")}
     >
-      <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
+      <Stack spacing={8} mx={"auto"} maxW={"80vw"} py={12} px={6}>
         <Stack align={"center"}>
           <Heading fontSize={"4xl"} textAlign={"center"}>
             Address Form
@@ -136,8 +125,8 @@ export default function AddressForm({ originalAddress = {}, userID }) {
             {({ handleSubmit, errors, touched }) => (
               <Form>
                 <Stack spacing={4}>
-                  <Flex alignItems="flex-end">
-                    <Box m={2}>
+                  <SimpleGrid columns={{ base: 1, md: 2, xl: 4 }} spacing={10}>
+                    <Box>
                       <Field name="firstName">
                         {({ field, form }) => (
                           <FormControl
@@ -160,7 +149,7 @@ export default function AddressForm({ originalAddress = {}, userID }) {
                         )}
                       </Field>
                     </Box>
-                    <Box m={2}>
+                    <Box>
                       <Field name="lastName">
                         {({ field, form }) => (
                           <FormControl
@@ -183,9 +172,7 @@ export default function AddressForm({ originalAddress = {}, userID }) {
                         )}
                       </Field>
                     </Box>
-                  </Flex>
-                  <Flex alignItems="flex-end">
-                    <Box m={2}>
+                    <Box>
                       <Field name="streetAddress">
                         {({ field, form }) => (
                           <FormControl
@@ -214,7 +201,7 @@ export default function AddressForm({ originalAddress = {}, userID }) {
                         )}
                       </Field>
                     </Box>
-                    <Box m={2}>
+                    <Box>
                       <Field name="apartmentNumber">
                         {({ field, form }) => (
                           <FormControl
@@ -241,9 +228,7 @@ export default function AddressForm({ originalAddress = {}, userID }) {
                         )}
                       </Field>
                     </Box>
-                  </Flex>
-                  <Flex alignItems="flex-end">
-                    <Box m={2}>
+                    <Box>
                       <Field name="city">
                         {({ field, form }) => (
                           <FormControl
@@ -262,7 +247,7 @@ export default function AddressForm({ originalAddress = {}, userID }) {
                         )}
                       </Field>
                     </Box>
-                    <Box m={2}>
+                    <Box>
                       <Field name="postalCode">
                         {({ field, form }) => (
                           <FormControl
@@ -287,9 +272,7 @@ export default function AddressForm({ originalAddress = {}, userID }) {
                         )}
                       </Field>
                     </Box>
-                  </Flex>
-                  <Flex alignItems="flex-end">
-                    <Box m={2}>
+                    <Box>
                       <Field name="country">
                         {({ field, form }) => (
                           <FormControl
@@ -314,7 +297,7 @@ export default function AddressForm({ originalAddress = {}, userID }) {
                         )}
                       </Field>
                     </Box>
-                    <Box m={2}>
+                    <Box>
                       <Field name="phoneNumber">
                         {({ field, form }) => (
                           <FormControl
@@ -341,7 +324,7 @@ export default function AddressForm({ originalAddress = {}, userID }) {
                         )}
                       </Field>
                     </Box>
-                  </Flex>
+                  </SimpleGrid>
                   <Stack spacing={10} pt={2}>
                     <Button
                       type="submit"
