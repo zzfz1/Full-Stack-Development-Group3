@@ -88,16 +88,18 @@ function SideBar({ onNavItemClick }) {
         <Divider display={navSize == "small" ? "none" : "flex"} />
         <Flex mt={4} align="center">
           {/* <Avatar size="sm" src="avatar-1.jpg" /> */}
-          <Icon as={BiLogOut} fontSize="xl" />
-          <Flex
-            flexDir="column"
-            ml={4}
-            display={navSize == "small" ? "none" : "flex"}
-          >
-            <Heading as="h3" size="sm">
-              Logout
-            </Heading>
-          </Flex>
+          <Button onClick={() => console.log("thw click is work")}>
+            <Icon as={BiLogOut} fontSize="xl" />
+            <Flex
+              flexDir="column"
+              ml={4}
+              display={navSize == "small" ? "none" : "flex"}
+            >
+              <Heading as="h3" size="sm">
+                Logout
+              </Heading>
+            </Flex>
+          </Button>
         </Flex>
       </Flex>
     </Flex>
