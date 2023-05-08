@@ -19,7 +19,6 @@ import Profile from "./components/profile";
 import { useSelector } from "react-redux";
 import AddressForm from "./components/profile/addressForm";
 
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -53,21 +52,9 @@ const router = createBrowserRouter([
         element: <ResetPassword />,
       },
       {
-
         path: "/products/3dPrinters",
         element: <Products_Printers />,
       },
-
-      // {
-      //   path: "/register",
-      //   element: <Register />,
-      // },
-      // {
-      //   path: "/reset",
-      //   element: <Reset />,
-      // // },
-      // { path: "/checkout", element: <Checkout /> },
-      // { path: "/about_us", element: <AboutUs /> },
 
       {
         path: "/profile",
