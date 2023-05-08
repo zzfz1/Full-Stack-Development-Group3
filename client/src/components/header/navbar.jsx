@@ -116,7 +116,7 @@ export default function WithSubnavigation() {
                 fontWeight={400}
                 variant={"link"}
                 color={"primary.700"}
-                href={"#"}
+                href={"/login"}
               >
                 Sign In
               </Button>
@@ -154,7 +154,7 @@ export default function WithSubnavigation() {
                 as="a"
                 icon={<BsPersonCircle size="2rem" />}
                 aria-label="User profile"
-                href="/login"
+                href="/profile"
               />
             </>
           )}
