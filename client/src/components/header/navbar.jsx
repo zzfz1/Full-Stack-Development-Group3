@@ -59,7 +59,7 @@ const links = [
 export default function WithSubnavigation() {
   const user = useSelector((state) => state.user.currentUser);
   const { isOpen, onToggle } = useDisclosure();
-  const [cartItemCount, setCartItemCount] = useState(10);
+  const [cartItemCount, setCartItemCount] = useState(1);
 
   function handleAddToCart() {
     setCartItemCount(cartItemCount + 1);
@@ -141,7 +141,8 @@ export default function WithSubnavigation() {
                     <Badge
                       borderRadius="full"
                       color="white"
-                      p="1"
+                      px="2"
+                      py="1"
                       bg="primary.500"
                       display={{ base: "none", md: "inline-flex" }}
                     >

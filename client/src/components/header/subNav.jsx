@@ -130,7 +130,8 @@ export const MobileNav = ({ user, cartItemCount, links }) => {
               <Badge
                 borderRadius="full"
                 color="white"
-                p="1"
+                px="2"
+                py="1"
                 bg="primary.500"
                 position="absolute"
                 top="-65px"
