@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import ProductCard from "./product_popup";
 import {
   AspectRatio,
@@ -15,9 +16,16 @@ import {
   Flex,
   Box,
 } from "@chakra-ui/react";
+import { addProduct } from "../../redux/cartRedux";
 
 function ProductElement({ item }) {
   const [openProductCard, setOpenProductCard] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+  const [product, setProduct] = useState({});
+  const [color, setColor] = useState("");
+  const [size, setSize] = useState("");
+  const dispatch = useDispatch();
+  const { _id, name, image, brand, price } = item;
 
   const handleOpenProductCard = (id) => {
     setOpenProductCard(id);
@@ -26,20 +34,23 @@ function ProductElement({ item }) {
   const handleCloseProductCard = () => {
     setOpenProductCard(null);
   };
+  const handleClick = () => {
+    dispatch(addProduct({ ...product, quantity, color, size }));
+  };
 
   return (
     <Card>
       <CardBody>
         <AspectRatio maxW="100%" ratio={1}>
-          <Image src={item.images[0]} borderRadius="lg" />
+          <Image src={image} borderRadius="lg" />
         </AspectRatio>
 
         <Stack mt="6" spacing="2">
           <Heading size="sm">
-            {item.brand} - {item.model}
+            {name} - {brand}
           </Heading>
           <Text color="blue.600" fontSize="sm">
-            {item.price}$
+            {price}$
           </Text>
         </Stack>
       </CardBody>

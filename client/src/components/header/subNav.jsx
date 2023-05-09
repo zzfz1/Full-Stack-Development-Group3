@@ -104,7 +104,7 @@ export const MobileNavItem = ({ label, children, href }) => {
   );
 };
 
-export const MobileNav = ({ user, cartItemCount, links }) => {
+export const MobileNav = ({ user, cartItemCount, links, quantity }) => {
   return (
     <Stack
       bg={useColorModeValue("white", "gray.800")}
@@ -125,7 +125,7 @@ export const MobileNav = ({ user, cartItemCount, links }) => {
             w="100"
             display={{ md: "none" }}
           ></IconButton>
-          {cartItemCount > 0 && (
+          {quantity > 0 && (
             <Box position="relative">
               <Badge
                 borderRadius="full"
@@ -137,7 +137,7 @@ export const MobileNav = ({ user, cartItemCount, links }) => {
                 top="-65px"
                 left="22px"
               >
-                {cartItemCount}
+                {quantity}
               </Badge>
             </Box>
           )}
