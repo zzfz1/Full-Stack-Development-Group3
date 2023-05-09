@@ -1,20 +1,16 @@
-/* import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const ProductSlice = createSlice({
-  name: "cart",
+  name: "Products",
   initialState: {
-    products: [],
-    quantity: 0,
-    total: 0,
+    products: null,
   },
   reducers: {
-    addProduct: (state, action) => {
-      state.quantity += 1;
-      state.products.push(action.payload);
-      state.total += action.payload.price * action.payload.quantity;
+    allProduct: (state, action) => {
+      state.products = action.payload;
     },
   },
 });
 
-export const { addProduct } = cartSlice.actions;
-export default ProductSlice.reducer; */
+export const { allProduct } = ProductSlice.actions;
+export default ProductSlice.reducer;

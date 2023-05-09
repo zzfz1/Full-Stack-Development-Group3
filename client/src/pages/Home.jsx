@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import Products_3dPrinters from "./Products_3dPrinters";
 import { useDispatch } from "react-redux";
 import { publicProductsRequest } from "../utils/axios";
+import { allProduct } from "../redux/productsRedux";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -13,8 +14,8 @@ const Home = () => {
     const fetchProducts = async () => {
       try {
         const res = await publicProductsRequest.get("/products");
-        //dispatch({ type: "SET_PRODUCTS", payload: res.data });
-        console.log("all products", res);
+        dispatch(allProduct(res.data));
+        console.log("all products", res.data);
       } catch (error) {
         console.log(error);
       }
