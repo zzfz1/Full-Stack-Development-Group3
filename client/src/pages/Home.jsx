@@ -15,7 +15,6 @@ const Home = () => {
       try {
         const res = await publicProductsRequest.get("/products");
         dispatch(allProduct(res.data));
-        console.log("all products", res.data);
       } catch (error) {
         console.log(error);
       }

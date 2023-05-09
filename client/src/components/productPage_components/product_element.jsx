@@ -25,6 +25,7 @@ function ProductElement({ item }) {
   const [color, setColor] = useState("");
   const [size, setSize] = useState("");
   const dispatch = useDispatch();
+  const { _id, name, image, brand, price } = item;
 
   const handleOpenProductCard = (id) => {
     setOpenProductCard(id);
@@ -41,15 +42,13 @@ function ProductElement({ item }) {
     <Card>
       <CardBody>
         <AspectRatio maxW="100%" ratio={1}>
-          <Image src={item.images[0]} borderRadius="lg" />
+          <Image src={image} borderRadius="lg" />
         </AspectRatio>
 
         <Stack mt="6" spacing="2">
-          <Heading size="sm">
-            {item.brand} - {item.model}
-          </Heading>
+          <Heading size="sm">{brand}</Heading>
           <Text color="blue.600" fontSize="sm">
-            {item.price}$
+            {price}$
           </Text>
         </Stack>
       </CardBody>

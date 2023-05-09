@@ -4,8 +4,11 @@ import ProductGrid from "../components/productPage_components/product_grid";
 import ProductElement from "../components/productPage_components/product_element";
 import ProductPopUpModal from "../components/productPage_components/product_popup";
 import PrinterData from "../sampleData.json";
+import { useSelector } from "react-redux";
 
 function Products_3dPrinters() {
+  const products = useSelector((state) => state.products.setProducts);
+  console.log("redux products", products);
   return (
     <Box
       maxW="7xl"
@@ -22,7 +25,7 @@ function Products_3dPrinters() {
       }}
     >
       <ProductGrid>
-        {PrinterData.map((item) => (
+        {products.map((item) => (
           <ProductElement item={item} />
         ))}
       </ProductGrid>
