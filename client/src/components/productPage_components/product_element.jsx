@@ -57,15 +57,21 @@ function ProductElement({ item }) {
 
       <Divider />
 
-      <CardFooter>
+      <CardFooter align="center" justify="center">
         <ButtonGroup spacing="2">
           <Stack
-            direction={{ base: "column", md: "row" }}
+            direction={{
+              base: "column",
+              sm: "column",
+              md: "row",
+              lg: "row",
+              xl: "row",
+            }}
             align="center"
             justify="center"
           >
             <Button
-              variant="solid"
+              variant="outline"
               colorScheme="blue"
               onClick={() => handleOpenProductCard(item.id)}
             >
@@ -78,7 +84,7 @@ function ProductElement({ item }) {
                 onClose={handleCloseProductCard}
               />
             )}
-            <Button onClick={handleClick} variant="ghost" colorScheme="blue">
+            <Button variant="solid" color="white" bg="#38A169">
               Add to cart
             </Button>
           </Stack>
