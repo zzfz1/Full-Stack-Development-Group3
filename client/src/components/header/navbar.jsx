@@ -61,6 +61,8 @@ export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
   const [cartItemCount, setCartItemCount] = useState(1);
 
+  const quantity = useSelector((state) => state.cart.quantity);
+  console.log("the quantity", quantity);
   function handleAddToCart() {
     setCartItemCount(cartItemCount + 1);
   }
@@ -136,7 +138,7 @@ export default function WithSubnavigation() {
                   pt="2"
                   display={{ base: "none", md: "inline-flex" }}
                 ></IconButton>
-                {cartItemCount > 0 && (
+                {quantity > 0 && (
                   <Box position="absolute" right="75px" top="-1px">
                     <Badge
                       borderRadius="full"
@@ -146,7 +148,7 @@ export default function WithSubnavigation() {
                       bg="primary.500"
                       display={{ base: "none", md: "inline-flex" }}
                     >
-                      {cartItemCount}
+                      {quantity}
                     </Badge>
                   </Box>
                 )}
@@ -163,7 +165,12 @@ export default function WithSubnavigation() {
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>
-        <MobileNav links={links} user={user} cartItemCount={cartItemCount} />
+        <MobileNav
+          quantity={quantity}
+          links={links}
+          user={user}
+          cartItemCount={cartItemCount}
+        />
       </Collapse>
     </Box>
   );
