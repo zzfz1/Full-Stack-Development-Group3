@@ -1,13 +1,13 @@
 import { loginFailed, loginStart, loginSuccess } from "./userRedux";
-import { publicRequest } from "../utils/axios";
+import { publicProductsRequest } from "../utils/axios";
 import { useDispatch } from "react-redux";
 
-export const login = async () => {
+/* export const getALLProducts = async () => {
   const dispatch = useDispatch();
-  dispatch(loginStart());
-  const res = await publicRequest.post("/login", user);
+  console.log("the call is works");
+  const res = await publicProductsRequest.get("/products");
+  console.log("the products", res);
   try {
-  } catch (error) {
-    dispatch(loginStart());
-  }
+  } catch (error) {}
 };
+ */
