@@ -46,7 +46,9 @@ function ProductElement({ item }) {
         </AspectRatio>
 
         <Stack mt="6" spacing="2">
-          <Heading size="sm">{brand}</Heading>
+          <Heading size="sm">
+            {name} - {brand}
+          </Heading>
           <Text color="blue.600" fontSize="sm">
             {price}$
           </Text>
