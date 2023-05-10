@@ -75,9 +75,7 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  const user = useSelector((state) => state.user);
-
-  return <RouterProvider router={router}></RouterProvider>;
+  return `app`;
 }
 
 export default App;

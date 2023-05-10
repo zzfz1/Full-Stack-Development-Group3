@@ -10,21 +10,15 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
-
 import storage from "redux-persist/lib/storage";
-import CartReducer from "./cartRedux";
-import ProductSlice from "./productsRedux";
+
 const persistConfig = {
   key: "root",
   version: 1,
   storage,
 };
 
-const rootReducer = combineReducers({
-  user: userReducer,
-  cart: CartReducer,
-  products: ProductSlice,
-});
+const rootReducer = combineReducers({ user: userReducer, cart: cartReducer });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

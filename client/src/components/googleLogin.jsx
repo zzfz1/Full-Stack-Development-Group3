@@ -4,26 +4,19 @@ import { BsGoogle } from "react-icons/bs";
 import { useState, useEffect } from "react";
 import { useGoogleLogin, googleLogout } from "@react-oauth/google";
 import axios from "axios";
-import { FcGoogle } from "react-icons/fc";
-import { Button, Center, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../redux/userRedux.jsx";
 
 function googleLogin() {
   const [user, setUser] = useState([]);
-  const [profile, setProfile] = useState([]);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => setUser(codeResponse),
     onError: (error) => console.log("Login Failed:", error),
   });
-
-  // log out function to log the user out of google and set the profile array to null
-  const logOut = () => {
-    googleLogout();
-    setProfile(null);
-  };
 
   useEffect(() => {
     if (user) {
@@ -38,12 +31,12 @@ function googleLogin() {
           }
         )
         .then(async (res) => {
-          setProfile(res.data);
+          console.log(res.data);
           let exists = await axios.get(
             `http://localhost:3000/api/users/check/${res.data.email}`
           );
           if (exists.data) {
-            const user = await axios.post(
+            const userInfo = await axios.post(
               "http://localhost:3000/api/users/login/google",
               {
                 email: res.data.email,
@@ -55,10 +48,11 @@ function googleLogin() {
                 withCredentials: true,
               }
             );
+            dispatch(loginSuccess(userInfo.data));
             navigate(`/`);
           } else {
             navigate(
-              `/register?name=${res.data.given_name}&email=${res.data.email}`
+              `/register?name=${res.data.given_name}&email=${res.data.email}&img=${res.data.picture}`
             );
           }
         })

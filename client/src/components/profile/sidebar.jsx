@@ -8,6 +8,8 @@ import {
   Heading,
   Icon,
   VStack,
+  useColorModeValue,
+  Button,
 } from "@chakra-ui/react";
 import {
   FiMenu,
@@ -20,15 +22,26 @@ import {
 import { BiLogOut } from "react-icons/bi";
 import { IoPawOutline } from "react-icons/io5";
 import { useMediaQuery } from "@chakra-ui/react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import NavItem from "./navItem";
+import { loginSuccess } from "../../redux/userRedux";
+import { useSelector } from "react-redux";
 
 function SideBar({ onNavItemClick }) {
   const [isSmallScreen] = useMediaQuery("(max-width: 768px)");
   const [navSize, changeNavSize] = useState(isSmallScreen ? "small" : "large");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.user.currentUser);
 
   useEffect(() => {
     changeNavSize(isSmallScreen ? "small" : "large");
-  }, [isSmallScreen]);
+    if (!user) {
+      navigate("/");
+    }
+  }, [isSmallScreen, user]);
+
   const menu = [
     {
       title: "Home",
@@ -56,16 +69,23 @@ function SideBar({ onNavItemClick }) {
           navSize={navSize}
           icon={FiHome}
           title="Address"
+          onNavItemClick={onNavItemClick}
           description="This is the description for the dashboard."
         />
         <NavItem
           navSize={navSize}
           onNavItemClick={onNavItemClick}
           icon={FiPackage}
-          title="Order History"
+          title="History"
         />
 
-        <NavItem navSize={navSize} icon={FiSettings} title="Settings" />
+        <NavItem
+          navSize={navSize}
+          icon={FiSettings}
+          title="Settings"
+          onNavItemClick={onNavItemClick}
+        />
+        {/*      <Button onClick={() => onNavItemClick("order")}>button</Button> */}
       </VStack>
 
       <Flex
@@ -78,16 +98,18 @@ function SideBar({ onNavItemClick }) {
         <Divider display={navSize == "small" ? "none" : "flex"} />
         <Flex mt={4} align="center">
           {/* <Avatar size="sm" src="avatar-1.jpg" /> */}
-          <Icon as={BiLogOut} fontSize="xl" />
-          <Flex
-            flexDir="column"
-            ml={4}
-            display={navSize == "small" ? "none" : "flex"}
-          >
-            <Heading as="h3" size="sm">
-              logout
-            </Heading>
-          </Flex>
+          <Button onClick={() => dispatch(loginSuccess(null))}>
+            <Icon as={BiLogOut} fontSize="xl" />
+            <Flex
+              flexDir="column"
+              ml={4}
+              display={navSize == "small" ? "none" : "flex"}
+            >
+              <Heading as="h3" size="sm">
+                Logout
+              </Heading>
+            </Flex>
+          </Button>
         </Flex>
       </Flex>
     </Flex>

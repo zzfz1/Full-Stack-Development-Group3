@@ -1,27 +1,31 @@
 import React from "react";
-import Header from "../components/header/navbar";
-import Footer from "../components/footer/index";
 import Hero from "../components/hero";
 import { Text } from "@chakra-ui/react";
+import { useEffect } from "react";
+import Products_3dPrinters from "./Products_3dPrinters";
+import { useDispatch } from "react-redux";
+import { publicProductsRequest } from "../utils/axios";
+import { allProduct } from "../redux/productsRedux";
 
 const Home = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await publicProductsRequest.get("/products");
+        dispatch(allProduct(res.data));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchProducts();
+  }, [dispatch]);
   return (
     <div>
       <Hero />
-      <Text m="20">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime
-        mollitia, molestiae quas vel sint commodi repudiandae consequuntur
-        voluptatum laborum numquam blanditiis harum quisquam eius sed odit
-        fugiat iusto fuga praesentium optio, eaque rerum! Provident similique
-        accusantium nemo autem. Veritatis obcaecati tenetur iure eius earum ut
-        molestias architecto voluptate aliquam nihil, eveniet aliquid culpa
-        officia aut! Impedit sit sunt quaerat, odit, tenetur error, harum
-        nesciunt ipsum debitis quas aliquid. Reprehenderit, quia. Quo neque
-        error repudiandae fuga? Ipsa laudantium molestias eos sapiente officiis
-        modi at sunt excepturi expedita sint? Sed quibusdam recusandae alias
-        error harum maxime adipisci amet laborum. Perspiciatis minima nesciunt
-        dolorem! Officiis iure rerum voluptates a cumque velit{" "}
-      </Text>
+      <Products_3dPrinters />
     </div>
   );
 };

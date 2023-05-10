@@ -15,13 +15,16 @@ import {
   Image,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
-import { DesktopSubNav, MobileNavItem } from "./subNav";
+import { DesktopSubNav, MobileNavItem, MobileNav } from "./subNav";
 import { BsPersonCircle } from "react-icons/bs";
 import { useSelector } from "react-redux";
+import { Badge, Icon } from "@chakra-ui/react";
+import { useState } from "react";
+import { FiShoppingCart } from "react-icons/fi";
 
 const links = [
   {
-    label: "Homepage",
+    label: "Home",
     path: "/",
   },
   {
@@ -52,15 +55,17 @@ const links = [
     path: "/contact",
     href: "#",
   },
-  {
-    label: "Checkout",
-    path: "/checkout",
-    href: "#",
-  },
 ];
 export default function WithSubnavigation() {
   const user = useSelector((state) => state.user.currentUser);
   const { isOpen, onToggle } = useDisclosure();
+  const [cartItemCount, setCartItemCount] = useState(1);
+
+  const quantity = useSelector((state) => state.cart.quantity);
+  console.log("the quantity", quantity);
+  function handleAddToCart() {
+    setCartItemCount(cartItemCount + 1);
+  }
 
   return (
     <Box>
@@ -113,36 +118,59 @@ export default function WithSubnavigation() {
                 fontWeight={400}
                 variant={"link"}
                 color={"primary.700"}
-                href={"#"}
+                href={"/login"}
               >
                 Sign In
               </Button>
-              <Button
-                as={"a"}
-                display={{ base: "none", md: "inline-flex" }}
-                fontSize={"sm"}
-                fontWeight={600}
-                color={"white"}
-                bg={"primary.500"}
-                href={"#"}
-                _hover={{
-                  bg: "primary.700",
-                }}
-              >
-                Sign Up
-              </Button>
             </>
           ) : (
-            <IconButton
-              icon={<BsPersonCircle size="2rem" />}
-              aria-label="User profile"
-            />
+            <>
+              <Stack>
+                <IconButton
+                  icon={<FiShoppingCart size="2rem" />}
+                  name="shopping-cart"
+                  size="lg"
+                  onClick={handleAddToCart}
+                  _hover={{
+                    bg: "gray.300",
+                  }}
+                  bg="none"
+                  pt="2"
+                  display={{ base: "none", md: "inline-flex" }}
+                ></IconButton>
+                {quantity > 0 && (
+                  <Box position="absolute" right="75px" top="-1px">
+                    <Badge
+                      borderRadius="full"
+                      color="white"
+                      px="2"
+                      py="1"
+                      bg="primary.500"
+                      display={{ base: "none", md: "inline-flex" }}
+                    >
+                      {quantity}
+                    </Badge>
+                  </Box>
+                )}
+              </Stack>
+              <IconButton
+                as="a"
+                icon={<BsPersonCircle size="2rem" />}
+                aria-label="User profile"
+                href="/profile"
+              />
+            </>
           )}
         </HStack>
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>
-        <MobileNav user={user} />
+        <MobileNav
+          quantity={quantity}
+          links={links}
+          user={user}
+          cartItemCount={cartItemCount}
+        />
       </Collapse>
     </Box>
   );
@@ -193,37 +221,6 @@ const DesktopNav = () => {
           </Popover>
         </Box>
       ))}
-    </Stack>
-  );
-};
-
-const MobileNav = ({ user }) => {
-  return (
-    <Stack
-      bg={useColorModeValue("white", "gray.800")}
-      p={4}
-      display={{ md: "none" }}
-    >
-      {links.map((navItem) => (
-        <MobileNavItem key={navItem.label} {...navItem} />
-      ))}
-      {!user ? (
-        <Button
-          as={"a"}
-          fontSize={"sm"}
-          fontWeight={600}
-          color={"white"}
-          bg={"primary.500"}
-          href={"#"}
-          _hover={{
-            bg: "primary.700",
-          }}
-        >
-          Sign Up
-        </Button>
-      ) : (
-        <div></div>
-      )}
     </Stack>
   );
 };

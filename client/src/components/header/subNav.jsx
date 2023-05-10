@@ -8,8 +8,11 @@ import {
   Link,
   useColorModeValue,
   useDisclosure,
+  IconButton,
+  Badge,
 } from "@chakra-ui/react";
 import { ChevronDownIcon, ChevronRightIcon } from "@chakra-ui/icons";
+import { FiShoppingCart } from "react-icons/fi";
 
 export const DesktopSubNav = ({ label, href, subLabel }) => {
   return (
@@ -97,6 +100,51 @@ export const MobileNavItem = ({ label, children, href }) => {
             ))}
         </Stack>
       </Collapse>
+    </Stack>
+  );
+};
+
+export const MobileNav = ({ user, cartItemCount, links, quantity }) => {
+  return (
+    <Stack
+      bg={useColorModeValue("white", "gray.800")}
+      p={4}
+      display={{ md: "none" }}
+    >
+      {links.map((navItem) => (
+        <MobileNavItem key={navItem.label} {...navItem} />
+      ))}
+      {user ? (
+        <Stack w="3rem">
+          <IconButton
+            icon={<FiShoppingCart size="2rem" />}
+            name="shopping-cart"
+            size="lg"
+            /*  onClick={handleAddToCart} */
+            bg="none"
+            w="100"
+            display={{ md: "none" }}
+          ></IconButton>
+          {quantity > 0 && (
+            <Box position="relative">
+              <Badge
+                borderRadius="full"
+                color="white"
+                px="2"
+                py="1"
+                bg="primary.500"
+                position="absolute"
+                top="-65px"
+                left="22px"
+              >
+                {quantity}
+              </Badge>
+            </Box>
+          )}
+        </Stack>
+      ) : (
+        <div></div>
+      )}
     </Stack>
   );
 };
