@@ -18,6 +18,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Profile from "./components/profile";
 import { useSelector } from "react-redux";
 import AddressForm from "./components/profile/addressForm";
+import { getMyOrders } from "./redux/apiReq";
 
 const router = createBrowserRouter([
   {
@@ -75,7 +76,11 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return `app`;
+  const user = useSelector((state) => state.user);
+  if (user.currentUser) {
+    getMyOrders(user.currentUser._id);
+  }
+  return <RouterProvider router={router}></RouterProvider>;
 }
 
 export default App;

@@ -14,18 +14,18 @@ const Home = () => {
     const fetchProducts = async () => {
       try {
         const res = await publicProductsRequest.get("/products");
+        console.log(res.data);
         dispatch(allProduct(res.data));
       } catch (error) {
         console.log(error);
       }
     };
-
     fetchProducts();
-  }, [dispatch]);
+  }, []);
   return (
     <div>
       <Hero />
-      <Products_3dPrinters />
+      {/* <Products_3dPrinters /> */}
     </div>
   );
 };

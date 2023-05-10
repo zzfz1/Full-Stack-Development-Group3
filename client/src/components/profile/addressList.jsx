@@ -96,13 +96,15 @@ const ShippingAddressList = () => {
   };
 
   return (
-    <Box p={6} bg={useColorModeValue("gray.50", "gray.800")}>
+    <Box p={6} m={0} bg={useColorModeValue("gray.50", "gray.800")}>
       <VStack spacing={6} alignItems="start">
         <Flex w="100%" justifyContent="space-between" alignItems="center">
-          <Heading size="lg">Shipping Addresses</Heading>
+          <Heading fontSize={{ sm: "lg", md: "2xl", lg: "4xl" }}>
+            Shipping Addresses
+          </Heading>
           <Button onClick={() => handleOpenForm({})}>Create a New One</Button>
         </Flex>
-        <SimpleGrid columns={{ base: 1, lg: 2, xl: 3 }} spacing={10}>
+        <SimpleGrid columns={{ base: 1, lg: 2, xl: 3 }} spacing={5}>
           {currentAddresses.map((address, index) => (
             <Box
               key={index}
