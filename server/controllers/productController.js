@@ -29,7 +29,12 @@ class ProductController {
 
   async getAllProducts(req, res) {
     try {
-      const products = await Product.find({});
+      const products = await Product.find({}).populate({
+        path: "category",
+        select: "name slug",
+        options: { lean: true },
+      });
+
       res.json(products);
     } catch (error) {
       res.status(500).json({ message: "Internal server error" });
@@ -38,7 +43,11 @@ class ProductController {
 
   async getProductBySlug(req, res) {
     try {
-      const product = await Product.findOne({ slug: req.params.slug });
+      const product = await Product.findOne({ slug: req.params.slug }).populate({
+        path: "category",
+        select: "name slug",
+        options: { lean: true },
+      });
 
       if (!product) {
         return res.status(404).json({ message: "Product not found" });
