@@ -74,22 +74,16 @@ function App() {
     const fetchProducts = async () => {
       console.log("the effect is invoked");
       try {
-        let products = JSON.parse(localStorage.getItem("products"));
-        if (products) {
-          dispatch(allProduct(products));
-        } else {
-          const res = await publicProductsRequest.get("/products");
-          products = res.data;
-          localStorage.setItem("products", JSON.stringify(products));
-          dispatch(allProduct(products));
-        }
+        const res = await publicProductsRequest.get("/products");
+        console.log("the product", res.data);
+        dispatch(allProduct(res.data));
       } catch (error) {
         console.log(error);
       }
     };
 
     fetchProducts();
-  }, [dispatch]);
+  }, []);
 
   const user = useSelector((state) => state.user);
 

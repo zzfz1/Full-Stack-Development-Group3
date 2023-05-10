@@ -73,11 +73,11 @@ function ProductElement({ item }) {
             <Button
               variant="outline"
               colorScheme="blue"
-              onClick={() => handleOpenProductCard(item.id)}
+              onClick={() => handleOpenProductCard(_id)}
             >
               View
             </Button>
-            {openProductCard === item.id && (
+            {openProductCard === _id && (
               <ProductCard
                 item={item}
                 isOpen={true}
