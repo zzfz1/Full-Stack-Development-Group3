@@ -16,7 +16,7 @@ const Review = ({ rating, numReviews }) => {
         <StarIcon key={i + fullStars} color="yellow.400" />
       ))}
       {[...Array(emptyStars)].map((_, i) => (
-        <StarIcon key={i + fullStars + halfStars} />
+        <StarIcon key={i + fullStars + halfStars} color="gray.400" />
       ))}
       <Text>({numReviews} Reviews)</Text>
     </Stack>

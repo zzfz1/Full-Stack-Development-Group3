@@ -52,7 +52,7 @@ function ProductCard({ item, isOpen, onClose }) {
                 mt="1rem"
                 key={property.categoryProperty}
                 size="md"
-                placeholder={"colro"}
+                placeholder={property.categoryProperty}
               >
                 {property.values.map((value) => (
                   <option key={value.value} value="option1">
