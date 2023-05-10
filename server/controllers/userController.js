@@ -5,7 +5,8 @@ import { generateToken } from "../utils/generateToken.js";
 class UserController {
   async registerUser(req, res) {
     try {
-      const { name, username, email, password, isAdmin, img } = req.body;
+      const { name, username, email, password, isAdmin, img, shippingAddress } =
+        req.body;
 
       const userEmailExists = await User.findOne({ email });
       const userUsernameExists = await User.findOne({ username });
@@ -24,6 +25,7 @@ class UserController {
         password: hashedPassword,
         isAdmin,
         img,
+        shippingAddress,
       });
       const savedUser = await newUser.save();
       console.log("the new user is " + savedUser);
@@ -36,6 +38,9 @@ class UserController {
         username: savedUser.username,
         email: savedUser.email,
         isAdmin: savedUser.isAdmin,
+        slug: savedUser.slug,
+        img: savedUser.img,
+        shippingAddress: savedUser.shippingAddress,
       });
     } catch (error) {
       console.log(error);
@@ -59,6 +64,9 @@ class UserController {
           username: user.username,
           email: user.email,
           isAdmin: user.isAdmin,
+          slug: user.slug,
+          img: user.img,
+          shippingAddress: user.shippingAddress,
         });
       } else {
         res.status(401).json({ message: "Invalid email or password" });
@@ -95,6 +103,9 @@ class UserController {
           username: user.username,
           email: user.email,
           isAdmin: user.isAdmin,
+          slug: user.slug,
+          img: user.img,
+          shippingAddress: user.shippingAddress,
         });
       } else {
         res.status(404).json({ message: "No such User" });
@@ -120,6 +131,9 @@ class UserController {
         username: user.username,
         email: user.email,
         isAdmin: user.isAdmin,
+        slug: user.slug,
+        img: user.img,
+        shippingAddress: user.shippingAddress,
       });
     } catch (error) {
       res.status(500).json({ message: "Internal server error" });
@@ -128,7 +142,7 @@ class UserController {
 
   async getUsers(req, res) {
     try {
-      const page = req.query.page;
+      const page = req.query.new;
 
       const users = page
         ? await User.find()
@@ -145,6 +159,9 @@ class UserController {
             username: user.username,
             email: user.email,
             isAdmin: user.isAdmin,
+            slug: user.slug,
+            img: user.img,
+            shippingAddress: user.shippingAddress,
           };
         })
       );
@@ -161,7 +178,7 @@ class UserController {
         return res.status(404).json({ message: "User not found" });
       }
 
-      const { name, username, email, isAdmin, img } = req.body;
+      const { name, username, email, isAdmin, img, shippingAddress } = req.body;
 
       if (name) user.name = name;
 
@@ -179,6 +196,7 @@ class UserController {
       if (email) user.email = email;
       if (isAdmin !== undefined) user.isAdmin = isAdmin;
       if (img) user.img = img;
+      if (shippingAddress) user.shippingAddress = shippingAddress;
 
       const updatedUser = await user.save();
 
@@ -188,9 +206,68 @@ class UserController {
         username: updatedUser.username,
         email: updatedUser.email,
         isAdmin: updatedUser.isAdmin,
+        slug: updatedUser.slug,
+        img: updatedUser.img,
+        shippingAddress: updatedUser.shippingAddress,
       });
     } catch (error) {
       res.status(500).json({ message: "Internal server error", error });
+    }
+  }
+  async updateOrAddShippingAddress(req, res) {
+    try {
+      const user = await User.findById(req.params.id); // ID of the user
+      const body = req.body;
+      const shippingAddressId = body._id; // ID of the shipping address (optional)
+
+      if (user) {
+        if (shippingAddressId) {
+          const shippingAddressIndex = user.shippingAddress.findIndex(
+            (address) => address._id.toString() === shippingAddressId
+          );
+
+          if (shippingAddressIndex !== -1) {
+            user.shippingAddress[shippingAddressIndex] = body;
+            const updatedUser = await user.save();
+            res.status(200).json(updatedUser);
+          } else {
+            res.status(404).json({ message: "Shipping address not found" });
+          }
+        } else {
+          const newShippingAddress = req.body;
+          user.shippingAddress.push(newShippingAddress);
+          const updatedUser = await user.save();
+          res.status(200).json(updatedUser);
+        }
+      } else {
+        res.status(404).json({ message: "User not found" });
+      }
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }
+  async deleteShippingAddress(req, res) {
+    try {
+      const user = await User.findById(req.params.userId); // ID of the user
+      const shippingAddressId = req.params.shippingAddressId; // ID of the shipping address
+
+      if (user) {
+        const shippingAddressIndex = user.shippingAddress.findIndex(
+          (address) => address._id.toString() === shippingAddressId
+        );
+
+        if (shippingAddressIndex !== -1) {
+          user.shippingAddress.splice(shippingAddressIndex, 1);
+          const updatedUser = await user.save();
+          res.status(200).json(updatedUser);
+        } else {
+          res.status(404).json({ message: "Shipping address not found" });
+        }
+      } else {
+        res.status(404).json({ message: "User not found" });
+      }
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
     }
   }
 
@@ -243,11 +320,11 @@ class UserController {
           },
         },
       ]);
-      res.status(200).json(data)
+      res.status(200).json(data);
     } catch (err) {
       res.status(500).json(err);
     }
-  };
+  }
 }
 
 export default UserController;

@@ -66,12 +66,11 @@ class OrderController {
 
   async getAllOrders(req, res) {
     try {
-      const orders = await Order.find();
-      // .populate({
-      //   path: "user",
-      //   select: "username email",
-      //   options: { lean: true },
-      // });
+      const orders = await Order.find().populate({
+        path: "user",
+        select: "username email",
+        options: { lean: true },
+      });
       res.status(200).json(orders);
     } catch (error) {
       res.status(500).json({ message: error.message });
@@ -80,16 +79,34 @@ class OrderController {
 
   async getOrderById(req, res) {
     try {
-      const order = await Order.findById(req.params.id).populate(
-        "userId",
-        "username email"
-      );
+      const order = await Order.findById(req.params.id).populate({
+        path: "user",
+        select: "username email",
+        options: { lean: true },
+      });
 
       if (!order) {
         return res.status(404).json({ message: "Order not found" });
       }
 
       res.status(200).json(order);
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }
+  async getOrderByUserId(req, res) {
+    try {
+      const orders = await Order.find({ user: req.params.id }).populate({
+        path: "user",
+        select: "username email",
+        options: { lean: true },
+      });
+
+      if (!orders) {
+        return res.status(404).json({ message: "Order not found" });
+      }
+
+      res.status(200).json(orders);
     } catch (error) {
       res.status(500).json({ message: "Internal server error" });
     }

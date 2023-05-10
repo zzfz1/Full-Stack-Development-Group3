@@ -29,6 +29,16 @@ router.put(
   updatePassword,
   userController.updateUserBySlug
 );
+router.put(
+  "/address/:id",
+  verifyTokenAndAuthorization,
+  userController.updateOrAddShippingAddress
+);
+router.delete(
+  "/address/:userId/:shippingAddressId",
+  verifyTokenAndAuthorization,
+  userController.deleteShippingAddress
+);
 router.delete("/:slug", verifyTokenAndAuthorization, userController.deleteUser);
 
 export default router;
