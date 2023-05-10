@@ -25,9 +25,35 @@ import { MinusIcon, AddIcon } from "@chakra-ui/icons";
 import Rating from "./product_rating";
 import Review from "./product_rating";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addProduct } from "../../redux/cartRedux";
 
 function ProductCard({ item, isOpen, onClose }) {
+  const { name, brand, price, properties } = item;
+  const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
+  const [selectedValues, setSelectedValues] = useState({});
+
+  const handleSelectChange = (property, value) => {
+    setSelectedValues((prevState) => ({
+      ...prevState,
+      [property]: value,
+    }));
+  };
+
+  const handleSubmit = () => {
+    // pass the selected values and quantity to the reducer function
+    const data = {
+      selectedValues,
+      quantity,
+    };
+
+    // your reducer function here
+    dispatch(addProduct({ ...data, quantity, name, price }));
+
+    // close the modal
+    //onClose();
+  };
   const handleDecrement = () => {
     if (quantity > 1) {
       setQuantity(quantity - 1);
@@ -49,7 +75,7 @@ function ProductCard({ item, isOpen, onClose }) {
 
       <ModalContent>
         <ModalHeader>
-          {item.name} - {item.brand}
+          {name} - {brand}
         </ModalHeader>
         <ModalCloseButton />
 
@@ -57,17 +83,23 @@ function ProductCard({ item, isOpen, onClose }) {
           {images == Object ? <Slider images={test} /> : <img src={images} />}
           <Text mt="2rem">{item.description}</Text>
           <Text mt="2rem" fontSize="2xl" fontWeight="bold">
-            ${item.price.toFixed(2)}
+            ${price.toFixed(2)}
           </Text>
           {/* the review section */}
           <Review rating={item.rating} numReviews={item.numReviews} />
           {item.properties.length > 1
-            ? item.properties.map((property) => (
+            ? properties.map((property) => (
                 <Select
                   mt="1rem"
                   key={property.categoryProperty}
                   size="md"
                   placeholder={property.categoryProperty}
+                  onChange={(e) =>
+                    handleSelectChange(
+                      property.categoryProperty,
+                      e.target.value
+                    )
+                  }
                 >
                   {property.values.map((value) => (
                     <option key={value.value} value={value.value}>
@@ -106,7 +138,12 @@ function ProductCard({ item, isOpen, onClose }) {
           <Button colorScheme="blue" mr={3} onClick={onClose}>
             Close
           </Button>
-          <Button variant="solid" color="white" bg="#38A169">
+          <Button
+            onClick={handleSubmit}
+            variant="solid"
+            color="white"
+            bg="#38A169"
+          >
             Add Cart
           </Button>
         </ModalFooter>

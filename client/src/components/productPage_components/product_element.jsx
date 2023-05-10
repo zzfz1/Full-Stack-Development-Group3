@@ -22,8 +22,8 @@ function ProductElement({ item }) {
   const [openProductCard, setOpenProductCard] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [order, setOrder] = useState({});
-  const [color, setColor] = useState("");
-  const [size, setSize] = useState("");
+  /*   const [color, setColor] = useState("");
+  const [size, setSize] = useState(""); */
   const dispatch = useDispatch();
   const { _id, name, image, brand, price } = item;
 
@@ -35,7 +35,7 @@ function ProductElement({ item }) {
     setOpenProductCard(null);
   };
   const handleClick = () => {
-    dispatch(addProduct({ ...order, quantity, color, size }));
+    dispatch(addProduct({ ...order, quantity, name, price }));
   };
 
   return (
