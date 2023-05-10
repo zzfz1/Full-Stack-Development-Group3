@@ -8,20 +8,6 @@ import { publicProductsRequest } from "../utils/axios";
 import { allProduct } from "../redux/productsRedux";
 
 const Home = () => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const res = await publicProductsRequest.get("/products");
-        dispatch(allProduct(res.data));
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchProducts();
-  }, [dispatch]);
   return (
     <div>
       <Hero />
