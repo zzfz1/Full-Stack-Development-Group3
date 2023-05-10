@@ -21,7 +21,7 @@ import { addProduct } from "../../redux/cartRedux";
 function ProductElement({ item }) {
   const [openProductCard, setOpenProductCard] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const [product, setProduct] = useState({});
+  const [order, setOrder] = useState({});
   const [color, setColor] = useState("");
   const [size, setSize] = useState("");
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ function ProductElement({ item }) {
     setOpenProductCard(null);
   };
   const handleClick = () => {
-    dispatch(addProduct({ ...product, quantity, color, size }));
+    dispatch(addProduct({ ...order, quantity, color, size }));
   };
 
   return (
@@ -84,7 +84,12 @@ function ProductElement({ item }) {
                 onClose={handleCloseProductCard}
               />
             )}
-            <Button variant="solid" color="white" bg="#38A169">
+            <Button
+              onClick={handleClick}
+              variant="solid"
+              color="white"
+              bg="#38A169"
+            >
               Add to cart
             </Button>
           </Stack>

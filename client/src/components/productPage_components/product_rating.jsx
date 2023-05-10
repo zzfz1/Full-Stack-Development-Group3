@@ -8,7 +8,7 @@ const Review = ({ rating, numReviews }) => {
   const emptyStars = MAX_RATING - fullStars - halfStars;
 
   return (
-    <Stack mt="2rem" direction="row" spacing={1} align="center">
+    <Stack direction="row" spacing={1} align="center">
       {[...Array(fullStars)].map((_, i) => (
         <StarIcon key={i} color="yellow.400" />
       ))}
