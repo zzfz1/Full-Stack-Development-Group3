@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
+import CategoryProperty from "./categoryProperty.js";
 import slugify from "slugify";
-import CategoryPropertySchema from "./categoryProperty.js";
 
 const categorySchema = new mongoose.Schema(
   {
@@ -9,7 +9,12 @@ const categorySchema = new mongoose.Schema(
       type: String,
       unique: true,
     },
-    categoryProperties: [CategoryPropertySchema], // Properties from here should be selectable in the product
+    categoryProperties: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "CategoryProperty",
+      },
+    ],
   },
   {
     timestamps: true,
@@ -20,7 +25,11 @@ const categorySchema = new mongoose.Schema(
 
 categorySchema.pre("validate", function (next) {
   if (this.name) {
-    this.slug = slugify(this.name, { lower: true, replacement: "-", remove: /[*+~.()'"!:@]/g });
+    this.slug = slugify(this.name, {
+      lower: true,
+      replacement: "-",
+      remove: /[*+~.()'"!:@]/g,
+    });
   }
   next();
 });

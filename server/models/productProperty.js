@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import CategoryProperty from "./categoryProperty.js";
 
 const ProductPropertyValueSchema = new mongoose.Schema(
   {
@@ -12,7 +13,7 @@ const ProductPropertySchema = new mongoose.Schema(
     categoryProperty: {
       type: mongoose.Schema.Types.ObjectId,
       required: false,
-      ref: "Category.categoryProperties",
+      ref: "CategoryProperty",
     },
     values: [ProductPropertyValueSchema],
   },

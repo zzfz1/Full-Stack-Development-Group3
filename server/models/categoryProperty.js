@@ -8,4 +8,8 @@ const CategoryPropertySchema = new mongoose.Schema(
   { _id: true }
 );
 
-export default CategoryPropertySchema;
+const CategoryProperty = mongoose.model(
+  "CategoryProperty",
+  CategoryPropertySchema
+);
+export default CategoryProperty;
