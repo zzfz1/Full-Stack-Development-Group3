@@ -16,8 +16,11 @@ import ResetPassword from "../src/components/resetPassword/resetPassword";
 import { Outlet } from "react-router-dom";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Profile from "./components/profile";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AddressForm from "./components/profile/addressForm";
+import { publicProductsRequest } from "./utils/axios";
+import { useEffect } from "react";
+import { allProduct } from "./redux/productsRedux";
 
 const router = createBrowserRouter([
   {
@@ -65,6 +68,23 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      console.log("the effect is invoked");
+      try {
+        const res = await publicProductsRequest.get("/products");
+        console.log("the product", res.data);
+        dispatch(allProduct(res.data));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
   const user = useSelector((state) => state.user);
 
   return <RouterProvider router={router}></RouterProvider>;
