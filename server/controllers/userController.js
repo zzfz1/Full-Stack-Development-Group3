@@ -29,9 +29,13 @@ class UserController {
       });
       const savedUser = await newUser.save();
       console.log("the new user is " + savedUser);
-      res.cookie("token", generateToken(savedUser._id, savedUser.isAdmin), {
-        httpOnly: true,
-      });
+      res.cookie(
+        "token",
+        generateToken(savedUser._id, savedUser.isAdmin, savedUser.slug),
+        {
+          httpOnly: true,
+        }
+      );
       res.status(201).json({
         _id: savedUser._id,
         name: savedUser.name,
@@ -55,7 +59,7 @@ class UserController {
       const user = await User.findOne({ email });
 
       if (user && (await bcrypt.compare(password, user.password))) {
-        res.cookie("token", generateToken(user._id, user.isAdmin), {
+        res.cookie("token", generateToken(user._id, user.isAdmin, user.slug), {
           httpOnly: true,
         });
         res.status(200).json({
@@ -94,7 +98,7 @@ class UserController {
       const user = await User.findOne({ email });
 
       if (user) {
-        res.cookie("token", generateToken(user._id, user.isAdmin), {
+        res.cookie("token", generateToken(user._id, user.isAdmin, user.slug), {
           httpOnly: true,
         });
         res.status(200).json({
@@ -178,7 +182,8 @@ class UserController {
         return res.status(404).json({ message: "User not found" });
       }
 
-      const { name, username, email, isAdmin, img, shippingAddress } = req.body;
+      const { name, username, email, isAdmin, img, shippingAddress, password } =
+        req.body;
 
       if (name) user.name = name;
 
@@ -197,6 +202,10 @@ class UserController {
       if (isAdmin !== undefined) user.isAdmin = isAdmin;
       if (img) user.img = img;
       if (shippingAddress) user.shippingAddress = shippingAddress;
+      if (password) {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        user.password = hashedPassword;
+      }
 
       const updatedUser = await user.save();
 
