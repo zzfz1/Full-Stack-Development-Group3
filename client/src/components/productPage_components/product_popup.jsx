@@ -14,11 +14,6 @@ import {
   Stack,
   Text,
   Select,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
-  NumberInput,
 } from "@chakra-ui/react";
 import Slider from "./product_popup_slider";
 import { MinusIcon, AddIcon } from "@chakra-ui/icons";
@@ -47,27 +42,24 @@ function ProductCard({ item, isOpen, onClose }) {
       selectedValues,
       quantity,
     };
-
+    console.log("the data is: ", data);
     // your reducer function here
     dispatch(addProduct({ ...data, quantity, name, price }));
 
     // close the modal
-    //onClose();
+    onClose();
   };
   const handleDecrement = () => {
     if (quantity > 1) {
       setQuantity(quantity - 1);
-      onChange(quantity - 1);
     }
   };
   const handleIncrement = () => {
     setQuantity(quantity + 1);
-    onChange(quantity + 1);
   };
   const images = item.image;
   const test = [];
   test.push(images);
-  //console.log("properties", item.properties.values);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -80,35 +72,44 @@ function ProductCard({ item, isOpen, onClose }) {
         <ModalCloseButton />
 
         <ModalBody>
-          {images == Object ? <Slider images={test} /> : <img src={images} />}
+          {images.length > 1 ? (
+            <Slider images={images} />
+          ) : (
+            <img src={images} />
+          )}
           <Text mt="2rem">{item.description}</Text>
           <Text mt="2rem" fontSize="2xl" fontWeight="bold">
             ${price.toFixed(2)}
           </Text>
           {/* the review section */}
           <Review rating={item.rating} numReviews={item.numReviews} />
-          {item.properties.length > 1
-            ? properties.map((property) => (
+          {properties.map((property) => {
+            if (property.hasOwnProperty("categoryProperty")) {
+              //check if the product has properties
+              return (
                 <Select
                   mt="1rem"
-                  key={property.categoryProperty}
+                  key={property.categoryProperty._id}
                   size="md"
-                  placeholder={property.categoryProperty}
+                  placeholder={property.categoryProperty.key}
                   onChange={(e) =>
                     handleSelectChange(
-                      property.categoryProperty,
+                      property.categoryProperty.key,
                       e.target.value
                     )
                   }
                 >
                   {property.values.map((value) => (
-                    <option key={value.value} value={value.value}>
+                    <option key={value._id} value={value.value}>
                       {value.value}
                     </option>
                   ))}
                 </Select>
-              ))
-            : ""}
+              );
+            } else {
+              return null;
+            }
+          })}
           {/* the quantity section */}
           <Flex align="center" mt="2rem">
             <Text mr={4} fontSize="lg">
