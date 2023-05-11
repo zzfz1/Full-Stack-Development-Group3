@@ -14,6 +14,7 @@ import {
   Stack,
   Text,
   Select,
+  Badge,
 } from "@chakra-ui/react";
 import Slider from "./product_popup_slider";
 import { MinusIcon, AddIcon } from "@chakra-ui/icons";
@@ -67,7 +68,10 @@ function ProductCard({ item, isOpen, onClose }) {
 
       <ModalContent>
         <ModalHeader>
-          {name} - {brand}
+          {name}{" "}
+          <Badge variant="outline" color="primary.500">
+            {brand}
+          </Badge>
         </ModalHeader>
         <ModalCloseButton />
 
