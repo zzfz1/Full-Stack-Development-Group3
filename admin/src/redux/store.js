@@ -1,32 +1,22 @@
-import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import { loginReducer } from "./loginAdminSlice";
+import { configureStore } from "@reduxjs/toolkit";
+
 import { categoryReducer } from "./categorySlice";
 import { productReducer } from "./productSlice";
-import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist";
-import storage from "redux-persist/lib/storage";
+import { orderReducer } from "./orderSlice";
+import userReducer from "./userSlice";
+import drawerReducer from "./drawerSlice";
 
-const persistConfig = {
-  key: "root",
-  version: 1,
-  storage,
-};
+import { manageUserMiddleware } from "./utils/userStoreMiddleware";
 
-const rootReducer = combineReducers({
-  user: loginReducer,
-  category: categoryReducer,
-  product: productReducer,
+export default configureStore({
+  reducer: {
+    user: userReducer,
+    category: categoryReducer,
+    product: productReducer,
+    order: orderReducer,
+    drawer: drawerReducer,
+  },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(manageUserMiddleware),
 });
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
-
-export const store = configureStore({
-  reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
-    }),
-});
-
-export let persistor = persistStore(store);
+// Redux store = Object that holds the states

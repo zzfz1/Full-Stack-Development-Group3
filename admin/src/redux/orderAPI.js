@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3000/api/categories";
+const API_URL = "http://localhost:3000/api/orders";
 
-export const getAllCategoriesAPI = async () => {
+export const getAllOrdersAPI = async () => {
   try {
     const config = {
       headers: {
@@ -13,12 +13,12 @@ export const getAllCategoriesAPI = async () => {
     const response = await axios.get(API_URL, config);
     return response.data;
   } catch (error) {
-    console.error("Error geting categories:", error);
+    console.error("Error geting orders:", error);
     throw error;
   }
 };
 
-export const getCategoryBySlugAPI = async (slug) => {
+export const getOrderBySlugAPI = async (slug) => {
   try {
     const config = {
       headers: {
@@ -29,12 +29,12 @@ export const getCategoryBySlugAPI = async (slug) => {
     const response = await axios.get(`${API_URL}/${slug}`, config);
     return response.data;
   } catch (error) {
-    console.error("Error geting category by slug:", error);
+    console.error("Error geting order by slug:", error);
     throw error;
   }
 };
 
-export const getCategoryByIdAPI = async (id) => {
+export const getOrderByIdAPI = async (id) => {
   try {
     const config = {
       headers: {
@@ -43,15 +43,15 @@ export const getCategoryByIdAPI = async (id) => {
       withCredentials: true,
     };
     const response = await axios.get(`${API_URL}/id/${id}`, config);
-    console.log("getCategoryByIdAPI ", response);
+    console.log("getOrderByIdAPI ", response);
     return response.data;
   } catch (error) {
-    console.error("Error getting category by id:", error);
+    console.error("Error getting order by id:", error);
     throw error;
   }
 };
 
-export const createCategoryAPI = async (blankData) => {
+export const createOrderAPI = async (blankData) => {
   try {
     const config = {
       headers: {
@@ -62,13 +62,12 @@ export const createCategoryAPI = async (blankData) => {
     const response = await axios.post(`${API_URL}/`, blankData, config);
     return response.data;
   } catch (error) {
-    console.error("Error creating category:", error);
+    console.error("Error creating order:", error);
     throw error;
   }
 };
 
-export const editCategoryAPI = async (oldslug, updatedCategory) => {
-  console.log("oldslugAPI: ", oldslug);
+export const updateOrderAPI = async (id, updatedOrder) => {
   try {
     const config = {
       headers: {
@@ -76,15 +75,16 @@ export const editCategoryAPI = async (oldslug, updatedCategory) => {
       },
       withCredentials: true,
     };
-    const response = await axios.put(`${API_URL}/${oldslug}`, updatedCategory, config);
+    console.log("updatedOrder ", updatedOrder);
+    const response = await axios.put(`${API_URL}/${id}`, updatedOrder, config);
     return response.data;
   } catch (error) {
-    console.error("Error editing category:", error);
+    console.error("Error editing order:", error);
     throw error;
   }
 };
 
-export const deleteCategoryAPI = async (slug) => {
+export const deleteOrderAPI = async (_id) => {
   try {
     const config = {
       headers: {
@@ -92,10 +92,10 @@ export const deleteCategoryAPI = async (slug) => {
       },
       withCredentials: true,
     };
-    const response = await axios.delete(`${API_URL}/${slug}`, config);
+    const response = await axios.delete(`${API_URL}/${_id}`, config);
     return response.data;
   } catch (error) {
-    console.error("Error deleting category:", error);
+    console.error("Error deleting order:", error);
     throw error;
   }
 };

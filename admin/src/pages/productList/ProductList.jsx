@@ -2,27 +2,89 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getAllProductsAsync, createProductAsync } from "../../redux/productSlice";
-import { getAllCategoriesAsync } from "../../redux/categorySlice"; // Import getAllCategoriesAsync from the correct file
-import { Link } from "react-router-dom";
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
-import { ButtonBase } from "@mui/material";
+import { getAllCategoriesAsync } from "../../redux/categorySlice";
+import {
+  TableContainer,
+  Paper,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableSortLabel,
+  TableBody,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Container,
+  TextField,
+  FormHelperText,
+  Box,
+  Button,
+  Typography,
+  AppBar,
+  Toolbar,
+} from "@mui/material";
 
-import { Container, TextField, FormHelperText, Box, Button, Card, CardHeader, CardContent, Typography, Grid, CardActions, IconButton, AppBar, Toolbar } from "@mui/material";
-import { Delete as DeleteIcon, Edit as EditIcon } from "@mui/icons-material";
+// A function to handle sorting
+function descendingComparator(a, b, orderBy) {
+  if (b[orderBy] < a[orderBy]) {
+    return -1;
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1;
+  }
+  return 0;
+}
+
+function getComparator(product, orderBy) {
+  return product === "desc" ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy);
+}
+
+function stableSort(array, comparator) {
+  const stabilizedThis = array.map((el, index) => [el, index]);
+  stabilizedThis.sort((a, b) => {
+    const product = comparator(a[0], b[0]);
+    if (product !== 0) return product;
+    return a[1] - b[1];
+  });
+  return stabilizedThis.map((el) => el[0]);
+}
+
+// Define the table headers
+const headCells = [
+  { id: "name", numeric: false, disablePadding: false, label: "Name" },
+  { id: "brand", numeric: false, disablePadding: false, label: "Brand" },
+  { id: "price", numeric: true, disablePadding: false, label: "Price" },
+  { id: "category", numeric: false, disablePadding: false, label: "Category" },
+  { id: "rating", numeric: false, disablePadding: false, label: "Rating" },
+  { id: "countInStock", numeric: true, disablePadding: false, label: "countInStock" },
+  { id: "updatedAt", numeric: false, disablePadding: false, label: "Updated At" },
+];
 
 const ProductList = () => {
-  const products = useSelector((state) => state.product.products);
-  const status = useSelector((state) => state.product.status);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const categories = useSelector((state) => state.category.categories);
-
+  const products = useSelector((state) => state.product.products);
   const [openCategoryDialog, setOpenCategoryDialog] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [productNameError, setProductNameError] = useState("");
-
   const [productName, setProductName] = useState("");
+
+  // State for sorting
+  const [order, setOrder] = useState("asc");
+  const [orderBy, setOrderBy] = useState("createdAt");
+  const handleRequestSort = (property) => {
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
+    setOrderBy(property);
+  };
 
   useEffect(() => {
     dispatch(getAllProductsAsync());
@@ -74,6 +136,10 @@ const ProductList = () => {
     console.log("setSelectedCategory", event.target.value);
   };
 
+  const handleNavigateToProduct = (slug) => {
+    navigate(`/products/${slug}`);
+  };
+
   return (
     <Box
       sx={{
@@ -93,96 +159,83 @@ const ProductList = () => {
             </Button>
           </Toolbar>
         </AppBar>
-        <Grid container spacing={0}>
-          <Grid item xs={12}>
-            <Box
-              mt={3}
-              sx={{
-                maxHeight: "calc(100vh - 128px)",
-                overflowY: "auto",
-              }}
-            >
-              {status === "loading" ? (
-                <Typography>Loading...</Typography>
-              ) : (
-                <Grid container spacing={2}>
-                  {products.map((product) => (
-                    <Grid item xs={12} md={12} key={product._id}>
-                      <Card
-                        sx={{
-                          textDecoration: "none",
-                          width: "100%",
-                          borderRadius: 1,
-                          borderColor: (theme) => theme.palette.divider,
-                          borderWidth: 1,
-                          borderStyle: "solid",
-                          "&:hover": {
-                            boxShadow: (theme) => theme.shadows[6],
-                            textDecoration: "none",
-                            cursor: "pointer",
-                          },
-                        }}
-                      >
-                        <CardActions>
-                          <Button
-                            component={Link}
-                            to={`/products/${product.slug}`}
-                            size="large"
-                            sx={{
-                              textDecoration: "none",
-                              width: "100%",
-                              justifyContent: "flex-start",
-                              textTransform: "none",
-                            }}
-                          >
-                            {product.name}
-                          </Button>
-                        </CardActions>
-                      </Card>
-                    </Grid>
-                  ))}
-                </Grid>
-              )}
-            </Box>
-          </Grid>
-        </Grid>
+
+        <TableContainer
+          component={Paper}
+          sx={{
+            maxHeight: "calc(100vh - 150px)",
+            overflowY: "auto",
+          }}
+        >
+          <Table aria-label="sortable table">
+            <TableHead>
+              <TableRow>
+                {headCells.map((headCell) => (
+                  <TableCell key={headCell.id} sortDirection={orderBy === headCell.id ? order : false}>
+                    <TableSortLabel active={orderBy === headCell.id} direction={orderBy === headCell.id ? order : "asc"} onClick={() => handleRequestSort(headCell.id)}>
+                      {headCell.label}
+                    </TableSortLabel>{" "}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {stableSort(products, getComparator(order, orderBy)).map((product) => {
+                return (
+                  <TableRow hover key={product._id} onClick={() => handleNavigateToProduct(product.slug)}>
+                    <TableCell>{product.name}</TableCell>
+                    <TableCell>{product.brand}</TableCell>
+                    <TableCell>{product.price}</TableCell>
+                    {/* <TableCell>{product.category.}</TableCell> */}
+                    <TableCell>{product.rating}</TableCell>
+                    <TableCell>{product.countInStock}</TableCell>
+                    <TableCell component="th" scope="row">
+                      {new Date(product.updatedAt).toLocaleString()}
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+
+        <Dialog open={openCategoryDialog} onClose={handleCategoryDialogClose} aria-labelledby="select-category-dialog-title">
+          <DialogTitle id="select-category-dialog-title">Select Category</DialogTitle>
+          <DialogContent>
+            <DialogContentText>Select a category for the new product:</DialogContentText>
+            <DialogContentText>Enter the product name and select a category for the new product:</DialogContentText>
+            <TextField autoFocus margin="dense" id="product-name" label="Product Name" type="text" fullWidth value={productName} onChange={handleProductNameChange} error={!!productNameError} />
+            {productNameError && <FormHelperText error>{productNameError}</FormHelperText>}
+
+            <FormControl fullWidth>
+              <InputLabel htmlFor="select-category">Category</InputLabel>
+              <Select
+                value={selectedCategory}
+                onChange={handleCategorySelect}
+                inputProps={{
+                  name: "category",
+                  id: "select-category",
+                }}
+              >
+                {categories.map((category) => (
+                  <MenuItem key={category._id} value={category._id}>
+                    {category.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </DialogContent>
+
+          <DialogActions>
+            <Button onClick={handleCategoryDialogClose} color="secondary">
+              Cancel
+            </Button>
+            <Button onClick={handleCreateProduct} color="primary" disabled={!selectedCategory || !productName}>
+              Create Product
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Container>
-      <Dialog open={openCategoryDialog} onClose={handleCategoryDialogClose} aria-labelledby="select-category-dialog-title">
-        <DialogTitle id="select-category-dialog-title">Select Category</DialogTitle>
-        <DialogContent>
-          <DialogContentText>Select a category for the new product:</DialogContentText>
-          <DialogContentText>Enter the product name and select a category for the new product:</DialogContentText>
-          <TextField autoFocus margin="dense" id="product-name" label="Product Name" type="text" fullWidth value={productName} onChange={handleProductNameChange} error={!!productNameError} />
-          {productNameError && <FormHelperText error>{productNameError}</FormHelperText>}
-
-          <FormControl fullWidth>
-            <InputLabel htmlFor="select-category">Category</InputLabel>
-            <Select
-              value={selectedCategory}
-              onChange={handleCategorySelect}
-              inputProps={{
-                name: "category",
-                id: "select-category",
-              }}
-            >
-              {categories.map((category) => (
-                <MenuItem key={category._id} value={category._id}>
-                  {category.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </DialogContent>
-
-        <DialogActions>
-          <Button onClick={handleCategoryDialogClose} color="secondary">
-            Cancel
-          </Button>
-          <Button onClick={handleCreateProduct} color="primary" disabled={!selectedCategory || !productName}>
-            Create Product
-          </Button>
-        </DialogActions>
-      </Dialog>
     </Box>
   );
 };

@@ -1,4 +1,4 @@
-import "./home.css";
+// import "./home.css";
 import { useEffect, useMemo, useState } from "react";
 
 export default function Home() {

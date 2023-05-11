@@ -13,6 +13,8 @@ import Login from "./pages/login/Login";
 import { useSelector } from "react-redux";
 import { Grid, Box, Container } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material";
+import OrderList from "./pages/orderList/OrderList";
+import UserList from "./pages/UserList/UserList";
 
 function App() {
   // Use useSelector to access the Redux store and check if the user is an admin
@@ -71,6 +73,8 @@ function App() {
                   <Route path="/categories/:slug" element={<Category />} />
                   <Route path="/products" element={<ProductList />} />
                   <Route path="/products/:slug" element={<Product />} />
+                  <Route path="/orders" element={<OrderList />} />
+                  <Route path="/users" element={<UserList />} />
                 </Routes>
               </Box>
             </Box>

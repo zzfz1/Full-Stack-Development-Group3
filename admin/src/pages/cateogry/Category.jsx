@@ -13,7 +13,6 @@ const deepCopy = (obj) => {
 const Category = () => {
   const [localCategory, setLocalCategory] = useState(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-
   const { slug } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -31,11 +30,13 @@ const Category = () => {
   }, [slug, dispatch]);
 
   const handleEditCategory = async (oldslug, updatedCategory) => {
-    console.log("oldslugCategory: ", oldslug);
+    console.log("handle edit category : ", updatedCategory);
     try {
-      await dispatch(editCategoryAsync({ oldslug, updatedCategory }));
-      setLocalCategory(updatedCategory); // Update the local state
-      // Navigate to the updated slug
+      // Remove empty properties
+      const filteredProperties = updatedCategory.categoryProperties.filter((property) => property.key.trim() !== "");
+
+      await dispatch(editCategoryAsync({ oldslug, updatedCategory: { ...updatedCategory, categoryProperties: filteredProperties } }));
+      setLocalCategory(updatedCategory);
       const newSlug = slugify(updatedCategory.name, { lower: true, strict: true });
       navigate(`/categories/${newSlug}`, { replace: true }); // Add the replace option here
 
@@ -43,18 +44,19 @@ const Category = () => {
       navigate("/categories");
     } catch (error) {
       console.error("Error editing category:", error);
+      if (remainingCategoryProperties.length === 0) {
+        return;
+      }
     }
   };
-
   const handleDeleteCategory = async (slug) => {
     try {
       await dispatch(deleteCategoryAsync(slug));
-      navigate("/categories"); // Redirect to the home page after deleting
+      navigate("/categories");
     } catch (error) {
       console.error("Error deleting category:", error);
     }
   };
-
   const addNewProperty = () => {
     const newProperty = { key: "" };
     setLocalCategory({
@@ -62,7 +64,6 @@ const Category = () => {
       categoryProperties: [...localCategory.categoryProperties, newProperty],
     });
   };
-
   const removeProperty = (index) => {
     const updatedProperties = deepCopy(localCategory.categoryProperties);
     updatedProperties.splice(index, 1);
@@ -71,19 +72,15 @@ const Category = () => {
       categoryProperties: updatedProperties,
     });
   };
-
   const resetToDefault = () => {
     setLocalCategory(category);
   };
-
   const openDeleteDialog = () => {
     setDeleteDialogOpen(true);
   };
-
   const closeDeleteDialog = () => {
     setDeleteDialogOpen(false);
   };
-
   const renderCategoryProperties = () => {
     return (
       <>
@@ -102,7 +99,6 @@ const Category = () => {
                 });
               }}
             />
-
             <Button variant="outlined" color="error" onClick={() => removeProperty(index)}>
               Remove Property
             </Button>
@@ -203,5 +199,4 @@ const Category = () => {
     </Box>
   );
 };
-
 export default Category;
