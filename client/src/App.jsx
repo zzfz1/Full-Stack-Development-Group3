@@ -21,6 +21,7 @@ import AddressForm from "./components/profile/addressForm";
 import { publicProductsRequest } from "./utils/axios";
 import { useEffect } from "react";
 import { allProduct } from "./redux/productsRedux";
+import Contact from "./pages/Contacts";
 
 const router = createBrowserRouter([
   {
@@ -62,6 +63,10 @@ const router = createBrowserRouter([
       {
         path: "/profile",
         element: <Profile />,
+      },
+      {
+        path: "/contact",
+        element: <Contact />,
       },
     ],
   },
