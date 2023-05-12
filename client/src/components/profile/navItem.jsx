@@ -30,11 +30,11 @@ export default function NavItem({
           p={3}
           borderRadius={8}
           _hover={{ textDecor: "none", backgroundColor: "#AEC8CA" }}
-          w={navSize == "large" && "100%"}
+          w={navSize == "large" && "90%"}
           onClick={() => onNavItemClick(title)}
         >
           <MenuButton w="100%">
-            <Flex>
+            <Flex alignItems={"center"}>
               <Icon
                 as={icon}
                 fontSize="xl"

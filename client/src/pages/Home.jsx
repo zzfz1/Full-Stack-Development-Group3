@@ -8,10 +8,25 @@ import { publicProductsRequest } from "../utils/axios";
 import { allProduct } from "../redux/productsRedux";
 
 const Home = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await publicProductsRequest.get("/products");
+        console.log(res.data);
+        dispatch(allProduct(res.data));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchProducts();
+  }, []);
+
   return (
     <div>
       <Hero />
-      <Products_3dPrinters />
+      {/* <Products_3dPrinters /> */}
     </div>
   );
 };
