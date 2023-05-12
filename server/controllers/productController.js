@@ -69,6 +69,11 @@ class ProductController {
           path: "category",
           select: "name slug",
           options: { lean: true },
+        },
+        {
+          path: "properties.categoryProperty",
+          select: "key",
+          options: { lean: true },
         }
       );
 
