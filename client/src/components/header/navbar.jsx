@@ -109,7 +109,34 @@ export default function WithSubnavigation() {
         </Flex>
 
         <HStack justify={"flex-end"} direction={"row"} spacing={6}>
-          {" "}
+          <Stack>
+            <IconButton
+              icon={<FiShoppingCart size="2rem" />}
+              name="shopping-cart"
+              size="lg"
+              onClick={handleAddToCart}
+              _hover={{
+                bg: "gray.300",
+              }}
+              bg="none"
+              pt="2"
+              display={{ base: "none", md: "inline-flex" }}
+            ></IconButton>
+            {quantity > 0 && (
+              <Box position="absolute" right="75px" top="-1px">
+                <Badge
+                  borderRadius="full"
+                  color="white"
+                  px="2"
+                  py="1"
+                  bg="primary.500"
+                  display={{ base: "none", md: "inline-flex" }}
+                >
+                  {quantity}
+                </Badge>
+              </Box>
+            )}
+          </Stack>
           {!user ? (
             <>
               <Button
@@ -125,34 +152,6 @@ export default function WithSubnavigation() {
             </>
           ) : (
             <>
-              <Stack>
-                <IconButton
-                  icon={<FiShoppingCart size="2rem" />}
-                  name="shopping-cart"
-                  size="lg"
-                  onClick={handleAddToCart}
-                  _hover={{
-                    bg: "gray.300",
-                  }}
-                  bg="none"
-                  pt="2"
-                  display={{ base: "none", md: "inline-flex" }}
-                ></IconButton>
-                {quantity > 0 && (
-                  <Box position="absolute" right="75px" top="-1px">
-                    <Badge
-                      borderRadius="full"
-                      color="white"
-                      px="2"
-                      py="1"
-                      bg="primary.500"
-                      display={{ base: "none", md: "inline-flex" }}
-                    >
-                      {quantity}
-                    </Badge>
-                  </Box>
-                )}
-              </Stack>
               <IconButton
                 as="a"
                 icon={<BsPersonCircle size="2rem" />}

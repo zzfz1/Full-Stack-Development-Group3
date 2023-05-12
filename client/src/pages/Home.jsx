@@ -22,6 +22,7 @@ const Home = () => {
     };
     fetchProducts();
   }, []);
+
   return (
     <div>
       <Hero />
