@@ -23,7 +23,7 @@ const orderItemSchema = new mongoose.Schema(
       },
     ],
   },
-  { _id: false }
+  { _id: true }
 );
 
 orderItemSchema.pre("save", async function (next) {

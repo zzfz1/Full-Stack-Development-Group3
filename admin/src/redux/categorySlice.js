@@ -70,21 +70,21 @@ const categorySlice = createSlice({
   name: "categorySlice",
   initialState: { categories: [], category: null, status: "idle", error: null },
   reducers: {
-    createCategory: (state, action) => {
-      state.categories.push(action.payload);
-    },
-    updateCategory: (state, action) => {
-      const index = state.categories.findIndex((category) => category._id === action.payload._id);
-      if (index !== -1) {
-        state.categories[index] = action.payload;
-      }
-    },
-    deleteCategory: (state, action) => {
-      const index = state.categories.findIndex((category) => category._id === action.payload);
-      if (index !== -1) {
-        state.categories.splice(index, 1);
-      }
-    },
+    // createCategory: (state, action) => {
+    //   state.categories.push(action.payload);
+    // },
+    // updateCategory: (state, action) => {
+    //   const index = state.categories.findIndex((category) => category._id === action.payload._id);
+    //   if (index !== -1) {
+    //     state.categories[index] = action.payload;
+    //   }
+    // },
+    // deleteCategory: (state, action) => {
+    //   const index = state.categories.findIndex((category) => category._id === action.payload);
+    //   if (index !== -1) {
+    //     state.categories.splice(index, 1);
+    //   }
+    // },
   },
   extraReducers: (builder) => {
     builder

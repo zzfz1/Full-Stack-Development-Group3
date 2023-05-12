@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { getProductBySlugAsync, editProductAsync, deleteProductAsync } from "../../redux/productSlice";
-import { getCategoryBySlugAsync, getAllCategoriesAsync } from "../../redux/categorySlice";
+import { getCategoryByIdAsync, getAllCategoriesAsync } from "../../redux/categorySlice";
 import {
   Dialog,
   DialogActions,
@@ -47,81 +47,85 @@ function deepCopy(obj) {
 
 const Product = () => {
   const { slug } = useParams();
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const product = useSelector((state) => state.product.product);
   const category = useSelector((state) => state.category.category);
   const allCategories = useSelector((state) => state.category.categories);
 
   const [editedProduct, setEditedProduct] = useState(product);
-  const [selectedCategory, setSelectedCategory] = useState(product && product.category ? product.category._id : "");
-
+  const [selectedCategoryId, setSelectedCategoryId] = useState(product ? product.category : "");
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
-  // 1. Use Effect
   useEffect(() => {
     fetchProductData();
-    // dispatch(getAllCategoriesAsync());
+    dispatch(getAllCategoriesAsync());
   }, []);
 
   const fetchProductData = async () => {
-    dispatch(getAllCategoriesAsync()); //?? fetch product data?
+    dispatch(getAllCategoriesAsync());
     dispatch(getProductBySlugAsync(slug));
   };
 
-  // SET TO DEFAULT
   const setDefaultValues = async () => {
     await fetchProductData();
   };
 
-  // 2. Use Effect
+  const openDeleteDialog = () => {
+    setDeleteDialogOpen(true);
+  };
+
+  const closeDeleteDialog = () => {
+    setDeleteDialogOpen(false);
+  };
+
   useEffect(() => {
     if (!product || product.slug !== slug) {
       dispatch(getProductBySlugAsync(slug));
     } else {
       setEditedProduct(product);
-      setSelectedCategory(product.category.slug); // assuming category is populated and has _id field
+      setSelectedCategoryId(product.category);
       dispatch(getAllCategoriesAsync());
-      dispatch(getCategoryBySlugAsync(product.category.slug));
+      dispatch(getCategoryByIdAsync(product.category));
     }
-    console.log("useEffect-product", product);
-    console.log("useEffect-editedProduct", editedProduct);
-    console.log("useEffect-selectedCategory", selectedCategory);
-    console.log("useEffect-allCategories", allCategories);
-    console.log("useEffect-category", category);
   }, [dispatch, slug, product]);
 
-  // PRODUCT
-  const handleProductChange = (e) => {
-    setEditedProduct({ ...editedProduct, [e.target.name]: e.target.value });
-  };
-
-  // CATEGORY
   const handleCategoryChange = async (e) => {
-    const categorySlug = e.target.value;
+    const categoryId = e.target.value;
 
-    if (categorySlug) {
-      const categoryExists = allCategories.some((categoryItem) => categoryItem._id === categorySlug);
+    if (categoryId) {
+      const categoryExists = allCategories.some((cat) => cat._id === categoryId);
       if (!categoryExists) {
         return;
       }
 
       setEditedProduct({
         ...editedProduct,
-        category: allCategories.find((categoryItem) => categoryItem.slug === categorySlug),
+        category: categoryId,
         properties: [],
       });
-
-      setSelectedCategory(categorySlug);
-      await dispatch(getCategoryBySlugAsync(categorySlug)); //set category with selected category slug
+      setSelectedCategoryId(categoryId);
+      await dispatch(getCategoryByIdAsync(categoryId));
     } else {
-      setEditedProduct({ ...editedProduct, category: null, properties: [] });
-      setSelectedCategory(null);
+      setEditedProduct({ ...editedProduct, category: "", properties: [] });
+      setSelectedCategoryId("");
     }
   };
 
-  // PROPERTY
+  const handleProductChange = (e) => {
+    setEditedProduct({ ...editedProduct, [e.target.name]: e.target.value });
+  };
+
+  const handleDeleteProduct = async (slug) => {
+    try {
+      await dispatch(deleteProductAsync(slug));
+      navigate("/products"); // Redirect to the home page after deleting
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
+  };
+
   const handlePropertyChange = (index, e) => {
     const newProperties = [...editedProduct.properties];
     const categoryPropertyId = e.target.value;
@@ -162,7 +166,6 @@ const Product = () => {
     setEditedProduct({ ...editedProduct, properties: newProperties });
   };
 
-  // VALUE
   const addValue = (propertyIndex) => {
     const newProperties = deepCopy(editedProduct.properties);
     const hasEmptyValue = newProperties[propertyIndex].values.some((valueObj) => valueObj.value === "" && !valueObj._id);
@@ -185,7 +188,6 @@ const Product = () => {
     setEditedProduct({ ...editedProduct, properties: newProperties });
   };
 
-  // SUBMIT
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -213,21 +215,10 @@ const Product = () => {
     });
     console.log("productData", productData);
     await dispatch(editProductAsync({ oldslug: product.slug, updatedProduct: productData }));
-
     setEditedProduct(productData);
-
     navigate("/products");
   };
-
-  // DIALOG FUNCTIONS
-  const openDeleteDialog = () => {
-    setDeleteDialogOpen(true);
-  };
-
-  const closeDeleteDialog = () => {
-    setDeleteDialogOpen(false);
-  };
-  console.log("edited Product: ", editedProduct);
+  // console.log(category);
   return (
     <Box
       sx={{
@@ -262,7 +253,7 @@ const Product = () => {
                 overflowY: "auto",
               }}
             >
-              {product && allCategories && editedProduct && editedProduct.category && (
+              {category && product && allCategories && editedProduct && editedProduct.category && (
                 <form onSubmit={handleSubmit} id="product-edit-form">
                   <TextField label="Name" variant="outlined" name="name" value={editedProduct.name} onChange={handleProductChange} fullWidth margin="normal" />
                   <TextField label="Image" variant="outlined" name="image" value={editedProduct.image} onChange={handleProductChange} fullWidth margin="normal" />
@@ -276,9 +267,9 @@ const Product = () => {
                     onChange={handleProductChange}
                     fullWidth
                     margin="normal"
-                    // InputProps={{
-                    //   readOnly: true,
-                    // }}
+                    InputProps={{
+                      readOnly: true,
+                    }}
                   />
                   <TextField label="Description" variant="outlined" name="description" value={editedProduct.description} onChange={handleProductChange} fullWidth margin="normal" />
                   <TextField
@@ -308,11 +299,10 @@ const Product = () => {
                   <FormControl fullWidth margin="normal">
                     <InputLabel id="category-select-label">Category</InputLabel>
                     {/* <Select labelId="category-select-label" name="category" value={editedProduct.category} onChange={handleCategoryChange}> */}
-                    <Select labelId="category-select-label" name="category" defaultValue="" value={selectedCategory || ""} onChange={handleCategoryChange}>
-                      <MenuItem value="">None</MenuItem>
-                      {allCategories.map((categoryItem) => (
-                        <MenuItem key={categoryItem.slug} value={categoryItem.slug || ""}>
-                          {categoryItem.name || ""}
+                    <Select labelId="category-select-label" name="category" defaultValue="" value={selectedCategoryId || ""} onChange={handleCategoryChange}>
+                      {allCategories.map((cat) => (
+                        <MenuItem key={cat._id} value={cat._id || ""}>
+                          {cat.name || ""}
                         </MenuItem>
                       ))}
                     </Select>
@@ -322,7 +312,6 @@ const Product = () => {
                     <div key={index}>
                       <FormControl fullWidth margin="normal">
                         <InputLabel id={`property-select-label-${index}`}>Property</InputLabel>
-
                         <Select
                           labelId={`property-select-label-${index}`}
                           name="categoryProperty"

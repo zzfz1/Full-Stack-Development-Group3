@@ -139,7 +139,7 @@ const ProductList = () => {
   const handleNavigateToProduct = (slug) => {
     navigate(`/products/${slug}`);
   };
-
+  console.log("products: ", products);
   return (
     <Box
       sx={{
@@ -186,7 +186,7 @@ const ProductList = () => {
                     <TableCell>{product.name}</TableCell>
                     <TableCell>{product.brand}</TableCell>
                     <TableCell>{product.price}</TableCell>
-                    {/* <TableCell>{product.category.}</TableCell> */}
+                    <TableCell>{product.category.name}</TableCell>
                     <TableCell>{product.rating}</TableCell>
                     <TableCell>{product.countInStock}</TableCell>
                     <TableCell component="th" scope="row">
