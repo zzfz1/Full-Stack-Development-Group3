@@ -98,7 +98,10 @@ function SideBar({ onNavItemClick }) {
         <Divider display={navSize == "small" ? "none" : "flex"} />
         <Flex mt={4} align="center">
           {/* <Avatar size="sm" src="avatar-1.jpg" /> */}
-          <Button onClick={() => dispatch(loginSuccess(null))}>
+          <Button
+            onClick={() => dispatch(loginSuccess(null))}
+            px={{ md: 2, lg: 4 }}
+          >
             <Icon as={BiLogOut} fontSize="xl" />
             <Flex
               flexDir="column"

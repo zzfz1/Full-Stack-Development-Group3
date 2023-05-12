@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SideBar from "./sidebar";
-import { Box, HStack, useColorModeValue } from "@chakra-ui/react";
+import { Box, Flex, HStack, useColorModeValue } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import Settings from "./Settings";
 import OrderHistory from "./orderHistory";
@@ -24,20 +24,22 @@ function Profile() {
   };
 
   return (
-    <HStack>
+    <Flex justifyContent={"space-between"} alignItems={"center"}>
       <SideBar onNavItemClick={handleNavItemClick} />
       <Box
-        /*  bg={useColorModeValue("gray.50", "gray.800")} */
-        h="100%"
-        w="100%"
+        bg={useColorModeValue("gray.50", "gray.800")}
+        minH="85vh"
+        maxH="90vh"
+        minW="85vw"
+        maxW={"90vw"}
         p={0}
-        m={0}
+        ml={0}
       >
         {selectedNavItem === "Settings" && <Settings />}
         {selectedNavItem === "History" && <OrderHistory />}
         {selectedNavItem === "Address" && <AddressList />}
       </Box>
-    </HStack>
+    </Flex>
   );
 }
 

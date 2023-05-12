@@ -8,77 +8,84 @@ import {
   Tbody,
   Td,
   Tfoot,
-  Stack,
+  Flex,
   Heading,
+  Box,
+  useColorModeValue,
 } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 import React from "react";
+import { useSelector } from "react-redux";
 
-const data = [
-  {
-    name: "printer",
-    qty: 2,
-    image:
-      "https://cdn.thewirecutter.com/wp-content/media/2022/09/3dprinters-2048px-dave-gershgorn-IMG_9844.jpg?auto=webp&quality=75&width=1024",
-    price: 29,
-  },
-  {
-    name: "3D printer",
-    qty: 8,
-    image:
-      "https://cdn.thewirecutter.com/wp-content/media/2022/09/3dprinters-2048px-dave-gershgorn-IMG_9844.jpg?auto=webp&quality=75&width=1024",
-    price: 29,
-  },
-  {
-    name: "Kopria",
-    qty: 4,
-    image:
-      "https://images.unsplash.com/photo-1631016041959-0ed99b85fea7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
-
-    price: 29,
-  },
-];
 function OrderHistory() {
+  const myOrders = useSelector((state) => state.orders.myOrders);
+  const navigate = useNavigate();
+  React.useEffect(() => {
+    if (!myOrders) {
+      navigate("/Login");
+    }
+  }, []);
   return (
-    <div>
-      <Stack align={"center"} mb="2%">
+    <Box p={6} m={0} bg={useColorModeValue("gray.50", "gray.800")}>
+      <Flex
+        w="100%"
+        justifyContent="space-between"
+        alignItems="center"
+        mb={"2%"}
+      >
         <Heading
           fontSize={{ sm: "lg", md: "2xl", lg: "4xl" }}
           textAlign={"center"}
         >
           Order History
         </Heading>
-      </Stack>
-      <TableContainer w={"100%"} overflowX="scroll">
-        <Table w={"100%"} variant="striped" colorScheme="teal">
-          <TableCaption>a list of your order history</TableCaption>
-          <Thead>
-            <Tr>
-              <Th>Product</Th>
-              <Th>quantity</Th>
-              <Th isNumeric>Price</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {data.map((product) => (
-              <Tr key={product.name}>
-                <Td>
-                  <img
-                    src={product.image}
-                    alt="Product 2"
-                    width="50px"
-                    height="50px"
-                  />
-                  {product.name}
-                </Td>
-                <Td>{product.qty}</Td>
-                <Td isNumeric>{product.price}</Td>
-              </Tr>
-            ))}
-          </Tbody>
-          <Tfoot></Tfoot>
-        </Table>
-      </TableContainer>
-    </div>
+      </Flex>
+      {myOrders ? (
+        myOrders.map((order) => (
+          <Box mb={5} key={order._id}>
+            <Heading fontSize={{ sm: "sm", md: "md", lg: "lg" }}>
+              {new Date(order.createdAt).toLocaleDateString()}
+            </Heading>
+            <TableContainer maxW={"100%"} overflowX="auto">
+              <Table
+                maxW={"100%"}
+                size={{ sm: "sm", md: "md", lg: "lg" }}
+                variant="striped"
+                colorScheme="teal"
+              >
+                <Thead>
+                  <Tr>
+                    <Th>Product</Th>
+                    <Th>quantity</Th>
+                    <Th isNumeric>Price</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {order.orderItems.map((orderItem) => (
+                    <Tr key={orderItem.name}>
+                      <Td>
+                        <img
+                          src={orderItem.image}
+                          alt="Product 2"
+                          width="50px"
+                          height="50px"
+                        />
+                        {orderItem.name}
+                      </Td>
+                      <Td>{orderItem.qty}</Td>
+                      <Td isNumeric>{orderItem.price}</Td>
+                    </Tr>
+                  ))}
+                </Tbody>
+                <Tfoot></Tfoot>
+              </Table>
+            </TableContainer>
+          </Box>
+        ))
+      ) : (
+        <></>
+      )}
+    </Box>
   );
 }
 

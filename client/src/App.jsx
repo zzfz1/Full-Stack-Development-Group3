@@ -5,7 +5,7 @@ import Login from "./components/Login";
 import Footer from "./components/footer";
 import Home from "./pages/Home";
 import Header from "./components/header/navbar";
-import Products_Printers from "./pages/Products_3dPrinters.jsx";
+// import Products from "./pages/Products.jsx";
 // import AboutUs from "/src/pages/AboutUs.jsx";
 // import Contact from "/src/pages/Contacts.jsx";
 // import Checkout from "/src/pages/Checkout.jsx";
@@ -18,10 +18,13 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Profile from "./components/profile";
 import { useDispatch, useSelector } from "react-redux";
 import AddressForm from "./components/profile/addressForm";
+import { getAllCategories, getMyOrders } from "./redux/apiReq";
 import { publicProductsRequest } from "./utils/axios";
 import { useEffect } from "react";
 import { allProduct } from "./redux/productsRedux";
 import Contact from "./pages/Contacts";
+import Products from "./pages/Products";
+
 
 const router = createBrowserRouter([
   {
@@ -56,18 +59,33 @@ const router = createBrowserRouter([
         element: <ResetPassword />,
       },
       {
-        path: "/products/3dPrinters",
-        element: <Products_Printers />,
+        path: "/addressForm",
+        element: <AddressForm />,
       },
-
       {
         path: "/profile",
         element: <Profile />,
       },
       {
+
         path: "/contact",
         element: <Contact />,
       },
+
+        path: "/products",
+        element: <Products />,
+      },
+
+      // {
+      //   path: "/register",
+      //   element: <Register />,
+      // },
+      // {
+      //   path: "/reset",
+      //   element: <Reset />,
+      // // },
+      // { path: "/checkout", element: <Checkout /> },
+      // { path: "/about_us", element: <AboutUs /> },
     ],
   },
 ]);
@@ -91,7 +109,10 @@ function App() {
   }, []);
 
   const user = useSelector((state) => state.user);
-
+  if (user.currentUser) {
+    getMyOrders(user.currentUser._id);
+  }
+  getAllCategories();
   return <RouterProvider router={router}></RouterProvider>;
 }
 

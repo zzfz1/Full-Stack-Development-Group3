@@ -11,7 +11,7 @@ const Home = () => {
   return (
     <div>
       <Hero />
-      <Products_3dPrinters />
+      {/* <Products_3dPrinters /> */}
     </div>
   );
 };

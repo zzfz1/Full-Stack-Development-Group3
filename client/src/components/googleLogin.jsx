@@ -19,7 +19,7 @@ function googleLogin() {
   });
 
   useEffect(() => {
-    if (user) {
+    if (user.length) {
       axios
         .get(
           `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`,

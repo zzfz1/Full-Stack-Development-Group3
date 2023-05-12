@@ -4,7 +4,8 @@ import ProductGrid from "../components/productPage_components/product_grid";
 import ProductElement from "../components/productPage_components/product_element";
 import ProductPopUpModal from "../components/productPage_components/product_popup";
 import PrinterData from "../sampleData.json";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { allProduct } from "../redux/productsRedux";
 
 function Products_3dPrinters() {
   const products = useSelector((state) => state.products.setProducts);
