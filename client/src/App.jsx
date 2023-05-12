@@ -22,7 +22,9 @@ import { getAllCategories, getMyOrders } from "./redux/apiReq";
 import { publicProductsRequest } from "./utils/axios";
 import { useEffect } from "react";
 import { allProduct } from "./redux/productsRedux";
+import Contact from "./pages/Contacts";
 import Products from "./pages/Products";
+
 
 const router = createBrowserRouter([
   {
@@ -65,6 +67,11 @@ const router = createBrowserRouter([
         element: <Profile />,
       },
       {
+
+        path: "/contact",
+        element: <Contact />,
+      },
+
         path: "/products",
         element: <Products />,
       },
