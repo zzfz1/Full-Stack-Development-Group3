@@ -60,13 +60,8 @@ class ProductController {
           path: "properties.categoryProperty",
           select: "key",
           options: { lean: true },
-<<<<<<< HEAD
         },
       ]);
-=======
-        }
-      );
->>>>>>> 0834ab64e2a84ecf8d5ca4508eea2b4e83082c39
 
       if (!product) {
         return res.status(404).json({ message: "Product not found" });
