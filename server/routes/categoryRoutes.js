@@ -11,6 +11,8 @@ router.get("/", categoryController.getAllCategories);
 router.put("/:slug", categoryController.updateCategory);
 router.delete("/:slug", categoryController.deleteCategory);
 router.get("/:slug", categoryController.getCategoryBySlug);
-router.get("/id/:id", categoryController.getCategoryByID);
+router.get("/properties/all", categoryController.getCategoryProperties);
+router.post("/properties/create", categoryController.createProperty);
+router.delete("/properties/:id", categoryController.deleteProperty);
 
 export default router;
