@@ -25,8 +25,48 @@ import {
   MdOutlineEmail,
 } from "react-icons/md";
 import { BsGithub, BsDiscord, BsPerson } from "react-icons/bs";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 function Contact() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleNameChange = (event) => {
+    setName(event.target.value);
+  };
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const handleMessageChange = (event) => {
+    setMessage(event.target.value);
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+
+    // Input validation
+    if (name.trim() === "" || email.trim() === "" || message.trim() === "") {
+      toast.error("Please! fill out all the fields", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return;
+    }
+    // Email validation
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+      toast.error("Please! fill in the right email", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return;
+    }
+    console.log("data: " + name, email, message);
+    // Send form data to server
+    // ...
+  };
   return (
     <Container maxW="full" mt={0} centerContent overflow="hidden">
       <Flex>
@@ -130,7 +170,12 @@ function Contact() {
                             pointerEvents="none"
                             children={<BsPerson color="gray.800" />}
                           />
-                          <Input type="text" size="md" />
+                          <Input
+                            value={name}
+                            onChange={handleNameChange}
+                            type="text"
+                            size="md"
+                          />
                         </InputGroup>
                       </FormControl>
                       <FormControl id="name">
@@ -140,12 +185,20 @@ function Contact() {
                             pointerEvents="none"
                             children={<MdOutlineEmail color="gray.800" />}
                           />
-                          <Input type="text" size="md" />
+                          <Input
+                            value={email}
+                            onChange={handleEmailChange}
+                            type="email"
+                            size="md"
+                            required
+                          />
                         </InputGroup>
                       </FormControl>
                       <FormControl id="name">
                         <FormLabel>Message</FormLabel>
                         <Textarea
+                          value={message}
+                          onChange={handleMessageChange}
                           borderColor="gray.300"
                           _hover={{
                             borderRadius: "gray.300",
@@ -159,6 +212,7 @@ function Contact() {
                           bg="primary.500"
                           color="white"
                           _hover={{}}
+                          onClick={handleFormSubmit}
                         >
                           Send Message
                         </Button>
