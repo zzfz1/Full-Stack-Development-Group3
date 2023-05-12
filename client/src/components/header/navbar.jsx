@@ -17,45 +17,28 @@ import {
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { DesktopSubNav, MobileNavItem, MobileNav } from "./subNav";
 import { BsPersonCircle } from "react-icons/bs";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Badge, Icon } from "@chakra-ui/react";
-import { useState } from "react";
+import { setCategories } from "../../redux/categoryRedux";
+import { useEffect, useState } from "react";
 import { FiShoppingCart } from "react-icons/fi";
 
-const links = [
+let links = [
   {
     label: "Home",
-    path: "/",
+    href: "/",
   },
   {
     label: "Products",
-    path: "/products",
-    children: [
-      {
-        label: "3D Printers",
-        href: "#",
-      },
-      {
-        label: "3D printer hardware",
-        href: "#",
-      },
-      {
-        label: "Accessories",
-        href: "#",
-      },
-    ],
+    href: "/products",
+    children: [],
   },
   {
     label: "About us",
-    path: "/about_us",
-    href: "#",
-  },
-  {
-    label: "Contact",
-    path: "/contact",
-    href: "#",
+    href: "/about_us",
   },
 ];
+
 export default function WithSubnavigation() {
   const user = useSelector((state) => state.user.currentUser);
   const { isOpen, onToggle } = useDisclosure();
@@ -66,7 +49,22 @@ export default function WithSubnavigation() {
   function handleAddToCart() {
     setCartItemCount(cartItemCount + 1);
   }
-
+  let categories = useSelector((state) => state.categories.allCategories);
+  if (categories) {
+    const categoriesLinks = categories.map((category) => {
+      return {
+        label: category.name,
+        href: `/products?category=${category.slug}`,
+      };
+    });
+    links = links.map((link) => {
+      if (link.label === "Products")
+        return { ...link, children: categoriesLinks };
+      else {
+        return { ...link };
+      }
+    });
+  }
   return (
     <Box>
       <Flex
@@ -179,7 +177,6 @@ const DesktopNav = () => {
   const linkColor = useColorModeValue("gray.600", "gray.200");
   const linkHoverColor = useColorModeValue("gray.800", "white");
   const popoverContentBgColor = useColorModeValue("white", "gray.800");
-
   return (
     <Stack direction={"row"} spacing={4}>
       {links.map((navItem) => (

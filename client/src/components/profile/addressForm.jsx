@@ -103,7 +103,10 @@ export default function AddressForm({ originalAddress = {}, userID, onClose }) {
     >
       <Stack spacing={8} mx={"auto"} maxW={"80vw"} py={12} px={6}>
         <Stack align={"center"}>
-          <Heading fontSize={"4xl"} textAlign={"center"}>
+          <Heading
+            fontSize={{ sm: "lg", md: "2xl", lg: "4xl" }}
+            textAlign={"center"}
+          >
             Address Form
           </Heading>
           <Text fontSize={"lg"} color={"gray"} pt="4%" px={["5%", "15%"]}>

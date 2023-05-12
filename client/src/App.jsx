@@ -18,10 +18,11 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Profile from "./components/profile";
 import { useDispatch, useSelector } from "react-redux";
 import AddressForm from "./components/profile/addressForm";
-import { getMyOrders } from "./redux/apiReq";
+import { getAllCategories, getMyOrders } from "./redux/apiReq";
 import { publicProductsRequest } from "./utils/axios";
 import { useEffect } from "react";
 import { allProduct } from "./redux/productsRedux";
+import Products from "./pages/Products";
 
 const router = createBrowserRouter([
   {
@@ -63,6 +64,10 @@ const router = createBrowserRouter([
         path: "/profile",
         element: <Profile />,
       },
+      {
+        path: "/products",
+        element: <Products />,
+      },
 
       // {
       //   path: "/register",
@@ -100,6 +105,7 @@ function App() {
   if (user.currentUser) {
     getMyOrders(user.currentUser._id);
   }
+  getAllCategories();
   return <RouterProvider router={router}></RouterProvider>;
 }
 
