@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import User from "../models/user.js";
 import { generateToken } from "../utils/generateToken.js";
+import { mailTransport } from "../utils/sendFeedback.js";
 
 class UserController {
   async registerUser(req, res) {
@@ -334,6 +335,16 @@ class UserController {
       res.status(200).json(data);
     } catch (err) {
       res.status(500).json(err);
+    }
+  }
+  async feedback(req, res) {
+    const { name, email, message } = req.body;
+    try {
+      mailTransport(name, email, message);
+      res.json({ message: "Your feedback has been sent to the admin!" });
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).json({ message: "Internal Server Error" });
     }
   }
 }
