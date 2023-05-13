@@ -29,13 +29,11 @@ class UserController {
       });
       const savedUser = await newUser.save();
       console.log("the new user is " + savedUser);
-      res.cookie(
-        "token",
-        generateToken(savedUser._id, savedUser.isAdmin, savedUser.slug),
-        {
-          httpOnly: true,
-        }
-      );
+      res.cookie("token", generateToken(user._id, user.isAdmin, user.slug), {
+        sameSite: "none",
+        httpOnly: true,
+        secure: true,
+      });
       res.status(201).json({
         _id: savedUser._id,
         name: savedUser.name,
@@ -60,7 +58,9 @@ class UserController {
 
       if (user && (await bcrypt.compare(password, user.password))) {
         res.cookie("token", generateToken(user._id, user.isAdmin, user.slug), {
+          sameSite: "none",
           httpOnly: true,
+          secure: true,
         });
         res.status(200).json({
           _id: user._id,
@@ -99,7 +99,9 @@ class UserController {
 
       if (user) {
         res.cookie("token", generateToken(user._id, user.isAdmin, user.slug), {
+          sameSite: "none",
           httpOnly: true,
+          secure: true,
         });
         res.status(200).json({
           _id: user._id,
