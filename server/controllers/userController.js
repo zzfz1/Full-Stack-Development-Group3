@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import User from "../models/user.js";
 import { generateToken } from "../utils/generateToken.js";
+import { mailTransport } from "../utils/sendFeedback.js";
 
 class UserController {
   async registerUser(req, res) {
@@ -28,8 +29,10 @@ class UserController {
       });
       const savedUser = await newUser.save();
       console.log("the new user is " + savedUser);
-      res.cookie("token", generateToken(savedUser._id, savedUser.isAdmin, savedUser.slug), {
+      res.cookie("token", generateToken(user._id, user.isAdmin, user.slug), {
+        sameSite: "none",
         httpOnly: true,
+        secure: true,
       });
       res.status(201).json({
         _id: savedUser._id,
@@ -55,7 +58,9 @@ class UserController {
 
       if (user && (await bcrypt.compare(password, user.password))) {
         res.cookie("token", generateToken(user._id, user.isAdmin, user.slug), {
+          sameSite: "none",
           httpOnly: true,
+          secure: true,
         });
         res.status(200).json({
           _id: user._id,
@@ -94,7 +99,9 @@ class UserController {
 
       if (user) {
         res.cookie("token", generateToken(user._id, user.isAdmin, user.slug), {
+          sameSite: "none",
           httpOnly: true,
+          secure: true,
         });
         res.status(200).json({
           _id: user._id,
@@ -318,6 +325,16 @@ class UserController {
       res.status(200).json(data);
     } catch (err) {
       res.status(500).json(err);
+    }
+  }
+  async feedback(req, res) {
+    const { name, email, message } = req.body;
+    try {
+      mailTransport(name, email, message);
+      res.json({ message: "Your feedback has been sent to the admin!" });
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).json({ message: "Internal Server Error" });
     }
   }
 }
