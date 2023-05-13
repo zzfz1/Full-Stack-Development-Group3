@@ -11,7 +11,7 @@ import Product from "./pages/product/Product";
 import Login from "./pages/login/Login";
 // import { useState } from "react";
 import { useSelector } from "react-redux";
-import { Grid, Box, Container } from "@mui/material";
+import { Grid, Box, Container, Hidden } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material";
 import OrderList from "./pages/orderList/OrderList";
 import UserList from "./pages/UserList/UserList";
@@ -56,9 +56,9 @@ function App() {
     return (
       <ThemeProvider theme={customTheme}>
         <Router>
-          <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+          <Box sx={{ display: "flex", flexDirection: "column" }}>
             <Topbar />
-            <Box sx={{ display: "flex", flexGrow: 1, overflow: "hidden" }}>
+            <Box sx={{ display: "flex", flexGrow: 1}}>
               <Sidebar />
               <Box
                 component="main"
