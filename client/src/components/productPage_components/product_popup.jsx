@@ -25,7 +25,7 @@ import { useDispatch } from "react-redux";
 import { addProduct } from "../../redux/cartRedux";
 
 function ProductCard({ item, isOpen, onClose }) {
-  const { name, brand, price, properties } = item;
+  const { image, name, brand, price, properties } = item;
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
   const [selectedValues, setSelectedValues] = useState({});
@@ -58,9 +58,7 @@ function ProductCard({ item, isOpen, onClose }) {
   const handleIncrement = () => {
     setQuantity(quantity + 1);
   };
-  const images = item.image;
-  const test = [];
-  test.push(images);
+  console.log("the images ", name);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -76,11 +74,7 @@ function ProductCard({ item, isOpen, onClose }) {
         <ModalCloseButton />
 
         <ModalBody>
-          {images.length > 1 ? (
-            <Slider images={images} />
-          ) : (
-            <img src={images} />
-          )}
+          {image.length > 1 ? <Slider images={image} /> : <img src={image} />}
           <Text mt="2rem">{item.description}</Text>
           <Text mt="2rem" fontSize="2xl" fontWeight="bold">
             ${price.toFixed(2)}
