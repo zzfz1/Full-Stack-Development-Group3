@@ -34,18 +34,22 @@ export default function Sidebar() {
                 <ListItemText primary="Home" />
               </ListItemButton>
             </Link>
+            <Link to="/userAnalytics" style={{ textDecoration: "none" }}>
             <ListItemButton selected={isSelected("/userAnalytics")} onClick={handleItemClick}>
               <ListItemIcon>
                 <Timeline />
               </ListItemIcon>
               <ListItemText primary="User Analytics" />
             </ListItemButton>
+            </Link>
+            <Link to="/salesAnalytics" style={{ textDecoration: "none" }}>
             <ListItemButton selected={isSelected("/salesAnalytics")} onClick={handleItemClick}>
               <ListItemIcon>
                 <TrendingUp />
               </ListItemIcon>
               <ListItemText primary="Sales Analytics" />
             </ListItemButton>
+            </Link>
           </List>
         </Box>
         <Box>
