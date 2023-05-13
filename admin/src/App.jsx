@@ -15,6 +15,8 @@ import { Grid, Box, Container } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material";
 import OrderList from "./pages/orderList/OrderList";
 import UserList from "./pages/UserList/UserList";
+import UserAnalytics from "./pages/userAnalytics/UserAnalytics";
+import SalesAnalyticsChart from "./pages/salesAnalytics/SalesAnalytics";
 
 function App() {
   // Use useSelector to access the Redux store and check if the user is an admin
@@ -69,6 +71,8 @@ function App() {
                 <Routes>
                   {/* Define routes with the new syntax using the "element" prop */}
                   <Route path="/" element={<Home />} />
+                  <Route path="/userAnalytics" element={<UserAnalytics />} />
+                  <Route path="/salesAnalytics" element={<SalesAnalyticsChart />} />
                   <Route path="/categories" element={<CategoryList />} />
                   <Route path="/categories/:slug" element={<Category />} />
                   <Route path="/products" element={<ProductList />} />
