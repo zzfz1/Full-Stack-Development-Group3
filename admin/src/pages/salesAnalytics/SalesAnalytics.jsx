@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import Chart from '../../components/chart/chart';
+import React, { useEffect, useMemo, useState } from "react";
+import Chart from "../../components/chart/chart";
 // import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 // import axios from 'axios';
 
@@ -20,16 +20,10 @@ const SalesAnalyticsChart = () => {
   //   conversionRate: (data.revenue / 1000) * 100 // Assuming a conversion rate formula
   // }));
 
-
-  const API_URL = "http://localhost:3000/api/orders";
-
+  const API_URL = "https://us-central1-web-shop-group-3.cloudfunctions.net/api/orders";
 
   const [orderStat, setOrder] = useState([]);
-  const MONTHS = useMemo(
-    () => [
-      "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Agu", "Sep", "Oct", "Nov", "Dec"
-    ], []
-  );
+  const MONTHS = useMemo(() => ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Agu", "Sep", "Oct", "Nov", "Dec"], []);
 
   useEffect(() => {
     const getStats = async () => {
@@ -41,15 +35,12 @@ const SalesAnalyticsChart = () => {
           { mon: 3, totalPrice: 2050 },
           { mon: 4, totalPrice: 1690 },
           { mon: 5, totalPrice: 1800 },
-        ]
-        console.log('res order', res);
-        res.map((item) =>
-          setOrder((prev) => [
-            ...prev,
-            { month: MONTHS[item.mon-1], "Total Sales": item.totalPrice }
-          ])
-        );
-      } catch (err) { console.log(err); }
+        ];
+        console.log("res order", res);
+        res.map((item) => setOrder((prev) => [...prev, { month: MONTHS[item.mon - 1], "Total Sales": item.totalPrice }]));
+      } catch (err) {
+        console.log(err);
+      }
     };
     getStats();
   }, [MONTHS]);
@@ -57,13 +48,7 @@ const SalesAnalyticsChart = () => {
   return (
     <>
       <div>
-        <Chart
-          data={orderStat}
-          title="Sales Analytics"
-          grid
-          dataKey="Total Sales"
-          color='#b71c1c'
-        />
+        <Chart data={orderStat} title="Sales Analytics" grid dataKey="Total Sales" color="#b71c1c" />
 
         {/* <ResponsiveContainer width="100%" aspect={4 / 1}>
           <LineChart data={conversionRateData}>

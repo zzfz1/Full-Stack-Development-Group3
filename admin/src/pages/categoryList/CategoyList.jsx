@@ -145,6 +145,7 @@ const CategoryList = () => {
           sx={{
             maxHeight: "calc(100vh - 150px)",
             overflowY: "auto",
+            overflowX: "auto",
           }}
         >
           <Table aria-label="sortable table">

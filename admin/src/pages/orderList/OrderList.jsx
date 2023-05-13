@@ -24,7 +24,7 @@ import {
   FormControlLabel,
   Container,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+
 import { getAllOrdersAsync, updateOrderAsync, deleteOrderAsync } from "../../redux/orderSlice";
 
 // A function to handle sorting
@@ -66,11 +66,8 @@ const OrderList = () => {
   const dispatch = useDispatch();
   const orders = useSelector((state) => state.order.orders);
   const [selectedOrder, setSelectedOrder] = useState(null);
-  const [openDialog, setOpenDialog] = useState(false);
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-  const [orderName, setOrderName] = useState("");
-  const [orderNameError, setOrderNameError] = useState("");
 
   // State for sorting
   const [order, setOrder] = useState("asc");
@@ -82,19 +79,9 @@ const OrderList = () => {
     setOrderBy(property);
   };
 
-  //
-
   useEffect(() => {
     dispatch(getAllOrdersAsync());
   }, [dispatch]);
-
-  const handleOpenDialog = () => {
-    setOpenDialog(true);
-  };
-
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-  };
 
   const handleOpenEditDialog = (order) => {
     setSelectedOrder(order);
@@ -152,6 +139,7 @@ const OrderList = () => {
           sx={{
             maxHeight: "calc(100vh - 150px)",
             overflowY: "auto",
+            overflowX: "auto",
           }}
         >
           <Table aria-label="sortable table">

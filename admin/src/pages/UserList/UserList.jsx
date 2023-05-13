@@ -20,6 +20,8 @@ import {
   TableSortLabel,
   TableBody,
   Container,
+  Switch,
+  FormControlLabel,
 } from "@mui/material";
 import { getAllUsersAsync, updateUserAsync, deleteUserAsync } from "../../redux/userSlice";
 
@@ -60,14 +62,9 @@ const headCells = [
 const UserList = () => {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.user.users);
-  const currentUser = useSelector((state) => state.user.currentUser);
   const [selectedUser, setSelectedUser] = useState(null);
-  const [openDialog, setOpenDialog] = useState(false);
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-  const [userName, setUserName] = useState("");
-  const [userNameError, setUserNameError] = useState("");
-
   // State for sorting
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("createdAt");
@@ -82,14 +79,6 @@ const UserList = () => {
     dispatch(getAllUsersAsync());
     console.log("users: ", users);
   }, [dispatch]);
-
-  const handleOpenDialog = () => {
-    setOpenDialog(true);
-  };
-
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-  };
 
   const handleOpenEditDialog = (user) => {
     setSelectedUser(user);
@@ -146,6 +135,7 @@ const UserList = () => {
           sx={{
             maxHeight: "calc(100vh - 150px)",
             overflowY: "auto",
+            overflowX: "auto",
           }}
         >
           <Table aria-label="sortable table">
@@ -212,51 +202,14 @@ const UserList = () => {
               value={selectedUser?.email || ""}
               onChange={(e) => setSelectedUser({ ...selectedUser, username: e.target.value })}
             />
-            <TextField
-              margin="dense"
-              id="isAdmin"
-              label="isAdmin"
-              type="text"
-              fullWidth
-              value={selectedUser?.isAdmin || ""}
-              onChange={(e) => setSelectedUser({ ...selectedUser, username: e.target.value })}
+            <FormControlLabel
+              control={
+                //
+                <Switch checked={selectedUser?.isAdmin || false} onChange={(e) => setSelectedUser({ ...selectedUser, isAdmin: !selectedUser?.isAdmin })} id="isAdmin" />
+              }
+              label="Is Admin"
             />
             <TextField margin="dense" id="img" label="img" type="text" fullWidth value={selectedUser?.img || ""} onChange={(e) => setSelectedUser({ ...selectedUser, username: e.target.value })} />
-            // Add more fields for each property
-            {selectedUser?.shippingAddress.map((address, index) => (
-              <Box key={index}>
-                <TextField
-                  margin="dense"
-                  id="firstName"
-                  label="First Name"
-                  type="text"
-                  fullWidth
-                  value={address.firstName || ""}
-                  onChange={(e) => {
-                    const newAddresses = [...selectedUser.shippingAddress];
-                    newAddresses[index].firstName = e.target.value;
-                    setSelectedUser({ ...selectedUser, shippingAddress: newAddresses });
-                  }}
-                />
-                // Add more fields for each address property
-                <Button
-                  onClick={() => {
-                    const newAddresses = [...selectedUser.shippingAddress];
-                    newAddresses.splice(index, 1);
-                    setSelectedUser({ ...selectedUser, shippingAddress: newAddresses });
-                  }}
-                >
-                  Delete Address
-                </Button>
-              </Box>
-            ))}
-            <Button
-              onClick={() => {
-                setSelectedUser({ ...selectedUser, shippingAddress: [...selectedUser.shippingAddress, {}] });
-              }}
-            >
-              Add Address
-            </Button>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseEditDialog} color="secondary">

@@ -65,7 +65,7 @@ function App() {
                 mt={9}
                 sx={{
                   flexGrow: 1,
-                  overflowY: "fixed",
+                  overflowY: "auto",
                 }}
               >
                 <Routes>

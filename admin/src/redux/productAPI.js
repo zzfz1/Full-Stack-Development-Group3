@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3000/api/products";
+const API_URL = "https://us-central1-web-shop-group-3.cloudfunctions.net/api/products";
 
 export const getAllProductsAPI = async () => {
   try {
@@ -27,6 +27,7 @@ export const getProductBySlugAPI = async (slug) => {
       withCredentials: true,
     };
     const response = await axios.get(`${API_URL}/${slug}`, config);
+    console.log("getProductBySlugAPI_response:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error geting category by slug:", error);

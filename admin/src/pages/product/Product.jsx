@@ -262,7 +262,7 @@ const Product = () => {
                 overflowY: "auto",
               }}
             >
-              {product && allCategories && editedProduct && editedProduct.category && (
+              {product && allCategories && editedProduct && editedProduct.properties && (
                 <form onSubmit={handleSubmit} id="product-edit-form">
                   <TextField label="Name" variant="outlined" name="name" value={editedProduct.name} onChange={handleProductChange} fullWidth margin="normal" />
                   <TextField label="Image" variant="outlined" name="image" value={editedProduct.image} onChange={handleProductChange} fullWidth margin="normal" />
@@ -327,7 +327,7 @@ const Product = () => {
                           labelId={`property-select-label-${index}`}
                           name="categoryProperty"
                           defaultValue=""
-                          value={property.categoryProperty || ""}
+                          value={property.categoryProperty ? property.categoryProperty._id : ""}
                           onChange={(e) => handlePropertyChange(index, e)}
                         >
                           {category && category.categoryProperties ? (

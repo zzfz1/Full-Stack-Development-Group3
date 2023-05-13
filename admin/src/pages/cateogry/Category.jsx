@@ -25,8 +25,6 @@ const Category = () => {
   const status = useSelector((state) => state.category.status);
   const category = useSelector((state) => state.category.category);
   const categoryProperties = useSelector((state) => state.categoryProperty.properties);
-  //i think i dont need this for the singel category because i populate the localcategory with the
-  // everything
 
   useEffect(() => {
     dispatch(getCategoryBySlugAsync(slug)); //get category with populated categoryproperties
@@ -145,15 +143,15 @@ const Category = () => {
   };
 
   const openDeletePropertyDialog = () => {
+    if (categoryProperties.length > 0) {
+      setPropertyToDelete(categoryProperties[0]._id);
+    }
+
     setDeletePropertyDialogOpen(true);
   };
 
   const closeDeletePropertyDialog = () => {
     setDeletePropertyDialogOpen(false);
-  };
-
-  const handlePropertyToDeleteChange = (event) => {
-    setPropertyToDelete(event.target.value);
   };
 
   const handlePropertySelect = (e, index) => {
