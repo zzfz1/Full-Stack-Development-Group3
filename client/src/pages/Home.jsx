@@ -6,12 +6,14 @@ import Products_3dPrinters from "./Products_3dPrinters";
 import { useDispatch } from "react-redux";
 import { publicProductsRequest } from "../utils/axios";
 import { allProduct } from "../redux/productsRedux";
+import Carousel from "../components/carousel";
 
 const Home = () => {
   return (
     <div>
       <Hero />
       {/* <Products_3dPrinters /> */}
+      <Carousel />
     </div>
   );
 };
