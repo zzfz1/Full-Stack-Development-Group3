@@ -25,9 +25,7 @@ class CategoryController {
 
   async getCategoryBySlug(req, res) {
     try {
-      const category = await Category.findOne({
-        slug: req.params.slug,
-      }).populate("categoryProperties");
+      const category = await Category.findOne({ slug: req.params.slug }).populate("categoryProperties");
 
       if (!category) {
         return res.status(404).json({ message: "Category not found" });
@@ -106,9 +104,7 @@ class CategoryController {
       const existingCategoryProperty = await CategoryProperty.findOne({ key });
 
       if (existingCategoryProperty) {
-        return res
-          .status(400)
-          .json({ message: "Category Property already exists!" });
+        return res.status(400).json({ message: "Category Property already exists!" });
       }
 
       const categoryProperty = new CategoryProperty({ key });
