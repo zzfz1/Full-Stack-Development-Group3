@@ -76,7 +76,7 @@ export default function AddressForm({ originalAddress = {}, userID, onClose }) {
       // Send the form data to the server
       try {
         const userInfo = await axios.put(
-          `http://localhost:3000/api/users/address/${userID}`,
+          `https://us-central1-web-shop-group-3.cloudfunctions.net/api/users/address/${userID}`,
           values,
           {
             headers: {

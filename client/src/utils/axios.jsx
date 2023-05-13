@@ -1,9 +1,13 @@
 import axios from "axios";
 
-const BASE_USER_URL = "http://localhost:3000/api/users";
-const BASE_PRODUCTS_URL = "http://localhost:3000/api/";
-const BASE_ORDERS_URL = "http://localhost:3000/api/orders";
-const BASE_CATEGORIES_URL = "http://localhost:3000/api/categories";
+const BASE_USER_URL =
+  "https://us-central1-web-shop-group-3.cloudfunctions.net/api/users";
+const BASE_PRODUCTS_URL =
+  "https://us-central1-web-shop-group-3.cloudfunctions.net/api/";
+const BASE_ORDERS_URL =
+  "https://us-central1-web-shop-group-3.cloudfunctions.net/api/orders";
+const BASE_CATEGORIES_URL =
+  "https://us-central1-web-shop-group-3.cloudfunctions.net/api/categories";
 
 export const publicUserRequest = axios.create({
   baseURL: BASE_USER_URL,

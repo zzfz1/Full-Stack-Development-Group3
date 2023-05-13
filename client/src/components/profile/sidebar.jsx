@@ -38,7 +38,7 @@ function SideBar({ onNavItemClick }) {
   useEffect(() => {
     changeNavSize(isSmallScreen ? "small" : "large");
     if (!user) {
-      navigate("/");
+      navigate("/login");
     }
   }, [isSmallScreen, user]);
 
@@ -99,7 +99,10 @@ function SideBar({ onNavItemClick }) {
         <Flex mt={4} align="center">
           {/* <Avatar size="sm" src="avatar-1.jpg" /> */}
           <Button
-            onClick={() => dispatch(loginSuccess(null))}
+            onClick={() => {
+              dispatch(loginSuccess(null));
+              navigate("/");
+            }}
             px={{ md: 2, lg: 4 }}
           >
             <Icon as={BiLogOut} fontSize="xl" />

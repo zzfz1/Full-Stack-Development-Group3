@@ -33,11 +33,12 @@ function googleLogin() {
         .then(async (res) => {
           console.log(res.data);
           let exists = await axios.get(
-            `http://localhost:3000/api/users/check/${res.data.email}`
+            `https://us-central1-web-shop-group-3.cloudfunctions.net/api/users/check/${res.data.email}`,
+            { withCredentials: true }
           );
           if (exists.data) {
             const userInfo = await axios.post(
-              "http://localhost:3000/api/users/login/google",
+              "https://us-central1-web-shop-group-3.cloudfunctions.net/api/users/login/google",
               {
                 email: res.data.email,
               },

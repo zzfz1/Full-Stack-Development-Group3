@@ -74,7 +74,7 @@ const ShippingAddressList = () => {
 
   async function removeAddress() {
     const userInfo = await axios.delete(
-      `http://localhost:3000/api/users/address/${userID}/${removingAddress}`,
+      `https://us-central1-web-shop-group-3.cloudfunctions.net/api/users/address/${userID}/${removingAddress}`,
       {
         withCredentials: true,
       }
