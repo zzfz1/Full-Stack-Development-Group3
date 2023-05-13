@@ -25,7 +25,6 @@ import { allProduct } from "./redux/productsRedux";
 import Contact from "./pages/Contacts";
 import Products from "./pages/Products";
 
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -67,11 +66,10 @@ const router = createBrowserRouter([
         element: <Profile />,
       },
       {
-
         path: "/contact",
         element: <Contact />,
       },
-
+      {
         path: "/products",
         element: <Products />,
       },

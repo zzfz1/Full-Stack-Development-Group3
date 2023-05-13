@@ -37,6 +37,10 @@ let links = [
     label: "About us",
     href: "/about_us",
   },
+  {
+    label: "Contact",
+    href: "/contact",
+  },
 ];
 
 export default function WithSubnavigation() {

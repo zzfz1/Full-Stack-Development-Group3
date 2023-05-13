@@ -24,7 +24,7 @@ import {
   MdFacebook,
   MdOutlineEmail,
 } from "react-icons/md";
-import { BsGithub, BsDiscord, BsPerson } from "react-icons/bs";
+import { BsInstagram, BsDiscord, BsPerson } from "react-icons/bs";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
@@ -68,7 +68,7 @@ function Contact() {
     // ...
   };
   return (
-    <Container maxW="full" mt={0} centerContent overflow="hidden">
+    <Container maxW="full" my={10} centerContent overflow="hidden">
       <Flex>
         <Box
           bg="gray.700"
@@ -83,7 +83,7 @@ function Contact() {
               /* border="solid red 2px" */
               justify={"center"}
             >
-              <WrapItem>
+              <WrapItem justify={"center"}>
                 <Box>
                   <Heading>Contact us</Heading>
                   <Text mt={{ sm: 3, md: 3, lg: 5 }} color="gray.500">
@@ -146,15 +146,17 @@ function Contact() {
                       size="lg"
                       isRound={true}
                       _hover={{ bg: "#0D74FF" }}
-                      icon={<BsGithub size="28px" />}
+                      icon={<BsInstagram size="28px" />}
                     />
                     <IconButton
+                      as="a"
                       aria-label="discord"
                       variant="ghost"
                       size="lg"
                       isRound={true}
                       _hover={{ bg: "#0D74FF" }}
                       icon={<BsDiscord size="28px" />}
+                      href="https://discord.com/invite/AJqNHVfD2t"
                     />
                   </HStack>
                 </Box>
