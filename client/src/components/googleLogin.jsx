@@ -10,20 +10,19 @@ import { loginSuccess } from "../redux/userRedux.jsx";
 import { FcGoogle } from "react-icons/fc";
 
 function googleLogin() {
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => {
       setUser(codeResponse);
-      console.log(codeResponse);
     },
     onError: (error) => console.log("Login Failed:", error),
   });
 
   useEffect(() => {
-    if (user.length) {
+    if (user) {
       axios
         .get(
           `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`,
@@ -35,7 +34,6 @@ function googleLogin() {
           }
         )
         .then(async (res) => {
-          console.log(res.data);
           let exists = await axios.get(
             `https://us-central1-web-shop-group-3.cloudfunctions.net/api/users/check/${res.data.email}`,
             { withCredentials: true }
@@ -53,6 +51,7 @@ function googleLogin() {
                 withCredentials: true,
               }
             );
+            console.log(userInfo);
             dispatch(loginSuccess(userInfo.data));
             navigate(`/`);
           } else {
