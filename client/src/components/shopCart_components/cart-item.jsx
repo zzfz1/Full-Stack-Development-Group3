@@ -1,19 +1,23 @@
-import { CloseButton, Flex, Link, Select, useColorModeValue, Button,ButtonGroup, IconButton } from '@chakra-ui/react'
+import { CloseButton, Flex, Link, Button,ButtonGroup, IconButton} from '@chakra-ui/react'
 import { MinusIcon, AddIcon } from "@chakra-ui/icons";
 import { PriceTag } from './cart-priceTag'
 import { CartProductMeta } from './cart-productMeta'
 import { useState } from "react";
 
-const QuantitySelector=({quantity}) => {
+const QuantitySelector=({quantity, price}) => {
+  
   const [selectedQuantity, setQuantity] = useState(quantity);
+  const [summedPrice, setPrice] = useState(price);
 
   const handleDecrement = () => {
-    if (quantity > 1) {
+    if (selectedQuantity > 1) {
       setQuantity(selectedQuantity - 1);
+      setPrice(summedPrice - price)
     }
   };
   const handleIncrement = () => {
     setQuantity(selectedQuantity + 1);
+    setPrice(summedPrice + price);
   };
 
   return (
@@ -38,19 +42,16 @@ const QuantitySelector=({quantity}) => {
 
 }
 
-export const CartItem = (props) => {
+function CartItem (props) {
   const {
-    orders,
     quantity,
     name,
     description,
     price,
-    imageUrl,
+    image,
     currency,
-    isGiftWrapping,
-    onClickDelete,
+    onClickDelete
   } = props;
-
 
   return (
     <Flex
@@ -64,14 +65,13 @@ export const CartItem = (props) => {
       <CartProductMeta
         name={name}
         description={description}
-        image={imageUrl}
-        isGiftWrapping={isGiftWrapping}
+        image={image}
       />
-
+  
       {/* Desktop */}
       <Flex width="full" justify="space-between" display={{base: 'none', md: 'flex'}}>
 
-        <QuantitySelector quantity={quantity}/>
+        <QuantitySelector quantity={quantity} price = {price}/>
         <PriceTag price={price} currency={currency} />
         <CloseButton aria-label={`Delete ${name} from cart`} onClick={onClickDelete} />
       
@@ -88,5 +88,6 @@ export const CartItem = (props) => {
         <PriceTag price={price} currency={currency} />
       </Flex>
     </Flex>
-  )
+  );
 }
+export default CartItem;
