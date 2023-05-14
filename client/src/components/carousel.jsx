@@ -48,8 +48,16 @@ const Carousel = () => {
   };
   return (
     <>
-      <Heading mb={8}> Trending Product </Heading>
-      <box b={8} direction={"row"} align={"center"}>
+      <Heading mx={"10%"} my={"16"}>
+        {" "}
+        Trending Product{" "}
+      </Heading>
+      <Box
+        mx={10}
+        direction={"row"}
+        align={"center"}
+        style={{ margin: "0 auto", width: "90%" }}
+      >
         <Slider {...settings}>
           {items.map((item) => (
             <Box key={item._id} m={0} p={0}>
@@ -57,7 +65,7 @@ const Carousel = () => {
             </Box>
           ))}
         </Slider>
-      </box>
+      </Box>
     </>
   );
 };
