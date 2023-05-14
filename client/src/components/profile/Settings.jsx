@@ -22,7 +22,8 @@ function Settings() {
   const dispatch = useDispatch();
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
-  const userSlug = useSelector((state) => state.user.currentUser.slug);
+  const currentUser = useSelector((state) => state.user.currentUser);
+  const userSlug = currentUser ? currentUser.slug : "";
   const initialValues = {
     email: "",
     oldPassword: "",
@@ -66,7 +67,7 @@ function Settings() {
               onSubmit={async (values, actions) => {
                 try {
                   const res = await axios.put(
-                    `http://localhost:3000/api/users/update/${userSlug}`,
+                    `https://us-central1-web-shop-group-3.cloudfunctions.net/api/users/update/${userSlug}`,
                     {
                       email: values.email,
                       oldPassword: values.oldPassword,

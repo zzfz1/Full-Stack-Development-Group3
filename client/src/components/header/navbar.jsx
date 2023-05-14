@@ -30,7 +30,7 @@ let links = [
   },
   {
     label: "Products",
-    href: "/products",
+    href: "#",
     children: [],
   },
   {
@@ -63,7 +63,13 @@ export default function WithSubnavigation() {
     });
     links = links.map((link) => {
       if (link.label === "Products")
-        return { ...link, children: categoriesLinks };
+        return {
+          ...link,
+          children: [
+            { label: "All Products", href: "/products" },
+            ...categoriesLinks,
+          ],
+        };
       else {
         return { ...link };
       }

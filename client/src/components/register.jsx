@@ -84,7 +84,7 @@ function Register() {
       // Send the form data to the server
       try {
         const userInfo = await axios.post(
-          "http://localhost:3000/api/users/register",
+          "https://us-central1-web-shop-group-3.cloudfunctions.net/api/users/register",
           {
             name: values.name,
             username: values.username,
