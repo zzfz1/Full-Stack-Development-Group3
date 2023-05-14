@@ -26,8 +26,9 @@ function Hero() {
   };
   return (
     <Container
+      bg={'#e2e8f0'}
       as={Stack}
-      maxW={"6xl"}
+      maxW={"7xl"}
       minH={("50vh", "40vh")}
       direction={{ base: "column-reverse", md: "row" }}
       p={[0, 4, 6]}
@@ -76,6 +77,7 @@ function Hero() {
               color="white"
               rounded={"full"}
               bg="primary.500"
+              _hover={{bg: 'primary.700'}}
             >
               View Product
             </Button>

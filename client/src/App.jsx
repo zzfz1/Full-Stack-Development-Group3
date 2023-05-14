@@ -24,6 +24,7 @@ import { useEffect } from "react";
 import { allProduct } from "./redux/productsRedux";
 import Contact from "./pages/Contacts";
 import Products from "./pages/Products";
+import AboutUs from "./pages/AboutUs";
 
 const router = createBrowserRouter([
   {
@@ -72,6 +73,10 @@ const router = createBrowserRouter([
       {
         path: "/products",
         element: <Products />,
+      },
+      {
+        path: "/about_us",
+        element: <AboutUs />,
       },
 
       // {
