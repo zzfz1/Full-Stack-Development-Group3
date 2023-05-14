@@ -41,4 +41,6 @@ router.delete(
 );
 router.delete("/:slug", verifyTokenAndAuthorization, userController.deleteUser);
 
+router.post("/feedback", userController.feedback);
+
 export default router;
