@@ -27,6 +27,7 @@ export const getProductBySlugAPI = async (slug) => {
       withCredentials: true,
     };
     const response = await axios.get(`${API_URL}/${slug}`, config);
+    console.log("getProductBySlugAPI_response:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error geting category by slug:", error);

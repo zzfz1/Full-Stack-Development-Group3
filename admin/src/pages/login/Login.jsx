@@ -14,7 +14,7 @@ const LoginForm = () => {
     e.preventDefault();
     const resultAction = await dispatch(loginUserAsync({ email, password }));
     if (loginUserAsync.fulfilled.match(resultAction)) {
-      navigate("/dashboard");
+      navigate("/");
     }
   };
 

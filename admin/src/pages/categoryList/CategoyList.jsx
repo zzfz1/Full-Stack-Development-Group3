@@ -1,56 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllCategoriesAsync, createCategoryAsync } from "../../redux/categorySlice";
-import { Link } from "react-router-dom";
+import { getComparator, stableSort } from "../utils/sortHelper";
 import { useNavigate } from "react-router-dom";
-import {
-  TableContainer,
-  Paper,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableSortLabel,
-  TableBody,
-  Container,
-  TextField,
-  FormHelperText,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  Box,
-  Button,
-  Typography,
-  AppBar,
-  Toolbar,
-} from "@mui/material";
-
-// Table sort functions
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-function getComparator(category, orderBy) {
-  return category === "desc" ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const category = comparator(a[0], b[0]);
-    if (category !== 0) return category;
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-}
+import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableSortLabel, TableBody, Container, Box, Button, Typography, AppBar, Toolbar } from "@mui/material";
+import { getAllCategoriesAsync, createCategoryAsync } from "../../redux/categorySlice";
+import { CategoryDialog } from "./CategoryDialog";
 
 // Define the table headers
 const headCells = [
@@ -145,6 +99,7 @@ const CategoryList = () => {
           sx={{
             maxHeight: "calc(100vh - 150px)",
             overflowY: "auto",
+            overflowX: "auto",
           }}
         >
           <Table aria-label="sortable table">
@@ -172,24 +127,14 @@ const CategoryList = () => {
             </TableBody>
           </Table>
         </TableContainer>
-
-        <Dialog open={openCategoryDialog} onClose={handleCategoryDialogClose} aria-labelledby="select-category-dialog-title">
-          <DialogTitle id="select-category-dialog-title">Select Category</DialogTitle>
-          <DialogContent>
-            <DialogContentText>Select a category for the new category:</DialogContentText>
-            <DialogContentText>Enter the category name and select a category for the new category:</DialogContentText>
-            <TextField autoFocus margin="dense" id="category-name" label="Category Name" type="text" fullWidth value={categoryName} onChange={handleCategoryNameChange} error={!!categoryNameError} />
-            {categoryNameError && <FormHelperText error>{categoryNameError}</FormHelperText>}
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCategoryDialogClose} color="secondary">
-              Cancel
-            </Button>
-            <Button onClick={handleCreateCategory} color="primary" disabled={!categoryName}>
-              Create Category
-            </Button>
-          </DialogActions>
-        </Dialog>
+        <CategoryDialog
+          open={openCategoryDialog}
+          handleClose={handleCategoryDialogClose}
+          handleCreate={handleCreateCategory}
+          categoryName={categoryName}
+          handleCategoryNameChange={handleCategoryNameChange}
+          categoryNameError={categoryNameError}
+        />
       </Container>
     </Box>
   );

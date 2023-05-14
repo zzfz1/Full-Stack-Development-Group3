@@ -3,58 +3,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getAllProductsAsync, createProductAsync } from "../../redux/productSlice";
 import { getAllCategoriesAsync } from "../../redux/categorySlice";
-import {
-  TableContainer,
-  Paper,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableSortLabel,
-  TableBody,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Container,
-  TextField,
-  FormHelperText,
-  Box,
-  Button,
-  Typography,
-  AppBar,
-  Toolbar,
-} from "@mui/material";
-
-// A function to handle sorting
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-function getComparator(product, orderBy) {
-  return product === "desc" ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const product = comparator(a[0], b[0]);
-    if (product !== 0) return product;
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-}
+import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableSortLabel, TableBody, Container, Box, Button, Typography, AppBar, Toolbar } from "@mui/material";
+import { getComparator, stableSort } from "../utils/sortHelper";
+import ProductDialog from "./ProductListDialog";
 
 // Define the table headers
 const headCells = [
@@ -165,6 +116,7 @@ const ProductList = () => {
           sx={{
             maxHeight: "calc(100vh - 150px)",
             overflowY: "auto",
+            overflowX: "auto",
           }}
         >
           <Table aria-label="sortable table">
@@ -198,43 +150,17 @@ const ProductList = () => {
             </TableBody>
           </Table>
         </TableContainer>
-
-        <Dialog open={openCategoryDialog} onClose={handleCategoryDialogClose} aria-labelledby="select-category-dialog-title">
-          <DialogTitle id="select-category-dialog-title">Select Category</DialogTitle>
-          <DialogContent>
-            <DialogContentText>Select a category for the new product:</DialogContentText>
-            <DialogContentText>Enter the product name and select a category for the new product:</DialogContentText>
-            <TextField autoFocus margin="dense" id="product-name" label="Product Name" type="text" fullWidth value={productName} onChange={handleProductNameChange} error={!!productNameError} />
-            {productNameError && <FormHelperText error>{productNameError}</FormHelperText>}
-
-            <FormControl fullWidth>
-              <InputLabel htmlFor="select-category">Category</InputLabel>
-              <Select
-                value={selectedCategory}
-                onChange={handleCategorySelect}
-                inputProps={{
-                  name: "category",
-                  id: "select-category",
-                }}
-              >
-                {categories.map((category) => (
-                  <MenuItem key={category._id} value={category._id}>
-                    {category.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </DialogContent>
-
-          <DialogActions>
-            <Button onClick={handleCategoryDialogClose} color="secondary">
-              Cancel
-            </Button>
-            <Button onClick={handleCreateProduct} color="primary" disabled={!selectedCategory || !productName}>
-              Create Product
-            </Button>
-          </DialogActions>
-        </Dialog>
+        <ProductDialog
+          open={openCategoryDialog}
+          handleClose={handleCategoryDialogClose}
+          handleCreateProduct={handleCreateProduct}
+          categories={categories}
+          selectedCategory={selectedCategory}
+          handleCategorySelect={handleCategorySelect}
+          productName={productName}
+          handleProductNameChange={handleProductNameChange}
+          productNameError={productNameError}
+        />
       </Container>
     </Box>
   );
