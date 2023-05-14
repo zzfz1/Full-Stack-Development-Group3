@@ -27,6 +27,7 @@ import {
 import { BsInstagram, BsDiscord, BsPerson } from "react-icons/bs";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 function Contact() {
   const [name, setName] = useState("");
@@ -45,7 +46,7 @@ function Contact() {
     setMessage(event.target.value);
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
 
     // Input validation
@@ -65,8 +66,34 @@ function Contact() {
     }
     console.log("data: " + name, email, message);
     // Send form data to server
-    // ...
+    try {
+      const res = await axios.post(
+        " http://localhost:3000/api/users/feedback",
+        {
+          name,
+          email,
+          message,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      if (res) {
+        toast.success("Password Successfully reset it", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      }
+    } catch (err) {
+      console.error(err.message);
+      toast.error("Oops! Server Error! try again later", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
   };
+
   return (
     <Container maxW="full" my={10} centerContent overflow="hidden">
       <Flex>
