@@ -14,7 +14,10 @@ function googleLogin() {
   const navigate = useNavigate();
 
   const login = useGoogleLogin({
-    onSuccess: (codeResponse) => setUser(codeResponse),
+    onSuccess: (codeResponse) => {
+      setUser(codeResponse);
+      console.log(codeResponse);
+    },
     onError: (error) => console.log("Login Failed:", error),
   });
 

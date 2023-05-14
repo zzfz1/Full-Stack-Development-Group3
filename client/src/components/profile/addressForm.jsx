@@ -1,19 +1,5 @@
 import React from "react";
-import {
-  Flex,
-  SimpleGrid,
-  Box,
-  FormControl,
-  FormLabel,
-  Input,
-  Stack,
-  Button,
-  Heading,
-  Text,
-  FormErrorMessage,
-  useColorModeValue,
-  FormHelperText,
-} from "@chakra-ui/react";
+import {Flex,SimpleGrid,Box,FormControl,FormLabel,Input,Stack,Button,Heading,Text,FormErrorMessage,useColorModeValue,FormHelperText} from "@chakra-ui/react";
 import { isValidNumber } from "libphonenumber-js";
 import { Formik, Form, Field } from "formik";
 import axios from "axios";
@@ -24,43 +10,28 @@ export default function AddressForm({ originalAddress = {}, userID, onClose }) {
   const dispatch = useDispatch();
   const initialValues = originalAddress
     ? originalAddress
-    : {
-        firstName: "",
-        lastName: "",
-        streetAddress: "",
-        apartmentNumber: "",
-        postalCode: "",
-        country: "",
-        phoneNumber: "",
-      };
+    : {firstName: "",lastName: "",streetAddress: "",apartmentNumber: "",postalCode: "",country: "",phoneNumber: "",};
 
   const validate = (values) => {
     const errors = {};
-
     if (!values.firstName) {
       errors.firstName = "Required";
     }
-
     if (!values.lastName) {
       errors.lastName = "Required";
     }
-
     if (!values.streetAddress) {
       errors.streetAddress = "Required";
     }
-
     if (!values.city) {
       errors.city = "Required";
     }
-
     if (!values.postalCode) {
       errors.postalCode = "Required";
     }
-
     if (!values.country) {
       errors.country = "Required";
     }
-
     if (values.phoneNumber && !isValidNumber(values.phoneNumber)) {
       errors.phoneNumber = "Invalid phone number";
     }
@@ -68,7 +39,6 @@ export default function AddressForm({ originalAddress = {}, userID, onClose }) {
   };
   const handleSubmit = async (values, actions) => {
     const errors = validate(values);
-
     if (Object.keys(errors).length > 0) {
       actions.setErrors(errors);
     } else {
@@ -95,12 +65,7 @@ export default function AddressForm({ originalAddress = {}, userID, onClose }) {
     }
   };
   return (
-    <Flex
-      minH={"80vh"}
-      align={"center"}
-      justify={"center"}
-      bg={useColorModeValue("gray.50", "gray.800")}
-    >
+    <Flex minH={"80vh"} align={"center"} justify={"center"} bg={useColorModeValue("gray.50", "gray.800")}>
       <Stack spacing={8} mx={"auto"} maxW={"80vw"} py={12} px={6}>
         <Stack align={"center"}>
           <Heading
@@ -113,18 +78,9 @@ export default function AddressForm({ originalAddress = {}, userID, onClose }) {
             Please fill in your address details
           </Text>
         </Stack>
-        <Box
-          rounded={"lg"}
-          bg={useColorModeValue("white", "gray.700")}
-          boxShadow={"lg"}
-          p={8}
-        >
+        <Box rounded={"lg"} bg={useColorModeValue("white", "gray.700")} boxShadow={"lg"} p={8} >
           {/* form control */}
-          <Formik
-            initialValues={initialValues}
-            onSubmit={handleSubmit}
-            validate={validate}
-          >
+          <Formik initialValues={initialValues} onSubmit={handleSubmit} validate={validate} >
             {({ handleSubmit, errors, touched }) => (
               <Form>
                 <Stack spacing={4}>
@@ -132,11 +88,7 @@ export default function AddressForm({ originalAddress = {}, userID, onClose }) {
                     <Box>
                       <Field name="firstName">
                         {({ field, form }) => (
-                          <FormControl
-                            isInvalid={
-                              form.errors.firstName && form.touched.firstName
-                            }
-                          >
+                          <FormControl isInvalid={form.errors.firstName && form.touched.firstName}>
                             <FormLabel minWidth="100px">First Name *</FormLabel>
                             <Input {...field} borderColor={"gray.700"} />
                             {!(
@@ -155,22 +107,14 @@ export default function AddressForm({ originalAddress = {}, userID, onClose }) {
                     <Box>
                       <Field name="lastName">
                         {({ field, form }) => (
-                          <FormControl
-                            isInvalid={
-                              form.errors.lastName && form.touched.lastName
-                            }
-                          >
+                          <FormControl isInvalid={form.errors.lastName && form.touched.lastName}>
                             <FormLabel minWidth="100px">Last Name *</FormLabel>
                             <Input {...field} borderColor={"gray.700"} />
-                            {!(
-                              form.errors.lastName && form.touched.lastName
-                            ) ? (
+                            {!( form.errors.lastName && form.touched.lastName) ? (
                               <FormHelperText>Your last name</FormHelperText>
-                            ) : (
-                              <FormErrorMessage color="red">
+                            ) : (<FormErrorMessage color="red">
                                 {form.errors.lastName}
-                              </FormErrorMessage>
-                            )}
+                              </FormErrorMessage>)}
                           </FormControl>
                         )}
                       </Field>
@@ -329,12 +273,7 @@ export default function AddressForm({ originalAddress = {}, userID, onClose }) {
                     </Box>
                   </SimpleGrid>
                   <Stack spacing={10} pt={2}>
-                    <Button
-                      type="submit"
-                      loadingText="Submitting"
-                      size="lg"
-                      bg={"primary.500"}
-                      color={"white"}
+                    <Button type="submit" loadingText="Submitting" size="lg" bg={"primary.500"} color={"white"}
                       _hover={{
                         bg: "primary.600",
                       }}

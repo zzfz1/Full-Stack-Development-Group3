@@ -41,13 +41,18 @@ const ShippingAddressList = () => {
   const addressesPerPage = isMd ? 1 : islg ? 2 : 3;
 
   const indexOfLastAddress = currentPage * addressesPerPage;
-  const indexOfFirstAddress = indexOfLastAddress - addressesPerPage;
+  const indexOfFirstAddress =
+    indexOfLastAddress - addressesPerPage > 0
+      ? indexOfLastAddress - addressesPerPage
+      : 0;
   const currentAddresses = addresses.slice(
     indexOfFirstAddress,
     indexOfLastAddress
   );
-
-  const totalPages = Math.ceil(addresses.length / addressesPerPage);
+  const totalPages =
+    Math.ceil(addresses.length / addressesPerPage) === 0
+      ? 1
+      : Math.ceil(addresses.length / addressesPerPage);
 
   const handlePageChange = (newPage) => {
     if (newPage > 0 && newPage <= totalPages) {
