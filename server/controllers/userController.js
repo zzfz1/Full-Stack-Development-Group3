@@ -6,7 +6,8 @@ import { mailTransport } from "../utils/sendFeedback.js";
 class UserController {
   async registerUser(req, res) {
     try {
-      const { name, username, email, password, isAdmin, img, shippingAddress } = req.body;
+      const { name, username, email, password, isAdmin, img, shippingAddress } =
+        req.body;
 
       const userEmailExists = await User.findOne({ email });
       const userUsernameExists = await User.findOne({ username });
@@ -29,11 +30,15 @@ class UserController {
       });
       const savedUser = await newUser.save();
       console.log("the new user is " + savedUser);
-      res.cookie("token", generateToken(user._id, user.isAdmin, user.slug), {
-        sameSite: "none",
-        httpOnly: true,
-        secure: true,
-      });
+      res.cookie(
+        "token",
+        generateToken(savedUser._id, savedUser.isAdmin, savedUser.slug),
+        {
+          sameSite: "none",
+          httpOnly: true,
+          secure: true,
+        }
+      );
       res.status(201).json({
         _id: savedUser._id,
         name: savedUser.name,
@@ -186,13 +191,17 @@ class UserController {
         return res.status(404).json({ message: "User not found" });
       }
 
-      const { name, username, email, isAdmin, img, shippingAddress, password } = req.body;
+      const { name, username, email, isAdmin, img, shippingAddress, password } =
+        req.body;
 
       if (name) user.name = name;
 
       if (username) {
         const existingUsername = await User.findOne({ username });
-        if (existingUsername && existingUsername._id.toString() !== user._id.toString()) {
+        if (
+          existingUsername &&
+          existingUsername._id.toString() !== user._id.toString()
+        ) {
           return res.status(400).json({ message: "Username already taken" });
         }
         user.username = username;
@@ -231,7 +240,9 @@ class UserController {
 
       if (user) {
         if (shippingAddressId) {
-          const shippingAddressIndex = user.shippingAddress.findIndex((address) => address._id.toString() === shippingAddressId);
+          const shippingAddressIndex = user.shippingAddress.findIndex(
+            (address) => address._id.toString() === shippingAddressId
+          );
 
           if (shippingAddressIndex !== -1) {
             user.shippingAddress[shippingAddressIndex] = body;
@@ -259,7 +270,9 @@ class UserController {
       const shippingAddressId = req.params.shippingAddressId; // ID of the shipping address
 
       if (user) {
-        const shippingAddressIndex = user.shippingAddress.findIndex((address) => address._id.toString() === shippingAddressId);
+        const shippingAddressIndex = user.shippingAddress.findIndex(
+          (address) => address._id.toString() === shippingAddressId
+        );
 
         if (shippingAddressIndex !== -1) {
           user.shippingAddress.splice(shippingAddressIndex, 1);
@@ -293,7 +306,10 @@ class UserController {
       console.log("the user", user);
       if (user) {
         const hashedPassword = await bcrypt.hash(newPassword, 10);
-        const updatePass = await User.updateOne({ slug: slug }, { password: hashedPassword });
+        const updatePass = await User.updateOne(
+          { slug: slug },
+          { password: hashedPassword }
+        );
         res.status(200).json({ message: "password reseted" });
       } else {
         res.status(400).json({ message: "Wrong User not found!" });
