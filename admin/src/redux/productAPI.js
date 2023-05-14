@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://us-central1-web-shop-group-3.cloudfunctions.net/api/products";
+const API_URL = "http://localhost:3000/api/products";
 
 export const getAllProductsAPI = async () => {
   try {

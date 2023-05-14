@@ -6,7 +6,7 @@ import WidgetSm from "../../components/widgetSm/widgetSm";
 // import { userRequest, publicRequest } from "../../requestMethods"
 import axios from "axios";
 
-const API_URL = "https://us-central1-web-shop-group-3.cloudfunctions.net/api/users";
+const API_URL = "http://localhost:3000/api/users";
 
 export default function Home() {
   const [userStats, setUserStats] = useState([]);

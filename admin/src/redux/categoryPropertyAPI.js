@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://us-central1-web-shop-group-3.cloudfunctions.net/api/categories";
+const API_URL = "http://localhost:3000/api/categories";
 const config = {
   headers: {
     "Content-Type": "application/json",
