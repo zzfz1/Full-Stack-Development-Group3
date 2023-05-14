@@ -29,6 +29,7 @@ function ProductCard({ item, isOpen, onClose }) {
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
   const [selectedValues, setSelectedValues] = useState({});
+  const [error, setError] = useState("");
 
   const handleSelectChange = (property, value) => {
     setSelectedValues((prevState) => ({
@@ -43,6 +44,19 @@ function ProductCard({ item, isOpen, onClose }) {
       selectedValues,
       quantity,
     };
+
+    if (Object.keys(selectedValues).length === 0) {
+      return setError("Please select a value");
+    }
+
+    /*    for (const property in selectedValues) {
+      // do something with each property and its value
+      console.log("the porperties", properties);
+      if (Object.keys(property) === 0) {
+        return setError("Please select a value");
+      }
+    } */
+
     console.log("the data is: ", data);
     // your reducer function here
     dispatch(addProduct({ ...data, quantity, name, price }));
@@ -108,6 +122,7 @@ function ProductCard({ item, isOpen, onClose }) {
               return null;
             }
           })}
+          <Text color="red">{error}</Text>
           {/* the quantity section */}
           <Flex align="center" mt="2rem">
             <Text mr={4} fontSize="lg">
