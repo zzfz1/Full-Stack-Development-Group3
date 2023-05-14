@@ -33,10 +33,8 @@ import {
           </Stack>
           {isGiftWrapping && (
             <HStack spacing="1" mt="3" color={mode('gray.600', 'gray.400')}>
-              <Icon as={FiGift} boxSize="4" />
-              <Link fontSize="sm" textDecoration="underline">
-                Add gift wrapping
-              </Link>
+              
+              
             </HStack>
           )}
         </Box>
