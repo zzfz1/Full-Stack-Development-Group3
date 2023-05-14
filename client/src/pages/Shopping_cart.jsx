@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Flex,
   Heading,
   HStack,
@@ -7,17 +8,26 @@ import {
   Stack,
   useColorModeValue as mode,
 } from '@chakra-ui/react'
-import { useSelector } from 'react-redux'
-import { CartItem } from '../components/shopCart_components/cart-item'
+import { useSelector, useDispatch } from 'react-redux'
+import CartItem from '../components/shopCart_components/cart-item'
 import { CartOrderSummary } from '../components/shopCart_components/cart-orderSummary'
-import CartRedux from '../redux/cartRedux'
+import { deleteProduct, clearArray } from "../redux/cartRedux"
 
 function ShoppingCart()
 {
-  const orders = useSelector(state => state.cart.orders);
-  const quantity = useSelector(state => state.cart.quantity);
-  const total = useSelector(state => state.cart.total);
- 
+  const {orders, quantity, total } = useSelector(state => state.cart) 
+  const dispatch = useDispatch();
+
+  const EmptyArray = () =>{
+    console.log("array is emptied!")
+    dispatch(clearArray())
+  }
+
+  const handleDeleteItem = (id) => {
+    console.log(`deleted element ${id}`)
+    dispatch(deleteProduct(id));
+  };
+
   return(
      <Box
        maxW={{
@@ -49,30 +59,30 @@ function ShoppingCart()
            md: '16',
          }}
        >
-         <Stack
-           spacing={{
-             base: '8',
-             md: '10',
-           }}
-           flex="2"
-         >
+         <Stack spacing={{base: '8', md: '10',}} flex="2">
+           
            <Heading fontSize="2xl" fontWeight="extrabold">
              Shopping Cart ({quantity} items)
            </Heading>
+           
+           <Button onClick={EmptyArray}>Empty Cart</Button>
    
            <Stack spacing="6">
              {orders.map((item) => (
-               <CartItem key={item.id} {...item} />
+               <CartItem key={item.id} {...item} onClickDelete={handleDeleteItem}/>
              ))}
            </Stack>
+
          </Stack>
    
          <Flex direction="column" align="center" flex="1">
+           
            <CartOrderSummary total = {total}/>
            <HStack mt="6" fontWeight="semibold">
              <p>or</p>
              <Link color={mode('blue.500', 'blue.200')}>Continue shopping</Link>
            </HStack>
+
          </Flex>
        </Stack>
      </Box>
