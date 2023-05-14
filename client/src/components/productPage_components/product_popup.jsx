@@ -11,7 +11,6 @@ import {
   ModalOverlay,
   ModalContent,
   ModalCloseButton,
-  Stack,
   Text,
   Select,
   Badge,
@@ -29,8 +28,15 @@ function ProductCard({ item, isOpen, onClose }) {
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
   const [selectedValues, setSelectedValues] = useState({});
+  const [error, setError] = useState("");
+
+  const propertyKeys = properties.map(
+    (property) => property.categoryProperty.key
+  );
 
   const handleSelectChange = (property, value) => {
+    //console.log("the properties", selectedValues);
+    setError("");
     setSelectedValues((prevState) => ({
       ...prevState,
       [property]: value,
@@ -43,7 +49,17 @@ function ProductCard({ item, isOpen, onClose }) {
       selectedValues,
       quantity,
     };
-    console.log("the data is: ", data);
+
+    for (const property of propertyKeys) {
+      // do something with each property and its value
+      console.log("the property key", property);
+      console.log("the property value", selectedValues[property]);
+      if (!selectedValues[property]) {
+        setError("Please select a value");
+        return;
+      }
+    }
+
     // your reducer function here
     dispatch(addProduct({ ...data, quantity, name, price }));
 
@@ -58,7 +74,6 @@ function ProductCard({ item, isOpen, onClose }) {
   const handleIncrement = () => {
     setQuantity(quantity + 1);
   };
-  console.log("the images ", name);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -108,6 +123,7 @@ function ProductCard({ item, isOpen, onClose }) {
               return null;
             }
           })}
+          <Text color="red">{error}</Text>
           {/* the quantity section */}
           <Flex align="center" mt="2rem">
             <Text mr={4} fontSize="lg">

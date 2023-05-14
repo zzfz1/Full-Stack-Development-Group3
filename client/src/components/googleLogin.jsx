@@ -1,5 +1,5 @@
 import React from "react";
-import { IconButton } from "@chakra-ui/react";
+import { Button, Center, IconButton, Text } from "@chakra-ui/react";
 import { BsGoogle } from "react-icons/bs";
 import { useState, useEffect } from "react";
 import { useGoogleLogin, googleLogout } from "@react-oauth/google";
@@ -7,6 +7,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../redux/userRedux.jsx";
+import { FcGoogle } from "react-icons/fc";
 
 function googleLogin() {
   const [user, setUser] = useState([]);
@@ -65,15 +66,17 @@ function googleLogin() {
   }, [user]);
   return (
     <div>
-      <IconButton
+      <Button
         onClick={() => login()}
-        aria-label="google"
-        variant="ghost"
-        size="lg"
-        isRound={true}
-        _hover={{ bg: "primary.500" }}
-        icon={<BsGoogle size="40px" />}
-      />
+        w={"full"}
+        maxW={"md"}
+        variant={"outline"}
+        leftIcon={<FcGoogle />}
+      >
+        <Center>
+          <Text>Sign in with Google</Text>
+        </Center>
+      </Button>
     </div>
   );
 }

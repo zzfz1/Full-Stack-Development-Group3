@@ -1,4 +1,4 @@
-import { Link, Stack, Text } from "@chakra-ui/react"
+import { Link, Stack, Text } from "@chakra-ui/react";
 
 const ListHeader = ({ children }) => {
   return (
@@ -12,10 +12,12 @@ export default function Company() {
   return (
     <Stack align={"flex-start"}>
       <ListHeader>Company</ListHeader>
-      <Link href={"#"}>About us</Link>
-      <Link href={"#"}>Contact us</Link>
-      <Link href={"#"}>Products</Link>
+      <Link href={"/"}>
+        <Text>Home</Text>
+      </Link>
+      <Link href={"products"}>Products</Link>
+      <Link href={"/contact"}>Contact </Link>
+      <Link href={"/about"}>About us</Link>
     </Stack>
-    
-  )
+  );
 }

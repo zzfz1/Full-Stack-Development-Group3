@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 
-const NewsCard = ({ title, text, image }) => {
+const NewsCard = ({ title, text, image, link }) => {
   return (
     <Card maxW="sm" bg="gray.300">
       <CardBody h={"18rem"}>
@@ -26,7 +26,7 @@ const NewsCard = ({ title, text, image }) => {
         <Stack mt="6" spacing="3">
           <Heading size="md">{title}</Heading>
           <Text>{text}</Text>
-          <Button variant="ghost" colorScheme="blue">
+          <Button as={"a"} href={link} variant="ghost" colorScheme="blue">
             See what we have
           </Button>
         </Stack>
