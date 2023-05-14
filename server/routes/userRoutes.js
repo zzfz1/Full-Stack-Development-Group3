@@ -35,7 +35,7 @@ router.put(
   userController.updateOrAddShippingAddress
 );
 router.delete(
-  "/address/:userId/:shippingAddressId",
+  "/address/:id/:shippingAddressId",
   verifyTokenAndAuthorization,
   userController.deleteShippingAddress
 );

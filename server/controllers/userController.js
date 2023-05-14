@@ -267,7 +267,7 @@ class UserController {
   }
   async deleteShippingAddress(req, res) {
     try {
-      const user = await User.findById(req.params.userId); // ID of the user
+      const user = await User.findById(req.params.id); // ID of the user
       const shippingAddressId = req.params.shippingAddressId; // ID of the shipping address
 
       if (user) {
