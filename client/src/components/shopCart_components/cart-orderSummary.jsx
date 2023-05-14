@@ -21,13 +21,14 @@ import {
     )
   }
   
-  export const CartOrderSummary = () => {
+  export const CartOrderSummary = (props) => {
+    const {total} = props;
     return (
       <Stack spacing="8" borderWidth="1px" rounded="lg" padding="8" width="full">
         <Heading size="md">Order Summary</Heading>
   
         <Stack spacing="6">
-          <OrderSummaryItem label="Subtotal" value={formatPrice(597)} />
+          <OrderSummaryItem label="Subtotal" value={formatPrice(total)} />
           <OrderSummaryItem label="Shipping + Tax">
             <Link href="#" textDecor="underline">
               Calculate shipping
@@ -43,7 +44,7 @@ import {
               Total
             </Text>
             <Text fontSize="xl" fontWeight="extrabold">
-              {formatPrice(597)}
+              {formatPrice(total)}
             </Text>
           </Flex>
         </Stack>
