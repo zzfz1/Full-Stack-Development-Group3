@@ -45,17 +45,17 @@ function ProductCard({ item, isOpen, onClose }) {
       quantity,
     };
 
-    if (Object.keys(selectedValues).length === 0) {
+    /*  if (Object.keys(selectedValues).length === 0) {
       return setError("Please select a value");
-    }
+    } */
 
-    /*    for (const property in selectedValues) {
+    for (const property in selectedValues) {
       // do something with each property and its value
-      console.log("the porperties", properties);
-      if (Object.keys(property) === 0) {
+      console.log("the properties", properties);
+      if (property.length === 0) {
         return setError("Please select a value");
       }
-    } */
+    }
 
     console.log("the data is: ", data);
     // your reducer function here

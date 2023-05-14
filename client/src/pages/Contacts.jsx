@@ -68,7 +68,7 @@ function Contact() {
     // Send form data to server
     try {
       const res = await axios.post(
-        " http://localhost:3000/api/users/feedback",
+        "http://localhost:3000/users/feedback",
         {
           name,
           email,
@@ -82,7 +82,7 @@ function Contact() {
         }
       );
       if (res) {
-        toast.success("Password Successfully reset it", {
+        toast.success("Message  Successfully send", {
           position: toast.POSITION.TOP_CENTER,
         });
       }
@@ -113,8 +113,8 @@ function Contact() {
               <WrapItem justify={"center"}>
                 <Box>
                   <Heading>Contact us</Heading>
-                  <Text mt={{ sm: 3, md: 3, lg: 5 }} color="gray.500">
-                    Fill up the form below to contact
+                  <Text mt={{ sm: 3, md: 3, lg: 5 }} color="gray.300">
+                    Fill up the form to contact us
                   </Text>
                   <Box py={{ base: 5, sm: 5, md: 8, lg: 10 }}>
                     <VStack pl={0} spacing={3} alignItems="flex-start">
