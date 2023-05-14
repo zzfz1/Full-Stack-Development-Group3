@@ -55,7 +55,15 @@ export const MobileNavItem = ({ label, children, href }) => {
   const { isOpen, onToggle } = useDisclosure();
 
   return (
-    <Stack spacing={4} onClick={children && onToggle}>
+    <Stack
+      spacing={4}
+      onClick={(e) => {
+        if (children) {
+          e.stopPropagation();
+          onToggle();
+        }
+      }}
+    >
       <Flex
         py={2}
         as={Link}

@@ -1,0 +1,18 @@
+{
+  "projects": {
+    "default": "web-shop-group-3"
+  },
+  "targets": {
+    "web-shop-group-3": {
+      "hosting": {
+        "client": [
+          "web-shop-group-3"
+        ],
+        "admin": [
+          "admin-group-3"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

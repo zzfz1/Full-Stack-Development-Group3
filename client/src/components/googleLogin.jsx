@@ -10,17 +10,19 @@ import { loginSuccess } from "../redux/userRedux.jsx";
 import { FcGoogle } from "react-icons/fc";
 
 function googleLogin() {
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const login = useGoogleLogin({
-    onSuccess: (codeResponse) => setUser(codeResponse),
+    onSuccess: (codeResponse) => {
+      setUser(codeResponse);
+    },
     onError: (error) => console.log("Login Failed:", error),
   });
 
   useEffect(() => {
-    if (user.length) {
+    if (user) {
       axios
         .get(
           `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`,
@@ -32,13 +34,13 @@ function googleLogin() {
           }
         )
         .then(async (res) => {
-          console.log(res.data);
           let exists = await axios.get(
-            `http://localhost:3000/api/users/check/${res.data.email}`
+            `https://us-central1-web-shop-group-3.cloudfunctions.net/api/users/check/${res.data.email}`,
+            { withCredentials: true }
           );
           if (exists.data) {
             const userInfo = await axios.post(
-              "http://localhost:3000/api/users/login/google",
+              "https://us-central1-web-shop-group-3.cloudfunctions.net/api/users/login/google",
               {
                 email: res.data.email,
               },
@@ -49,6 +51,7 @@ function googleLogin() {
                 withCredentials: true,
               }
             );
+            console.log(userInfo);
             dispatch(loginSuccess(userInfo.data));
             navigate(`/`);
           } else {

@@ -92,7 +92,7 @@ function Login() {
               onSubmit={async (values, actions) => {
                 try {
                   const res = await axios.post(
-                    "http://localhost:3000/api/users/login",
+                    "https://us-central1-web-shop-group-3.cloudfunctions.net/api/users/login",
                     {
                       email: values.email,
                       password: values.password,
@@ -204,26 +204,3 @@ function Login() {
 }
 
 export default Login;
-
-/* 
-{async (values, actions) => {
-                try {
-                  const data = await axios.post(
-                    "http://localhost:3000/api/users/login",
-                    {
-                      email: values.email,
-                      password: values.password,
-                    },
-                    {
-                      headers: {
-                        "Content-Type": "application/json",
-                      },
-                    }
-                  );
-                  console.log(data);
-                  actions.setSubmitting(false);
-                } catch (err) {
-                  console.error(err.message);
-                  actions.setSubmitting(false);
-                }
-              }} */
