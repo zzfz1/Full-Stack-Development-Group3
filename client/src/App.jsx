@@ -10,6 +10,7 @@ import Products_Printers from "./pages/Products_3dPrinters.jsx";
 // import Contact from "/src/pages/Contacts.jsx";
 // import Checkout from "/src/pages/Checkout.jsx";
 // import SignIn from "/src/pages/Sign_in.jsx";
+import ShoppingCart from "./pages/Shopping_cart";
 import Register from "../src/components/register";
 import SendEmail from "../src/components/resetPassword/sendEmail";
 import ResetPassword from "../src/components/resetPassword/resetPassword";
@@ -58,10 +59,13 @@ const router = createBrowserRouter([
         path: "/products/3dPrinters",
         element: <Products_Printers />,
       },
-
       {
         path: "/profile",
         element: <Profile />,
+      },
+      {
+        path: "/shopping_cart",
+        element: <ShoppingCart />,
       },
     ],
   },
