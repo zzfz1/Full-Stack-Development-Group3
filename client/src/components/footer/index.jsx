@@ -9,8 +9,7 @@ import {
 import Logo from "./logo";
 import SocialMedia from "./socialMedia";
 import Company from "./company";
-import Support from "./support";
-import Subscribe from "./subscription";
+import ContactInfo from "./contactInfo";
 
 export default function Footer() {
   return (
@@ -22,7 +21,7 @@ export default function Footer() {
     >
       <Container as={Stack} maxW={"6xl"} py={10}>
         <SimpleGrid
-          templateColumns={{ sm: "1fr 1fr", md: "2fr 1fr 1fr 2fr" }}
+          templateColumns={{ sm: "1fr 1fr", md: "2fr 2fr 1fr" }}
           spacing={8}
         >
           <Stack spacing={6}>
@@ -32,10 +31,8 @@ export default function Footer() {
             </Text>
             <SocialMedia />
           </Stack>
-
           <Company />
-          <Support />
-          <Subscribe />
+          <ContactInfo />
         </SimpleGrid>
       </Container>
     </Box>
