@@ -64,7 +64,7 @@ function ProductCard({ item, isOpen, onClose }) {
     dispatch(addProduct({ ...data, quantity, name, price }));
 
     // close the modal
-    //onClose();
+    onClose();
   };
   const handleDecrement = () => {
     if (quantity > 1) {

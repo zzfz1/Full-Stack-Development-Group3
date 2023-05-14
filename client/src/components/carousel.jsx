@@ -4,14 +4,12 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useSelector } from "react-redux";
 import ProductElement from "./productPage_components/product_element";
-import { Box, Heading } from "@chakra-ui/react";
+import { Box, Center, Heading, Stack } from "@chakra-ui/react";
 
 const Carousel = () => {
   let products = useSelector((state) => state.products.setProducts);
   //console.log("the product ", products);
-  const items = products.filter(
-    (product) => product.category.name == "Filament"
-  );
+  const items = products.filter((product) => product.trending == true);
   console.log("the item is: ", items);
 
   var settings = {
@@ -49,16 +47,18 @@ const Carousel = () => {
     ],
   };
   return (
-    <Box p={8}>
-      <Heading> Filament </Heading>
-      <Slider {...settings}>
-        {items.map((item) => (
-          <Box key={item._id} p={1}>
-            <ProductElement item={item} />
-          </Box>
-        ))}
-      </Slider>
-    </Box>
+    <>
+      <Heading mb={8}> Trending Product </Heading>
+      <box b={8} direction={"row"} align={"center"}>
+        <Slider {...settings}>
+          {items.map((item) => (
+            <Box key={item._id} m={0} p={0}>
+              <ProductElement item={item} />
+            </Box>
+          ))}
+        </Slider>
+      </box>
+    </>
   );
 };
 
