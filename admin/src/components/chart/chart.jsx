@@ -9,12 +9,12 @@ import {
   YAxis,
 } from "recharts";
 
-export default function Chart({ title, data, dataKey, grid, color }) {
+export default function Chart({ title, data, dataKey, grid, color, }) {
 
   return (
     <div className="chart">
       <h3 className="chartTitle">{title}</h3>
-      <ResponsiveContainer width="100%" aspect={4 / 1}>
+      <ResponsiveContainer aspect={4 / 1}>
         <LineChart data={data}>
           <XAxis dataKey="month" stroke="#5550bd" />
           <YAxis stroke="#5550bd" />
