@@ -42,7 +42,7 @@ function ProductElement({ item }) {
     <Card>
       <CardBody>
         <AspectRatio maxW="100%" ratio={1}>
-          <Image src={image} borderRadius="lg" />
+          <Image src={image[0]} borderRadius="lg" />
         </AspectRatio>
 
         <Stack mt="6" spacing="2">

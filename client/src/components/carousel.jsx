@@ -53,7 +53,7 @@ const Carousel = () => {
       <Heading> Filament </Heading>
       <Slider {...settings}>
         {items.map((item) => (
-          <Box p={1}>
+          <Box key={item._id} p={1}>
             <ProductElement item={item} />
           </Box>
         ))}

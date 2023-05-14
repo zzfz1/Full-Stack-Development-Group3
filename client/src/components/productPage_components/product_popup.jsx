@@ -11,7 +11,6 @@ import {
   ModalOverlay,
   ModalContent,
   ModalCloseButton,
-  Stack,
   Text,
   Select,
   Badge,
@@ -31,7 +30,13 @@ function ProductCard({ item, isOpen, onClose }) {
   const [selectedValues, setSelectedValues] = useState({});
   const [error, setError] = useState("");
 
+  const propertyKeys = properties.map(
+    (property) => property.categoryProperty.key
+  );
+
   const handleSelectChange = (property, value) => {
+    //console.log("the properties", selectedValues);
+    setError("");
     setSelectedValues((prevState) => ({
       ...prevState,
       [property]: value,
@@ -45,24 +50,21 @@ function ProductCard({ item, isOpen, onClose }) {
       quantity,
     };
 
-    /*  if (Object.keys(selectedValues).length === 0) {
-      return setError("Please select a value");
-    } */
-
-    for (const property in selectedValues) {
+    for (const property of propertyKeys) {
       // do something with each property and its value
-      console.log("the properties", properties);
-      if (property.length === 0) {
-        return setError("Please select a value");
+      console.log("the property key", property);
+      console.log("the property value", selectedValues[property]);
+      if (!selectedValues[property]) {
+        setError("Please select a value");
+        return;
       }
     }
 
-    console.log("the data is: ", data);
     // your reducer function here
     dispatch(addProduct({ ...data, quantity, name, price }));
 
     // close the modal
-    onClose();
+    //onClose();
   };
   const handleDecrement = () => {
     if (quantity > 1) {
@@ -72,7 +74,6 @@ function ProductCard({ item, isOpen, onClose }) {
   const handleIncrement = () => {
     setQuantity(quantity + 1);
   };
-  console.log("the images ", name);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>

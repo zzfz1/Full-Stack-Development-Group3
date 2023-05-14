@@ -14,7 +14,7 @@ import ContactInfo from "./contactInfo";
 export default function Footer() {
   return (
     <Box
-      bg={useColorModeValue("blackAlpha.100", "whiteAlpha.100")}
+      bg={useColorModeValue("gray.300", "whiteAlpha.100")}
       bottom={"0"}
       right={0}
       left={0}
