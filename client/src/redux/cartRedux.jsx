@@ -10,15 +10,25 @@ const CartReducer = createSlice({
   reducers:
   {
     addProduct: (state, action) => {
-      state.quantity = state.quantity+1;
+      
+      const quantityPice = action.payload.quantity * action.payload.price;
+      state.quantityPrice = quantityPice; 
+
+      console.log("item quantity: " + action.payload.quantity);
+      console.log("item price: " + action.payload.price);
+      console.log("item price*quantity: " + state.quantityPrice);
+
+      state.quantity += 1;
+      state.total += (action.payload.price * action.payload.quantity);
       state.orders.push(action.payload);
-      state.total += action.payload.price * action.payload.quantity;
     },
-    /* deleteProduct: (state, action) => {
-      const itemToDelete = state.orders.find((item) => item.id === action.payload);
-      state.quantity -= 1;
-      state.total -= deletedItem;
-    }, */
+    deleteProduct: (state, action) => {
+      console.log("deleted ID: " + action.payload._id + ", Quantity: " + action.payload.quantity + ", Price: " + action.payload.price);
+      const filteredArr = state.orders.filter((item) => item._id != action.payload._id);
+      state.orders = filteredArr;
+      state.quantity -= action.payload.quantity;
+      state.total -= (action.payload.quantity * action.payload.price);
+    },
     clearArray:  (state) => {
       state.orders = [];
       state.quantity = 0;
