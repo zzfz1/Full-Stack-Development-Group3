@@ -250,10 +250,7 @@ function Register() {
                         {/* the checkbook text */}
                         <Text fontSize={"xs"} align={"center"}>
                           By clicking ‘Sign up’, I agree to{" "}
-                          <Link
-                            href="https://openai.com/blog/chatgpt"
-                            color={"primary.500"}
-                          >
+                          <Link href="#" color={"primary.500"}>
                             {" "}
                             <Text as="u">terms of service</Text>
                           </Link>

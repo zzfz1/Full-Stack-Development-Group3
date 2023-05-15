@@ -128,7 +128,9 @@ function Login() {
                         <FormLabel>Email</FormLabel>
 
                         <Input borderColor={"gray.700"} {...field} />
-                        <FormErrorMessage>{form.errors.email}</FormErrorMessage>
+                        <FormErrorMessage color="red">
+                          {form.errors.email}
+                        </FormErrorMessage>
                       </FormControl>
                     )}
                   </Field>
@@ -157,7 +159,7 @@ function Login() {
                             </Button>
                           </InputRightElement>
                         </InputGroup>
-                        <FormErrorMessage>
+                        <FormErrorMessage color="red">
                           {form.errors.password}
                         </FormErrorMessage>
                         <Text align={"center"} color={"primary.500"}>

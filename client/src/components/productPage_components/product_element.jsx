@@ -47,7 +47,7 @@ function ProductElement({ item }) {
         <AspectRatio maxW="100%" ratio={1}>
           <Image src={image[0]} borderRadius="lg" />
         </AspectRatio>
-        -
+
         <Stack mt="6" spacing="2">
           <Heading size="xs">
             {name} - {brand}

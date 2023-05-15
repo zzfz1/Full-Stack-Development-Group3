@@ -4,7 +4,7 @@ import { CloseIcon } from "@chakra-ui/icons";
 
 function InvalidLink() {
   return (
-    <Box textAlign="center" py={10} px={6}>
+    <Box textAlign="center" my="10rem" py={10} px={6}>
       <Box display="inline-block">
         <Flex
           flexDirection="column"

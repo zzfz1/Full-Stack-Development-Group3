@@ -50,13 +50,16 @@ function SendEmail() {
       actions.setSubmitting(true);
       console.log("data", values.email);
       // Send the form data to the server
-      fetch(`https://us-central1-web-shop-group-3.cloudfunctions.net/api/users/reset/`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: values.email,
-        }),
-      })
+      fetch(
+        `https://us-central1-web-shop-group-3.cloudfunctions.net/api/users/reset/`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: values.email,
+          }),
+        }
+      )
         .then((response) => {
           if (response.ok) {
             setEmail(values.email);
@@ -154,7 +157,7 @@ function SendEmail() {
                     <ChakraLink
                       display="flex"
                       alignItems="center"
-                      href="#"
+                      href="/login"
                       justifyContent="space-around"
                       color="primary.500"
                     >
