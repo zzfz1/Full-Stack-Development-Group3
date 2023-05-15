@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   Container,
@@ -9,12 +9,25 @@ import {
   Text,
   useBreakpointValue,
 } from "@chakra-ui/react";
+import ProductCard from "./productPage_components/product_popup";
+import { useSelector } from "react-redux";
 
 function Hero() {
+  const [openProductCard, setOpenProductCard] = useState(false);
+  let products = useSelector((state) => state.products.setProducts);
+  //console.log("the product ", products);
+  const item = products.filter(
+    (product) => product._id == "645e513693a5bdc7030c8d47"
+  );
+  console.log("the item is: ", item);
+
+  const handleCloseProductCard = () => {
+    setOpenProductCard(false);
+  };
   return (
     <Container
       as={Stack}
-      maxW={"6xl"}
+      maxW={"7xl"}
       minH={("50vh", "40vh")}
       direction={{ base: "column-reverse", md: "row" }}
       p={[0, 4, 6]}
@@ -48,7 +61,7 @@ function Hero() {
             based on the TronXY X5SA / X5S Frame
           </Text>
           <Stack direction={{ base: "column", md: "row" }} spacing={4}>
-            <Button
+            {/*        <Button
               rounded={"full"}
               bg="green"
               color={"white"}
@@ -57,10 +70,23 @@ function Hero() {
               }}
             >
               Add to Card
-            </Button>
-            <Button color="white" rounded={"full"} bg="primary.500">
+            </Button> */}
+            <Button
+              onClick={() => setOpenProductCard(true)}
+              color="white"
+              rounded={"full"}
+              bg="primary.500"
+              _hover={{ bg: "primary.700" }}
+            >
               View Product
             </Button>
+            {openProductCard === true && (
+              <ProductCard
+                item={item[0]}
+                isOpen={true}
+                onClose={handleCloseProductCard}
+              />
+            )}
           </Stack>
         </Stack>
       </Flex>

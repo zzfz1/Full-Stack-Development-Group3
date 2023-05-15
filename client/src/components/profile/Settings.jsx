@@ -11,20 +11,23 @@ import {
   Stack,
   Button,
   Heading,
-  useColorModeValue,
 } from "@chakra-ui/react";
-import { useDispatch } from "react-redux";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Formik, Form, Field } from "formik";
+import { loginSuccess } from "../../redux/userRedux";
 
 function Settings() {
-  const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
+  const [showOldPassword, setShowOldPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const currentUser = useSelector((state) => state.user.currentUser);
+  const userSlug = currentUser ? currentUser.slug : "";
   const initialValues = {
     email: "",
-    password: "",
+    oldPassword: "",
+    newPassword: "",
   };
 
   const validate = (values) => {
@@ -33,6 +36,9 @@ function Settings() {
       if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
         errors.email = "Invalid email address";
       }
+    }
+    if (values.newPassword && values.newPassword.length < 6) {
+      errors.newPassword = "Password must contain at least 6 characters";
     }
     return errors;
   };
@@ -61,18 +67,20 @@ function Settings() {
               onSubmit={async (values, actions) => {
                 try {
                   const res = await axios.put(
-                    "http://localhost:3000/api/users/lo",
+                    `https://us-central1-web-shop-group-3.cloudfunctions.net/api/users/update/${userSlug}`,
                     {
                       email: values.email,
-                      password: values.password,
+                      oldPassword: values.oldPassword,
+                      newPassword: values.newPassword,
                     },
                     {
                       headers: {
                         "Content-Type": "application/json",
                       },
+                      withCredentials: true,
                     }
                   );
-                  console.log(res.data);
+                  dispatch(loginSuccess(res.data));
                   actions.setSubmitting(false);
                 } catch (err) {
                   console.error(err.message);
@@ -87,7 +95,6 @@ function Settings() {
                     {({ field, form }) => (
                       <FormControl
                         isInvalid={form.errors.email && form.touched.email}
-                        isRequired
                       >
                         <FormLabel>Email</FormLabel>
 
@@ -96,33 +103,68 @@ function Settings() {
                       </FormControl>
                     )}
                   </Field>
-                  <Field name="password">
+                  <Field name="oldPassword">
                     {({ field, form }) => (
                       <FormControl
                         isInvalid={
-                          form.errors.password && form.touched.password
+                          form.errors.oldPassword && form.touched.oldPassword
                         }
                       >
-                        <FormLabel>Password</FormLabel>
+                        <FormLabel>Old Password</FormLabel>
                         <InputGroup>
                           <Input
                             borderColor={"gray.700"}
                             {...field}
-                            type={showPassword ? "text" : "password"}
+                            type={showOldPassword ? "text" : "password"}
                           />
                           <InputRightElement h={"full"}>
                             <Button
                               variant={"ghost"}
                               onClick={() =>
-                                setShowPassword((showPassword) => !showPassword)
+                                setShowOldPassword(
+                                  (showOldPassword) => !showOldPassword
+                                )
                               }
                             >
-                              {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                              {showOldPassword ? <ViewIcon /> : <ViewOffIcon />}
                             </Button>
                           </InputRightElement>
                         </InputGroup>
                         <FormErrorMessage>
-                          {form.errors.password}
+                          {form.errors.oldPassword}
+                        </FormErrorMessage>
+                      </FormControl>
+                    )}
+                  </Field>
+                  <Field name="newPassword">
+                    {({ field, form }) => (
+                      <FormControl
+                        isInvalid={
+                          form.errors.newPassword && form.touched.newPassword
+                        }
+                      >
+                        <FormLabel>New Password</FormLabel>
+                        <InputGroup>
+                          <Input
+                            borderColor={"gray.700"}
+                            {...field}
+                            type={showNewPassword ? "text" : "password"}
+                          />
+                          <InputRightElement h={"full"}>
+                            <Button
+                              variant={"ghost"}
+                              onClick={() =>
+                                setShowNewPassword(
+                                  (showNewPassword) => !showNewPassword
+                                )
+                              }
+                            >
+                              {showNewPassword ? <ViewIcon /> : <ViewOffIcon />}
+                            </Button>
+                          </InputRightElement>
+                        </InputGroup>
+                        <FormErrorMessage>
+                          {form.errors.newPassword}
                         </FormErrorMessage>
                       </FormControl>
                     )}
@@ -139,7 +181,7 @@ function Settings() {
                       type="submit"
                       isLoading={props.isSubmitting}
                     >
-                      Change password
+                      Update
                     </Button>
                   </Stack>
                 </Form>

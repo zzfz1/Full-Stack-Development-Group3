@@ -40,12 +40,12 @@ function ProductElement({ item }) {
   };
 
   return (
-    <Card>
+    <Card maxW="16rem">
       <CardBody>
         <AspectRatio maxW="100%" ratio={1}>
-          <Image src={image} borderRadius="lg" />
+          <Image src={image[0]} borderRadius="lg" />
         </AspectRatio>
-
+        -
         <Stack mt="6" spacing="2">
           <Heading size="xs">
             {name} - {brand}
@@ -76,7 +76,7 @@ function ProductElement({ item }) {
               colorScheme="blue"
               onClick={() => handleOpenProductCard(_id)}
             >
-              View
+              View Product
             </Button>
             {openProductCard === _id && (
               <ProductCard
@@ -85,14 +85,14 @@ function ProductElement({ item }) {
                 onClose={handleCloseProductCard}
               />
             )}
-            <Button
+            {/*      <Button
               onClick={handleClick}
               variant="solid"
               color="white"
               bg="#38A169"
             >
               Add to cart
-            </Button>
+            </Button> */}
           </Stack>
         </ButtonGroup>
       </CardFooter>

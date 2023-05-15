@@ -41,13 +41,18 @@ const ShippingAddressList = () => {
   const addressesPerPage = isMd ? 1 : islg ? 2 : 3;
 
   const indexOfLastAddress = currentPage * addressesPerPage;
-  const indexOfFirstAddress = indexOfLastAddress - addressesPerPage;
+  const indexOfFirstAddress =
+    indexOfLastAddress - addressesPerPage > 0
+      ? indexOfLastAddress - addressesPerPage
+      : 0;
   const currentAddresses = addresses.slice(
     indexOfFirstAddress,
     indexOfLastAddress
   );
-
-  const totalPages = Math.ceil(addresses.length / addressesPerPage);
+  const totalPages =
+    Math.ceil(addresses.length / addressesPerPage) === 0
+      ? 1
+      : Math.ceil(addresses.length / addressesPerPage);
 
   const handlePageChange = (newPage) => {
     if (newPage > 0 && newPage <= totalPages) {
@@ -74,7 +79,7 @@ const ShippingAddressList = () => {
 
   async function removeAddress() {
     const userInfo = await axios.delete(
-      `http://localhost:3000/api/users/address/${userID}/${removingAddress}`,
+      `https://us-central1-web-shop-group-3.cloudfunctions.net/api/users/address/${userID}/${removingAddress}`,
       {
         withCredentials: true,
       }
@@ -96,13 +101,15 @@ const ShippingAddressList = () => {
   };
 
   return (
-    <Box p={6} bg={useColorModeValue("gray.50", "gray.800")}>
+    <Box p={6} m={0} bg={useColorModeValue("gray.50", "gray.800")}>
       <VStack spacing={6} alignItems="start">
         <Flex w="100%" justifyContent="space-between" alignItems="center">
-          <Heading size="lg">Shipping Addresses</Heading>
+          <Heading fontSize={{ sm: "lg", md: "2xl", lg: "4xl" }}>
+            Shipping Addresses
+          </Heading>
           <Button onClick={() => handleOpenForm({})}>Create a New One</Button>
         </Flex>
-        <SimpleGrid columns={{ base: 1, lg: 2, xl: 3 }} spacing={10}>
+        <SimpleGrid columns={{ base: 1, lg: 2, xl: 3 }} spacing={5}>
           {currentAddresses.map((address, index) => (
             <Box
               key={index}

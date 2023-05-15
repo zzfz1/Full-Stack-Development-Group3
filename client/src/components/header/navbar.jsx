@@ -17,45 +17,32 @@ import {
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { DesktopSubNav, MobileNavItem, MobileNav } from "./subNav";
 import { BsPersonCircle } from "react-icons/bs";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Badge, Icon } from "@chakra-ui/react";
-import { useState } from "react";
+import { setCategories } from "../../redux/categoryRedux";
+import { useEffect, useState } from "react";
 import { FiShoppingCart } from "react-icons/fi";
 
-const links = [
+let links = [
   {
     label: "Home",
-    path: "/",
+    href: "/",
   },
   {
     label: "Products",
-    path: "/products",
-    children: [
-      {
-        label: "3D Printers",
-        href: "#",
-      },
-      {
-        label: "3D printer hardware",
-        href: "#",
-      },
-      {
-        label: "Accessories",
-        href: "#",
-      },
-    ],
+    href: "#",
+    children: [],
   },
   {
     label: "About us",
-    path: "/about_us",
-    href: "#",
+    href: "/about_us",
   },
   {
     label: "Contact",
-    path: "/contact",
-    href: "#",
+    href: "/contact",
   },
 ];
+
 export default function WithSubnavigation() {
   const user = useSelector((state) => state.user.currentUser);
   const { isOpen, onToggle } = useDisclosure();
@@ -66,11 +53,32 @@ export default function WithSubnavigation() {
   function handleAddToCart() {
     setCartItemCount(cartItemCount + 1);
   }
-
+  let categories = useSelector((state) => state.categories.allCategories);
+  if (categories) {
+    const categoriesLinks = categories.map((category) => {
+      return {
+        label: category.name,
+        href: `/products?category=${category.slug}`,
+      };
+    });
+    links = links.map((link) => {
+      if (link.label === "Products")
+        return {
+          ...link,
+          children: [
+            { label: "All Products", href: "/products" },
+            ...categoriesLinks,
+          ],
+        };
+      else {
+        return { ...link };
+      }
+    });
+  }
   return (
     <Box>
       <Flex
-        bg={useColorModeValue("white", "gray.800")}
+        bg={useColorModeValue("gray.300", "gray.800")}
         color={useColorModeValue("gray.600", "white")}
         minH={"60px"}
         py={{ base: 2 }}
@@ -109,7 +117,34 @@ export default function WithSubnavigation() {
         </Flex>
 
         <HStack justify={"flex-end"} direction={"row"} spacing={6}>
-          {" "}
+          <Stack>
+            <IconButton
+              icon={<FiShoppingCart size="2rem" />}
+              name="shopping-cart"
+              size="lg"
+              onClick={handleAddToCart}
+              _hover={{
+                bg: "gray.300",
+              }}
+              bg="none"
+              pt="2"
+              display={{ base: "none", md: "inline-flex" }}
+            ></IconButton>
+            {quantity > 0 && (
+              <Box position="absolute" right="75px" top="-1px">
+                <Badge
+                  borderRadius="full"
+                  color="white"
+                  px="2"
+                  py="1"
+                  bg="primary.500"
+                  display={{ base: "none", md: "inline-flex" }}
+                >
+                  {quantity}
+                </Badge>
+              </Box>
+            )}
+          </Stack>
           {!user ? (
             <>
               <Button
@@ -125,34 +160,6 @@ export default function WithSubnavigation() {
             </>
           ) : (
             <>
-              <Stack>
-                <IconButton
-                  icon={<FiShoppingCart size="2rem" />}
-                  name="shopping-cart"
-                  size="lg"
-                  onClick={handleAddToCart}
-                  _hover={{
-                    bg: "gray.300",
-                  }}
-                  bg="none"
-                  pt="2"
-                  display={{ base: "none", md: "inline-flex" }}
-                ></IconButton>
-                {quantity > 0 && (
-                  <Box position="absolute" right="75px" top="-1px">
-                    <Badge
-                      borderRadius="full"
-                      color="white"
-                      px="2"
-                      py="1"
-                      bg="primary.500"
-                      display={{ base: "none", md: "inline-flex" }}
-                    >
-                      {quantity}
-                    </Badge>
-                  </Box>
-                )}
-              </Stack>
               <IconButton
                 as="a"
                 icon={<BsPersonCircle size="2rem" />}
@@ -180,7 +187,6 @@ const DesktopNav = () => {
   const linkColor = useColorModeValue("gray.600", "gray.200");
   const linkHoverColor = useColorModeValue("gray.800", "white");
   const popoverContentBgColor = useColorModeValue("white", "gray.800");
-
   return (
     <Stack direction={"row"} spacing={4}>
       {links.map((navItem) => (

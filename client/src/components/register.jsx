@@ -84,7 +84,7 @@ function Register() {
       // Send the form data to the server
       try {
         const userInfo = await axios.post(
-          "http://localhost:3000/api/users/register",
+          "https://us-central1-web-shop-group-3.cloudfunctions.net/api/users/register",
           {
             name: values.name,
             username: values.username,
@@ -118,7 +118,10 @@ function Register() {
     >
       <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
         <Stack align={"center"}>
-          <Heading fontSize={"4xl"} textAlign={"center"}>
+          <Heading
+            fontSize={{ sm: "lg", md: "2xl", lg: "4xl" }}
+            textAlign={"center"}
+          >
             Sign up
           </Heading>
           <Text fontSize={"lg"} color={"gray"} pt="4%" px={["5%", "15%"]}>

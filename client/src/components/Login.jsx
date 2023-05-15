@@ -24,6 +24,7 @@ import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Formik, Form, Field } from "formik";
 import { useDispatch } from "react-redux";
 import GoogleLogin from "../components/googleLogin.jsx";
+import { toast } from "react-toastify";
 import axios from "axios";
 import { loginSuccess } from "../redux/userRedux.jsx";
 import { useSelector } from "react-redux";
@@ -69,7 +70,10 @@ function Login() {
     >
       <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
         <Stack align={"center"}>
-          <Heading fontSize={"4xl"} textAlign={"center"}>
+          <Heading
+            fontSize={{ sm: "lg", md: "2xl", lg: "4xl" }}
+            textAlign={"center"}
+          >
             Sign in
           </Heading>
           <Text fontSize={"lg"} color={"gray"} pt="4%" px={["5%", "15%"]}>
@@ -88,7 +92,7 @@ function Login() {
               onSubmit={async (values, actions) => {
                 try {
                   const res = await axios.post(
-                    "http://localhost:3000/api/users/login",
+                    "https://us-central1-web-shop-group-3.cloudfunctions.net/api/users/login",
                     {
                       email: values.email,
                       password: values.password,
@@ -105,6 +109,9 @@ function Login() {
                   actions.setSubmitting(false);
                 } catch (err) {
                   console.error(err.message);
+                  toast.error("Oop! Email or password is wrong", {
+                    position: toast.POSITION.TOP_CENTER,
+                  });
                   actions.setSubmitting(false);
                 }
               }}
@@ -197,26 +204,3 @@ function Login() {
 }
 
 export default Login;
-
-/* 
-{async (values, actions) => {
-                try {
-                  const data = await axios.post(
-                    "http://localhost:3000/api/users/login",
-                    {
-                      email: values.email,
-                      password: values.password,
-                    },
-                    {
-                      headers: {
-                        "Content-Type": "application/json",
-                      },
-                    }
-                  );
-                  console.log(data);
-                  actions.setSubmitting(false);
-                } catch (err) {
-                  console.error(err.message);
-                  actions.setSubmitting(false);
-                }
-              }} */
