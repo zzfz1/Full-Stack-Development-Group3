@@ -50,7 +50,7 @@ function SendEmail() {
       actions.setSubmitting(true);
       console.log("data", values.email);
       // Send the form data to the server
-      fetch(`http://localhost:3000/api/users/reset/`, {
+      fetch(`https://us-central1-web-shop-group-3.cloudfunctions.net/api/users/reset/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

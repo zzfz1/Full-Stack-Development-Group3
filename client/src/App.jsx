@@ -1,4 +1,3 @@
-import "./App.css";
 // import Login from "./components/Login";
 import ErrorPage from "./pages/Error";
 import Login from "./components/Login";
@@ -70,7 +69,7 @@ const router = createBrowserRouter([
       {
         path: "/shopping_cart",
         element: <ShoppingCart />,
-      },
+      },{
         path: "/contact",
         element: <Contact />,
       },

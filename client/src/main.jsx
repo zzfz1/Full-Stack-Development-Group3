@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import App from "./App";
-import "./index.css";
 import { extendTheme, ChakraProvider } from "@chakra-ui/react";
 import theme from "./style/theme";
 import { ToastContainer } from "react-toastify";

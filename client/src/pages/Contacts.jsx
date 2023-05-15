@@ -68,7 +68,7 @@ function Contact() {
     // Send form data to server
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/users/feedback",
+        "https://us-central1-web-shop-group-3.cloudfunctions.net/api/users/feedback",
         {
           name,
           email,

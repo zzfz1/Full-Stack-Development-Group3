@@ -12,7 +12,7 @@ function ResetPassword() {
   let [validUser, setValidUser] = useState(false);
   let [validating, setValidating] = useState(true);
   const location = useLocation();
-  const baseUrl = "http://localhost:3000/api/users/reset/verify";
+  const baseUrl = "https://us-central1-web-shop-group-3.cloudfunctions.net/api/users/reset/verify";
   console.log("first.", location);
 
   const { token, user } = queryString.parse(location.search);
