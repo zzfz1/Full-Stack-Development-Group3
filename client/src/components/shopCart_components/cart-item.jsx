@@ -43,8 +43,9 @@ const QuantitySelector=({quantity, price}) => {
 
 }
 
-function CartItem ({item}) {
+function CartItem ({item, onDelete}) {
   const {
+    _id,
     name,
     image,
     price,
@@ -52,8 +53,9 @@ function CartItem ({item}) {
     currency,
     quantity,
   } = item;
+  
   const handleDelete = () => {
-    console.log(name + " " + price + " " + quantity);
+    onDelete(_id, quantity, price); 
   };
 
   return (

@@ -8,7 +8,7 @@ import {
   Stack,
   useColorModeValue as mode,
 } from '@chakra-ui/react'
-import { useSelector, useDispatch , Provider} from 'react-redux'
+import { useSelector, useDispatch} from 'react-redux'
 import CartItem from '../components/shopCart_components/cart-item'
 import { CartOrderSummary } from '../components/shopCart_components/cart-orderSummary'
 import { deleteProduct, clearArray } from "../redux/cartRedux"
@@ -23,10 +23,11 @@ function ShoppingCart()
     dispatch(clearArray())
   }
 
-  /* const handleDeleteItem = (id) => {
-    console.log(`deleted element ${id}`)
-    dispatch(deleteProduct(id));
-  }; */
+  const handleDeleteItem = (deleteID, deleteQuantity, deletePrice) => {
+    console.log(`target the ID: ${deleteID}`);
+    const toDeleteObj = orders.find((obj) => obj._id === deleteID);
+    dispatch(deleteProduct(toDeleteObj, deleteQuantity, deletePrice));
+  };
 
   return(
      <Box
@@ -68,11 +69,9 @@ function ShoppingCart()
           <Button onClick={EmptyArray}>Empty Cart</Button>
    
           <Stack spacing="6">
-            <Provider>
-              {orders.map((item) => (
-                <CartItem item = {item}/>
-              ))}
-            </Provider>
+            {orders.map((item) => (
+              <CartItem item = {item} onDelete = {handleDeleteItem}/>
+            ))}
           </Stack>
 
          </Stack>

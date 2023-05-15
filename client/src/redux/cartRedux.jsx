@@ -15,8 +15,9 @@ const CartReducer = createSlice({
       state.total += action.payload.price * action.payload.quantity;
     },
     deleteProduct: (state, action) => {
-      console.log("fuuck" + state.action);
-
+      console.log("deleted ID: " + action.payload._id + ", Quantity: " + action.payload.quantity + ", Price: " + action.payload.price);
+      const filteredArr = state.orders.filter((item) => item._id != action.payload._id);
+      state.orders = filteredArr;
     },
     clearArray:  (state) => {
       state.orders = [];
