@@ -1,5 +1,5 @@
 import { Stack, chakra, VisuallyHidden } from "@chakra-ui/react";
-import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa"
+import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 
 const SocialButton = ({ children, label, href }) => {
   return (
@@ -15,9 +15,11 @@ const SocialButton = ({ children, label, href }) => {
       alignItems={"center"}
       justifyContent={"center"}
       transition={"background 0.3s ease"}
-      _hover={{
-        // bg: useColorModeValue("blackAlpha.200", "whiteAlpha.200"),
-      }}
+      _hover={
+        {
+          // bg: useColorModeValue("blackAlpha.200", "whiteAlpha.200"),
+        }
+      }
     >
       <VisuallyHidden>{label}</VisuallyHidden>
       {children}
@@ -27,17 +29,16 @@ const SocialButton = ({ children, label, href }) => {
 
 export default function socialMedia() {
   return (
-    <Stack direction={'row'} spacing={6}>
-      <SocialButton label={'Twitter'} href={'https://chakra-templates.dev/page-sections/footer'}>
+    <Stack direction={"row"} spacing={6}>
+      <SocialButton label={"Twitter"} href={"#"}>
         <FaTwitter />
       </SocialButton>
-      <SocialButton label={'YouTube'} href={'#'}>
+      <SocialButton label={"YouTube"} href={"#"}>
         <FaYoutube />
       </SocialButton>
-      <SocialButton label={'Instagram'} href={'#'}>
+      <SocialButton label={"Instagram"} href={"#"}>
         <FaInstagram />
       </SocialButton>
     </Stack>
-  )
-
+  );
 }

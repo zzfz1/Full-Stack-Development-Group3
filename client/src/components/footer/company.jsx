@@ -17,7 +17,7 @@ export default function Company() {
       </Link>
       <Link href={"products"}>Products</Link>
       <Link href={"/contact"}>Contact </Link>
-      <Link href={"/about"}>About us</Link>
+      <Link href={"/about_us"}>About us</Link>
     </Stack>
   );
 }
