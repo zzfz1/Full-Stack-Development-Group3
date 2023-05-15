@@ -85,14 +85,14 @@ function ProductElement({ item }) {
                 onClose={handleCloseProductCard}
               />
             )}
-            {/*      <Button
+              <Button
               onClick={handleClick}
               variant="solid"
               color="white"
               bg="#38A169"
             >
               Add to cart
-            </Button> */}
+            </Button>
           </Stack>
         </ButtonGroup>
       </CardFooter>

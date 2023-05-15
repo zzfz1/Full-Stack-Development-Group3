@@ -14,11 +14,10 @@ const CartReducer = createSlice({
       state.orders.push(action.payload);
       state.total += action.payload.price * action.payload.quantity;
     },
-    /* deleteProduct: (state, action) => {
-      const itemToDelete = state.orders.find((item) => item.id === action.payload);
-      state.quantity -= 1;
-      state.total -= deletedItem;
-    }, */
+    deleteProduct: (state, action) => {
+      console.log("fuuck" + state.action);
+
+    },
     clearArray:  (state) => {
       state.orders = [];
       state.quantity = 0;

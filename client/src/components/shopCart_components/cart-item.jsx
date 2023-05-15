@@ -2,7 +2,8 @@ import { CloseButton, Flex, Link, Button,ButtonGroup, IconButton} from '@chakra-
 import { MinusIcon, AddIcon } from "@chakra-ui/icons";
 import { PriceTag } from './cart-priceTag'
 import { CartProductMeta } from './cart-productMeta'
-import { useState } from "react";
+import { useState , useDispatch} from "react";
+import { deleteProduct } from '../../redux/cartRedux';
 
 const QuantitySelector=({quantity, price}) => {
   
@@ -42,16 +43,18 @@ const QuantitySelector=({quantity, price}) => {
 
 }
 
-function CartItem (props) {
+function CartItem ({item}) {
   const {
-    quantity,
     name,
-    description,
-    price,
     image,
+    price,
+    description,
     currency,
-    onClickDelete
-  } = props;
+    quantity,
+  } = item;
+  const handleDelete = () => {
+    console.log(name + " " + price + " " + quantity);
+  };
 
   return (
     <Flex
@@ -73,7 +76,7 @@ function CartItem (props) {
 
         <QuantitySelector quantity={quantity} price = {price}/>
         <PriceTag price={price} currency={currency} />
-        <CloseButton aria-label={`Delete ${name} from cart`} onClick={onClickDelete} />
+        <CloseButton aria-label={`Delete ${name} from cart`} onClick={handleDelete} />
       
       </Flex>
 
@@ -81,7 +84,7 @@ function CartItem (props) {
       <Flex mt="4" align="center" width="full" justify="space-between" display={{base: 'flex', md: 'none'}}>
         
         <QuantitySelector quantity={quantity}/>
-        <Link fontSize="sm" textDecor="underline">
+        <Link fontSize="sm" textDecor="underline" onClick={handleDelete}>
           Delete
         </Link>
         

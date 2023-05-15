@@ -8,14 +8,14 @@ import {
   Stack,
   useColorModeValue as mode,
 } from '@chakra-ui/react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch , Provider} from 'react-redux'
 import CartItem from '../components/shopCart_components/cart-item'
 import { CartOrderSummary } from '../components/shopCart_components/cart-orderSummary'
 import { deleteProduct, clearArray } from "../redux/cartRedux"
 
 function ShoppingCart()
 {
-  const {orders, quantity, total } = useSelector(state => state.cart) 
+  const {orders, quantity, total,} = useSelector(state => state.cart) 
   const dispatch = useDispatch();
 
   const EmptyArray = () =>{
@@ -23,10 +23,10 @@ function ShoppingCart()
     dispatch(clearArray())
   }
 
-  const handleDeleteItem = (id) => {
+  /* const handleDeleteItem = (id) => {
     console.log(`deleted element ${id}`)
     dispatch(deleteProduct(id));
-  };
+  }; */
 
   return(
      <Box
@@ -59,19 +59,21 @@ function ShoppingCart()
            md: '16',
          }}
        >
-         <Stack spacing={{base: '8', md: '10',}} flex="2">
+        <Stack spacing={{base: '8', md: '10',}} flex="2">
            
-           <Heading fontSize="2xl" fontWeight="extrabold">
-             Shopping Cart ({quantity} items)
-           </Heading>
+          <Heading fontSize="2xl" fontWeight="extrabold">
+            Shopping Cart ({quantity} items)
+          </Heading>
            
-           <Button onClick={EmptyArray}>Empty Cart</Button>
+          <Button onClick={EmptyArray}>Empty Cart</Button>
    
-           <Stack spacing="6">
-             {orders.map((item) => (
-               <CartItem key={item.id} {...item} onClickDelete={handleDeleteItem}/>
-             ))}
-           </Stack>
+          <Stack spacing="6">
+            <Provider>
+              {orders.map((item) => (
+                <CartItem item = {item}/>
+              ))}
+            </Provider>
+          </Stack>
 
          </Stack>
    
