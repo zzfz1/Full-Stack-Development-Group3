@@ -34,8 +34,9 @@ function ProductElement({ item }) {
   const handleCloseProductCard = () => {
     setOpenProductCard(null);
   };
+
   const handleClick = () => {
-    dispatch(addProduct({ ...order, quantity, name, price }));
+    dispatch(addProduct({ ...order, _id ,quantity, name, price, image }));
   };
 
   return (
