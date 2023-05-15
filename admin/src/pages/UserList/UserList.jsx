@@ -55,15 +55,15 @@ const UserList = () => {
     setOpenDeleteDialog(false);
   };
 
-  const handleUpdateUser = (updatedUser) => {
-    dispatch(updateUserAsync({ userSlug: selectedUser.slug, userData: updatedUser }));
-    dispatch(getAllUsersAsync());
+  const handleUpdateUser = async (updatedUser) => {
+    await dispatch(updateUserAsync({ userSlug: updatedUser.slug, userData: updatedUser }));
+    await dispatch(getAllUsersAsync());
     handleCloseEditDialog();
   };
 
-  const handleDeleteUser = () => {
-    dispatch(deleteUserAsync(selectedUser.slug));
-    dispatch(getAllUsersAsync());
+  const handleDeleteUser = async () => {
+    await dispatch(deleteUserAsync(selectedUser.slug));
+    await dispatch(getAllUsersAsync());
     handleCloseDeleteDialog();
     handleCloseEditDialog();
   };

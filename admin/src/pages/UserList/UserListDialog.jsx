@@ -9,10 +9,11 @@ export const EditUserDialog = ({ open, handleClose, user, handleUpdate, handleDe
   }, [user]);
 
   const handleChange = (field) => (event) => {
-    setUpdatedUser({
-      ...updatedUser,
-      [field]: event.target.value,
-    });
+    if (field === "isAdmin") {
+      setUpdatedUser({ ...updatedUser, [field]: event.target.checked });
+    } else {
+      setUpdatedUser({ ...updatedUser, [field]: event.target.value });
+    }
   };
 
   const handleSubmit = () => {
@@ -27,10 +28,7 @@ export const EditUserDialog = ({ open, handleClose, user, handleUpdate, handleDe
         <TextField autoFocus margin="dense" id="name" label="Name" type="text" fullWidth value={updatedUser?.name || ""} onChange={handleChange("name")} />
         <TextField margin="dense" id="username" label="Username" type="text" fullWidth value={updatedUser?.username || ""} onChange={handleChange("username")} />
         <TextField margin="dense" id="email" label="Email" type="text" fullWidth value={updatedUser?.email || ""} onChange={handleChange("email")} />
-        <FormControlLabel
-          control={<Switch checked={updatedUser?.isAdmin || false} onChange={() => setUpdatedUser({ ...updatedUser, isAdmin: !updatedUser?.isAdmin })} id="isAdmin" />}
-          label="Is Admin"
-        />
+        <FormControlLabel control={<Switch checked={updatedUser?.isAdmin || false} onChange={handleChange("isAdmin")} id="isAdmin" />} label="Is Admin" />
         <TextField margin="dense" id="img" label="Image URL" type="text" fullWidth value={updatedUser?.img || ""} onChange={handleChange("img")} />
       </DialogContent>
       <DialogActions>
