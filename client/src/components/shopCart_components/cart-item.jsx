@@ -53,6 +53,7 @@ function CartItem ({item, onDelete}) {
     description,
     currency,
     quantity,
+    quantityPrice,
   } = item;
   
   const handleDelete = () => {

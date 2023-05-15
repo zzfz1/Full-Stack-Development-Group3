@@ -9,6 +9,9 @@ import {
   } from '@chakra-ui/react'
   import { FaArrowRight } from 'react-icons/fa'
   import { formatPrice } from './cart-priceTag'
+import { useDispatch } from 'react-redux'
+import { clearArray } from '../../redux/cartRedux'
+import { toast } from 'react-toastify'
   const OrderSummaryItem = (props) => {
     const { label, value, children } = props
     return (
@@ -22,7 +25,17 @@ import {
   }
   
   export const CartOrderSummary = (props) => {
-    const {total} = props;
+    const {total} = props; 
+    const dispatch = useDispatch();
+
+    const handleCheckout = () => 
+    {
+      dispatch(clearArray());
+      toast.success("Thank your for the purchase", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
+
     return (
       <Stack spacing="8" borderWidth="1px" rounded="lg" padding="8" width="full">
         <Heading size="md">Order Summary</Heading>
@@ -48,7 +61,7 @@ import {
             </Text>
           </Flex>
         </Stack>
-        <Button colorScheme="blue" size="lg" fontSize="md" rightIcon={<FaArrowRight />}>
+        <Button colorScheme="blue" size="lg" fontSize="md" rightIcon={<FaArrowRight />} onClick={handleCheckout}>
           Checkout
         </Button>
       </Stack>

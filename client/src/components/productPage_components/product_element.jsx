@@ -25,7 +25,7 @@ function ProductElement({ item }) {
   /*   const [color, setColor] = useState("");
   const [size, setSize] = useState(""); */
   const dispatch = useDispatch();
-  const { _id, name, image, brand, price } = item;
+  const { _id, name, image, brand, price, quantityPrice} = item;
 
   const handleOpenProductCard = (id) => {
     setOpenProductCard(id);
@@ -36,7 +36,7 @@ function ProductElement({ item }) {
   };
 
   const handleClick = () => {
-    dispatch(addProduct({ ...order, _id ,quantity, name, price, image }));
+    dispatch(addProduct({ ...order, _id ,quantity, name, price, image, quantityPrice}));
   };
 
   return (
