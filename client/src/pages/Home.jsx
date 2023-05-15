@@ -57,7 +57,7 @@ const Home = () => {
               }
             />
             <NewsCard
-              link="/products?category=3d-printing"
+              link="/products?category=vzbot"
               image={
                 "https://c-3d.niceshops.com/upload/image/banner_element/original/default/27499_3943cd44.363x0.jpg"
               }
