@@ -1,7 +1,7 @@
 import os
 
 # Specify the directory where your code files are located
-directory = 'D:\\projects\web\Full-Stack-Development-Group3'
+directory = 'D:\\projects\web\Full-Stack-Server'
 exclude_folders=['node_modules','.git']
 exclude_files=['.gitignore']
 

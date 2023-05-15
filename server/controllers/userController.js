@@ -6,8 +6,7 @@ import { mailTransport } from "../utils/sendFeedback.js";
 class UserController {
   async registerUser(req, res) {
     try {
-      const { name, username, email, password, isAdmin, img, shippingAddress } =
-        req.body;
+      const { name, username, email, password, isAdmin, img, shippingAddress } =req.body;
 
       const userEmailExists = await User.findOne({ email });
       const userUsernameExists = await User.findOne({ username });
@@ -19,35 +18,16 @@ class UserController {
 
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      const newUser = new User({
-        name,
-        username,
-        email,
-        password: hashedPassword,
-        isAdmin,
-        img,
-        shippingAddress,
-      });
+      const newUser = new User({name,username,email,password: hashedPassword,isAdmin,img,shippingAddress,      });
       const savedUser = await newUser.save();
       console.log("the new user is " + savedUser);
       res.cookie(
         "token",
         generateToken(savedUser._id, savedUser.isAdmin, savedUser.slug),
-        {
-          sameSite: "none",
-          httpOnly: true,
-          secure: true,
-        }
+        {sameSite: "none",httpOnly: true,secure: true,}
       );
       res.status(201).json({
-        _id: savedUser._id,
-        name: savedUser.name,
-        username: savedUser.username,
-        email: savedUser.email,
-        isAdmin: savedUser.isAdmin,
-        slug: savedUser.slug,
-        img: savedUser.img,
-        shippingAddress: savedUser.shippingAddress,
+        _id: savedUser._id,name: savedUser.name,username: savedUser.username,email: savedUser.email,isAdmin: savedUser.isAdmin,slug: savedUser.slug,img: savedUser.img,shippingAddress: savedUser.shippingAddress,
       });
     } catch (error) {
       console.log(error);
@@ -62,24 +42,9 @@ class UserController {
       const user = await User.findOne({ email });
 
       if (user && (await bcrypt.compare(password, user.password))) {
-        res.cookie("token", generateToken(user._id, user.isAdmin, user.slug), {
-          sameSite: "none",
-          httpOnly: true,
-          secure: true,
-        });
-        res.status(200).json({
-          _id: user._id,
-          name: user.name,
-          username: user.username,
-          email: user.email,
-          isAdmin: user.isAdmin,
-          slug: user.slug,
-          img: user.img,
-          shippingAddress: user.shippingAddress,
-        });
-      } else {
-        res.status(401).json({ message: "Invalid email or password" });
-      }
+        res.cookie("token", generateToken(user._id, user.isAdmin, user.slug), {sameSite: "none",httpOnly: true,secure: true,});
+        res.status(200).json({_id: user._id,name: user.name,username: user.username,email: user.email,isAdmin: user.isAdmin,slug: user.slug,img: user.img,shippingAddress: user.shippingAddress,});
+      } else {res.status(401).json({ message: "Invalid email or password" });}
     } catch (error) {
       res.status(500).json({ message: "Internal server error" });
     }
@@ -103,24 +68,9 @@ class UserController {
       const user = await User.findOne({ email });
 
       if (user) {
-        res.cookie("token", generateToken(user._id, user.isAdmin, user.slug), {
-          sameSite: "none",
-          httpOnly: true,
-          secure: true,
-        });
-        res.status(200).json({
-          _id: user._id,
-          name: user.name,
-          username: user.username,
-          email: user.email,
-          isAdmin: user.isAdmin,
-          slug: user.slug,
-          img: user.img,
-          shippingAddress: user.shippingAddress,
-        });
-      } else {
-        res.status(404).json({ message: "No such User" });
-      }
+        res.cookie("token", generateToken(user._id, user.isAdmin, user.slug), {sameSite: "none",httpOnly: true,secure: true,});
+        res.status(200).json({  _id: user._id,  name: user.name,  username: user.username,  email: user.email,  isAdmin: user.isAdmin,  slug: user.slug,  img: user.img,  shippingAddress: user.shippingAddress,});
+      } else {res.status(404).json({ message: "No such User" });}
     } catch (error) {
       console.error(error.message);
       res.status(500).json({ message: "Internal server error" });
@@ -136,16 +86,7 @@ class UserController {
         return res.status(404).json({ message: "User not found" });
       }
 
-      res.status(200).json({
-        _id: user._id,
-        name: user.name,
-        username: user.username,
-        email: user.email,
-        isAdmin: user.isAdmin,
-        slug: user.slug,
-        img: user.img,
-        shippingAddress: user.shippingAddress,
-      });
+      res.status(200).json({_id: user._id,name: user.name,username: user.username,email: user.email,isAdmin: user.isAdmin,slug: user.slug,img: user.img,shippingAddress: user.shippingAddress,});
     } catch (error) {
       res.status(500).json({ message: "Internal server error" });
     }
@@ -311,12 +252,8 @@ class UserController {
     try {
       const user = await User.findOne({ slug: slug });
       console.log("the user", user);
-      if (user) {
-        const hashedPassword = await bcrypt.hash(newPassword, 10);
-        const updatePass = await User.updateOne(
-          { slug: slug },
-          { password: hashedPassword }
-        );
+      if (user) {const hashedPassword = await bcrypt.hash(newPassword, 10);
+        const updatePass = await User.updateOne(  { slug: slug },  { password: hashedPassword });
         res.status(200).json({ message: "password reseted" });
       } else {
         res.status(400).json({ message: "Wrong User not found!" });
@@ -331,19 +268,7 @@ class UserController {
     const lastYear = new Date(date.setFullYear(date.getFullYear() - 1));
 
     try {
-      const data = await User.aggregate([
-        { $match: { createdAt: { $gte: lastYear } } },
-        {
-          $project: {
-            month: { $month: "$createdAt" },
-          },
-        },
-        {
-          $group: {
-            _id: "$month",
-            total: { $sum: 1 },
-          },
-        },
+      const data = await User.aggregate([{ $match: { createdAt: { $gte: lastYear } } },{  $project: {    month: { $month: "$createdAt" },  },},{  $group: {    _id: "$month",    total: { $sum: 1 },  },},
       ]);
       res.status(200).json(data);
     } catch (err) {
