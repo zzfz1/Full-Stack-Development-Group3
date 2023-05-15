@@ -55,8 +55,8 @@ const UserList = () => {
     setOpenDeleteDialog(false);
   };
 
-  const handleUpdateUser = () => {
-    dispatch(updateUserAsync({ userSlug: selectedUser.slug, userData: selectedUser }));
+  const handleUpdateUser = (updatedUser) => {
+    dispatch(updateUserAsync({ userSlug: selectedUser.slug, userData: updatedUser }));
     dispatch(getAllUsersAsync());
     handleCloseEditDialog();
   };

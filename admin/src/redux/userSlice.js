@@ -75,6 +75,7 @@ const userSlice = createSlice({
     users: [],
     user: null,
     currentUser: JSON.parse(localStorage.getItem("currentUser")) || null, //
+    edittingUser:"",
     status: "idle",
     error: null,
   },
@@ -121,7 +122,7 @@ const userSlice = createSlice({
       })
       .addCase(getUserBySlugAsync.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.currentUser = action.payload;
+        state.edittingUser = action.payload;
         state.error = null;
       })
       .addCase(getUserBySlugAsync.rejected, (state, action) => {
@@ -135,7 +136,7 @@ const userSlice = createSlice({
       })
       .addCase(createUserAsync.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.currentUser = action.payload;
+        state.edittingUser = action.payload;
         state.error = null;
       })
       .addCase(createUserAsync.rejected, (state, action) => {
@@ -163,7 +164,7 @@ const userSlice = createSlice({
       })
       .addCase(updateUserAsync.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.currentUser = action.payload;
+        state.edittingUser = action.payload;
         state.error = null;
       })
       .addCase(updateUserAsync.rejected, (state, action) => {
