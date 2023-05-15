@@ -4,7 +4,7 @@ import "./widgetSm.css";
 import { useEffect, useState } from "react";
 // import { userRequest } from "../../requestMethods";
 
-const API_URL = "http://localhost:3000/api/users";
+const API_URL = "https://us-central1-web-shop-group-3.cloudfunctions.net/api/users";
 
 export default function WidgetSm() {
   const [users, setUsers] = useState([]);
