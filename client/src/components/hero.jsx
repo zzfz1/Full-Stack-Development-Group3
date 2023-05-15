@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 function Hero() {
   const [openProductCard, setOpenProductCard] = useState(false);
   let products = useSelector((state) => state.products.setProducts);
+  products=products?products:[]
   //console.log("the product ", products);
   const item = products.filter(
     (product) => product._id == "645e513693a5bdc7030c8d47"

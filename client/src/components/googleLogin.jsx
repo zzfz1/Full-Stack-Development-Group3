@@ -18,7 +18,12 @@ function googleLogin() {
     onSuccess: (codeResponse) => {
       setUser(codeResponse);
     },
-    onError: (error) => console.log("Login Failed:", error),
+    onError: (error) => {
+      toast.error("Oop! filed to login", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      console.log("Login Failed:", error);
+    },
   });
 
   useEffect(() => {
@@ -60,7 +65,9 @@ function googleLogin() {
             );
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err);
+        });
     }
   }, [user]);
   return (

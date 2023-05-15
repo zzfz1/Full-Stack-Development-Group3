@@ -7,6 +7,7 @@ import { useLocation } from "react-router-dom";
 
 function Products() {
   let products = useSelector((state) => state.products.setProducts);
+  products=products?products:[]
   const searchParams = new URLSearchParams(useLocation().search);
   let category = searchParams.get("category");
   category = category ? category : "All";

@@ -24,7 +24,7 @@ import { useDispatch } from "react-redux";
 import { addProduct } from "../../redux/cartRedux";
 
 function ProductCard({ item, isOpen, onClose }) {
-  const { _id, name, brand, price, properties, image } = item;
+  const { _id, name, brand, price, properties, image, quantityPrice } = item;
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
   const [selectedValues, setSelectedValues] = useState({});
@@ -61,7 +61,7 @@ function ProductCard({ item, isOpen, onClose }) {
     }
 
     // your reducer function here
-    dispatch(addProduct({ ...data, _id, quantity, name, price, image }));
+    dispatch(addProduct({ ...data, _id, quantity, name, price, image, quantityPrice }));
 
     // close the modal
     onClose();

@@ -119,6 +119,8 @@ export default function WithSubnavigation() {
         <HStack justify={"flex-end"} direction={"row"} spacing={6}>
           <Stack>
             <IconButton
+            as="a"
+            href="/shopping_cart"
               icon={<FiShoppingCart size="2rem" />}
               name="shopping-cart"
               size="lg"

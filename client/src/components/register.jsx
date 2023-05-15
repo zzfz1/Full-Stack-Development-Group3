@@ -25,6 +25,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../redux/userRedux.jsx";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function Register() {
   const [showPassword, setShowPassword] = useState(false);
@@ -103,6 +104,9 @@ function Register() {
         actions.setSubmitting(false);
         navigate("/");
       } catch (error) {
+        toast.error("Oop! field to register", {
+          position: toast.POSITION.TOP_CENTER,
+        });
         console.error(error);
         actions.setSubmitting(false);
       }
@@ -265,7 +269,7 @@ function Register() {
                   <Stack pt={6}>
                     <Text align={"center"}>
                       Already a user?{" "}
-                      <Link as="u" color={"primary.500"}>
+                      <Link as="a" href="/login" color={"primary.500"}>
                         Login
                       </Link>
                     </Text>

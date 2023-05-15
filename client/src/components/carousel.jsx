@@ -9,6 +9,7 @@ import { Box, Center, Heading, Stack } from "@chakra-ui/react";
 const Carousel = () => {
   let products = useSelector((state) => state.products.setProducts);
   //console.log("the product ", products);
+  products=products?products:[]
   const items = products.filter((product) => product.trending == true);
   console.log("the item is: ", items);
 

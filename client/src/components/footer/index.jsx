@@ -7,6 +7,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import Logo from "./logo";
+import SocialMedia from "./socialMedia";
 import Company from "./company";
 import ContactInfo from "./contactInfo";
 
