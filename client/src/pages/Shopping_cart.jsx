@@ -19,8 +19,8 @@ function ShoppingCart()
   const dispatch = useDispatch();
 
   const EmptyArray = () =>{
-    console.log("array is emptied!")
-    dispatch(clearArray())
+    console.log("array is emptied!");
+    dispatch(clearArray());
   }
 
   const handleDeleteItem = (deleteID, deleteQuantity, deletePrice) => {

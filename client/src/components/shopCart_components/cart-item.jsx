@@ -2,10 +2,9 @@ import { CloseButton, Flex, Link, Button,ButtonGroup, IconButton} from '@chakra-
 import { MinusIcon, AddIcon } from "@chakra-ui/icons";
 import { PriceTag } from './cart-priceTag'
 import { CartProductMeta } from './cart-productMeta'
-import { useState , useDispatch} from "react";
-import { deleteProduct } from '../../redux/cartRedux';
+import { useState } from "react";
 
-const QuantitySelector=({quantity, price}) => {
+const QuantitySelector=({quantity, price, onPriceChange}) => {
   
   const [selectedQuantity, setQuantity] = useState(quantity);
   const [summedPrice, setPrice] = useState(price);
@@ -13,12 +12,14 @@ const QuantitySelector=({quantity, price}) => {
   const handleDecrement = () => {
     if (selectedQuantity > 1) {
       setQuantity(selectedQuantity - 1);
-      setPrice(summedPrice - price)
+      setPrice(summedPrice - price);
+      onPriceChange(summedPrice - price);
     }
   };
   const handleIncrement = () => {
     setQuantity(selectedQuantity + 1);
     setPrice(summedPrice + price);
+    onPriceChange(summedPrice + price);
   };
 
   return (
@@ -58,6 +59,11 @@ function CartItem ({item, onDelete}) {
     onDelete(_id, quantity, price); 
   };
 
+  const [cartPrice, setCartPrice] = useState(price);
+  const handlePriceChange = (newPrice) => {
+    setCartPrice(newPrice); // Update the cartPrice state with the new price
+  }
+
   return (
     <Flex
       direction={{
@@ -76,8 +82,9 @@ function CartItem ({item, onDelete}) {
       {/* Desktop */}
       <Flex width="full" justify="space-between" display={{base: 'none', md: 'flex'}}>
 
-        <QuantitySelector quantity={quantity} price = {price}/>
-        <PriceTag price={price} currency={currency} />
+        <QuantitySelector quantity={quantity} price = {price} onPriceChange={handlePriceChange}/>
+        <PriceTag price={cartPrice} currency={currency} />
+        
         <CloseButton aria-label={`Delete ${name} from cart`} onClick={handleDelete} />
       
       </Flex>
@@ -85,12 +92,12 @@ function CartItem ({item, onDelete}) {
       {/* Mobile */}
       <Flex mt="4" align="center" width="full" justify="space-between" display={{base: 'flex', md: 'none'}}>
         
-        <QuantitySelector quantity={quantity}/>
+        <QuantitySelector quantity={quantity} price = {price}/>
         <Link fontSize="sm" textDecor="underline" onClick={handleDelete}>
           Delete
         </Link>
         
-        <PriceTag price={price} currency={currency} />
+        {/* <PriceTag price={price} currency={currency} /> */}
       </Flex>
     </Flex>
   );

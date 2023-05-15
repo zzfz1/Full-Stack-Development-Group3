@@ -10,9 +10,9 @@ const CartReducer = createSlice({
   reducers:
   {
     addProduct: (state, action) => {
-      state.quantity = state.quantity+1;
+      state.quantity += 1;
+      state.total += (action.payload.price * action.payload.quantity);
       state.orders.push(action.payload);
-      state.total += action.payload.price * action.payload.quantity;
     },
     deleteProduct: (state, action) => {
       console.log("deleted ID: " + action.payload._id + ", Quantity: " + action.payload.quantity + ", Price: " + action.payload.price);
