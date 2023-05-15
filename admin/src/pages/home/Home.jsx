@@ -1,10 +1,9 @@
-import "./home.css";
 import { useEffect, useMemo, useState } from "react";
 import Chart from "../../components/chart/chart";
 import WidgetLg from "../../components/widgetLg/widgetLg";
 import WidgetSm from "../../components/widgetSm/widgetSm";
-// import { userRequest, publicRequest } from "../../requestMethods"
 import axios from "axios";
+import { Container, Grid, Box, Paper, Avatar, Button, TextField, Checkbox, } from "@mui/material";
 
 const API_URL = "https://us-central1-web-shop-group-3.cloudfunctions.net/api/users";
 
@@ -26,13 +25,33 @@ export default function Home() {
   }, [MONTHS]);
 
   return (
-    <div className="home">
-      {/* <FeaturedInfo /> */}
-      <Chart data={userStats} title="User Analytics" grid dataKey="Active User" />
-      <div className="homeWidgets">
-        <WidgetSm />
-        <WidgetLg />
-      </div>
-    </div>
+    <Container height={"auto"} sx={{ mt: 4, mb: 4 }}>
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={12} lg={12} sx={{
+          display: 'flex',
+          flexDirection: 'column',
+        }}>
+          <Chart
+            data={userStats}
+            title="User Analytics"
+            grid
+            dataKey="Active User"
+          />
+        </Grid>
+
+        <Grid item xs={12} md={3} lg={4} sx={{
+          display: 'flex',
+          flexDirection: 'column',
+        }}>
+          <WidgetSm />
+        </Grid>
+
+        <Grid item xs={12} md={9} lg={8} sx={{
+          display: 'flex', flexDirection: 'column'
+        }}>
+          <WidgetLg />
+        </Grid>
+      </Grid>
+    </Container>
   );
 }

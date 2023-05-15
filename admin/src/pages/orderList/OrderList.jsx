@@ -1,56 +1,10 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Box,
-  Button,
-  Typography,
-  AppBar,
-  Toolbar,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  TextField,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  TableSortLabel,
-  Chip,
-  Switch,
-  FormControlLabel,
-  Container,
-} from "@mui/material";
+import { Box, Typography, AppBar, Toolbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TableSortLabel, Chip, Container } from "@mui/material";
 
 import { getAllOrdersAsync, updateOrderAsync, deleteOrderAsync } from "../../redux/orderSlice";
-
-// A function to handle sorting
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-function getComparator(order, orderBy) {
-  return order === "desc" ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-}
+import { getComparator, stableSort } from "../utils/sortHelper";
+import { EditOrderDialog, DeleteOrderDialog } from "./OrderListDialog";
 
 // Define the table headers
 const headCells = [
@@ -101,6 +55,14 @@ const OrderList = () => {
 
   const handleCloseDeleteDialog = () => {
     setOpenDeleteDialog(false);
+  };
+
+  const handlePaidStatusChange = (e) => {
+    setSelectedOrder({ ...selectedOrder, isPaid: e.target.checked });
+  };
+
+  const handleDeliveredStatusChange = (e) => {
+    setSelectedOrder({ ...selectedOrder, isDelivered: e.target.checked });
   };
 
   const handleUpdateOrder = async () => {
@@ -177,48 +139,16 @@ const OrderList = () => {
           </Table>
         </TableContainer>
 
-        {/* Edit Order Dialog */}
-        <Dialog open={openEditDialog} onClose={handleCloseEditDialog} aria-labelledby="form-dialog-title">
-          <DialogTitle id="form-dialog-title">Edit Order</DialogTitle>
-          <DialogContent>
-            <TextField autoFocus margin="dense" id="name" label="Order ID" type="text" fullWidth value={selectedOrder?._id || ""} disabled />
-            <TextField margin="dense" id="username" label="Username" type="text" fullWidth value={selectedOrder?.user.username || ""} disabled />
-            <TextField margin="dense" id="totalPrice" label="Total Price" type="number" fullWidth value={selectedOrder?.totalPrice || ""} disabled />
-            <FormControlLabel
-              control={<Switch checked={selectedOrder?.isPaid || false} onChange={(e) => setSelectedOrder({ ...selectedOrder, isPaid: e.target.checked })} id="isPaid" />}
-              label="Is Paid"
-            />
-
-            <FormControlLabel
-              control={<Switch checked={selectedOrder?.isDelivered || false} onChange={(e) => setSelectedOrder({ ...selectedOrder, isDelivered: e.target.checked })} id="isDelivered" />}
-              label="Is Delivered"
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseEditDialog} color="secondary">
-              Cancel
-            </Button>
-            <Button onClick={handleUpdateOrder} color="primary">
-              Update
-            </Button>
-            <Button onClick={() => handleOpenDeleteDialog(selectedOrder)} color="secondary">
-              Delete
-            </Button>
-          </DialogActions>
-        </Dialog>
-
-        {/* Delete Order Dialog */}
-        <Dialog open={openDeleteDialog} onClose={handleCloseDeleteDialog}>
-          <DialogTitle id="alert-dialog-title">{"Are you sure you want to delete this order?"}</DialogTitle>
-          <DialogActions>
-            <Button onClick={handleCloseDeleteDialog} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={handleDeleteOrder} color="secondary" autoFocus>
-              Delete
-            </Button>
-          </DialogActions>
-        </Dialog>
+        <EditOrderDialog
+          open={openEditDialog}
+          handleClose={handleCloseEditDialog}
+          handleUpdate={handleUpdateOrder}
+          order={selectedOrder}
+          handleOpenDeleteDialog={() => handleOpenDeleteDialog(selectedOrder)}
+          handlePaidStatusChange={handlePaidStatusChange}
+          handleDeliveredStatusChange={handleDeliveredStatusChange}
+        />
+        <DeleteOrderDialog open={openDeleteDialog} handleClose={handleCloseDeleteDialog} handleDelete={handleDeleteOrder} />
       </Container>
     </Box>
   );

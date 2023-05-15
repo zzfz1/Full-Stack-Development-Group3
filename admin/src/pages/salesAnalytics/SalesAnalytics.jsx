@@ -20,7 +20,7 @@ const SalesAnalyticsChart = () => {
   //   conversionRate: (data.revenue / 1000) * 100 // Assuming a conversion rate formula
   // }));
 
-  const API_URL = "https://us-central1-web-shop-group-3.cloudfunctions.net/api/orders";
+  const API_URL = "http://localhost:3000/api/orders";
 
   const [orderStat, setOrder] = useState([]);
   const MONTHS = useMemo(() => ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Agu", "Sep", "Oct", "Nov", "Dec"], []);

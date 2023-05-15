@@ -1,54 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  Paper,
-  TableContainer,
-  Box,
-  Button,
-  Typography,
-  AppBar,
-  Toolbar,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  TextField,
-  TableSortLabel,
-  TableBody,
-  Container,
-  Switch,
-  FormControlLabel,
-} from "@mui/material";
+import { Table, TableHead, TableRow, TableCell, Paper, TableContainer, Box, Typography, AppBar, Toolbar, TableSortLabel, TableBody, Container, Switch } from "@mui/material";
 import { getAllUsersAsync, updateUserAsync, deleteUserAsync } from "../../redux/userSlice";
-
-// A function to handle sorting
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-function getComparator(user, orderBy) {
-  return user === "desc" ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const user = comparator(a[0], b[0]);
-    if (user !== 0) return user;
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-}
+import { getComparator, stableSort } from "../utils/sortHelper";
+import { EditUserDialog, DeleteUserDialog } from "./UserListDialog";
 
 // Define the table headers
 const headCells = [
@@ -169,73 +124,8 @@ const UserList = () => {
             </TableBody>
           </Table>
         </TableContainer>
-
-        {/* Edit User Dialog */}
-        <Dialog open={openEditDialog} onClose={handleCloseEditDialog} aria-labelledby="form-dialog-title">
-          <DialogTitle id="form-dialog-title">Edit User</DialogTitle>
-          <DialogContent>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label="Name"
-              type="text"
-              fullWidth
-              value={selectedUser?.name || ""}
-              onChange={(e) => setSelectedUser({ ...selectedUser, name: e.target.value })}
-            />
-            <TextField
-              margin="dense"
-              id="username"
-              label="Username"
-              type="text"
-              fullWidth
-              value={selectedUser?.username || ""}
-              onChange={(e) => setSelectedUser({ ...selectedUser, username: e.target.value })}
-            />
-            <TextField
-              margin="dense"
-              id="email"
-              label="email"
-              type="text"
-              fullWidth
-              value={selectedUser?.email || ""}
-              onChange={(e) => setSelectedUser({ ...selectedUser, username: e.target.value })}
-            />
-            <FormControlLabel
-              control={
-                //
-                <Switch checked={selectedUser?.isAdmin || false} onChange={(e) => setSelectedUser({ ...selectedUser, isAdmin: !selectedUser?.isAdmin })} id="isAdmin" />
-              }
-              label="Is Admin"
-            />
-            <TextField margin="dense" id="img" label="img" type="text" fullWidth value={selectedUser?.img || ""} onChange={(e) => setSelectedUser({ ...selectedUser, username: e.target.value })} />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseEditDialog} color="secondary">
-              Cancel
-            </Button>
-            <Button onClick={handleUpdateUser} color="primary">
-              Update
-            </Button>
-            <Button onClick={() => handleOpenDeleteDialog(selectedUser)} color="secondary">
-              Delete
-            </Button>
-          </DialogActions>
-        </Dialog>
-
-        {/* Delete User Dialog */}
-        <Dialog open={openDeleteDialog} onClose={handleCloseDeleteDialog}>
-          <DialogTitle id="alert-dialog-title">{"Are you sure you want to delete this user?"}</DialogTitle>
-          <DialogActions>
-            <Button onClick={handleCloseDeleteDialog} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={handleDeleteUser} color="secondary" autoFocus>
-              Delete
-            </Button>
-          </DialogActions>
-        </Dialog>
+        <EditUserDialog open={openEditDialog} handleClose={handleCloseEditDialog} user={selectedUser} handleUpdate={handleUpdateUser} handleDelete={handleOpenDeleteDialog} />
+        <DeleteUserDialog open={openDeleteDialog} handleClose={handleCloseDeleteDialog} user={selectedUser} handleDelete={handleDeleteUser} />
       </Container>
     </Box>
   );
