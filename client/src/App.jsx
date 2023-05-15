@@ -10,6 +10,7 @@ import Header from "./components/header/navbar";
 // import Contact from "/src/pages/Contacts.jsx";
 // import Checkout from "/src/pages/Checkout.jsx";
 // import SignIn from "/src/pages/Sign_in.jsx";
+import ShoppingCart from "./pages/Shopping_cart";
 import Register from "../src/components/register";
 import SendEmail from "../src/components/resetPassword/sendEmail";
 import ResetPassword from "../src/components/resetPassword/resetPassword";
@@ -24,6 +25,7 @@ import { useEffect } from "react";
 import { allProduct } from "./redux/productsRedux";
 import Contact from "./pages/Contacts";
 import Products from "./pages/Products";
+import AboutUs from "./pages/AboutUs";
 
 const router = createBrowserRouter([
   {
@@ -66,12 +68,19 @@ const router = createBrowserRouter([
         element: <Profile />,
       },
       {
+        path: "/shopping_cart",
+        element: <ShoppingCart />,
+      },
         path: "/contact",
         element: <Contact />,
       },
       {
         path: "/products",
         element: <Products />,
+      },
+      {
+        path: "/about_us",
+        element: <AboutUs />,
       },
 
       // {

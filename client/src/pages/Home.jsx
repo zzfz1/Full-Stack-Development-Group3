@@ -1,6 +1,13 @@
 import React from "react";
 import Hero from "../components/hero";
-import { Center, Heading, Stack, Text } from "@chakra-ui/react";
+import {
+  Center,
+  Divider,
+  Heading,
+  MenuDivider,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import { useEffect } from "react";
 import Products_3dPrinters from "./Products_3dPrinters";
 import { useDispatch } from "react-redux";
@@ -13,6 +20,9 @@ const Home = () => {
   return (
     <div>
       <Hero />
+      <Center>
+        <Divider borderBottomColor="black" w="80%" />
+      </Center>
       {/* <Products_3dPrinters /> */}
       <Carousel />
       <Center>
