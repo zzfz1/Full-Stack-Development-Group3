@@ -92,7 +92,7 @@ function Login() {
               onSubmit={async (values, actions) => {
                 try {
                   const res = await axios.post(
-                    "https://us-central1-web-shop-group-3.cloudfunctions.net/api/users/login",
+                    "http://localhost:3000/api/users/login",
                     {
                       email: values.email,
                       password: values.password,
