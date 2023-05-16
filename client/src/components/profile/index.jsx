@@ -28,8 +28,7 @@ function Profile() {
       <SideBar onNavItemClick={handleNavItemClick} />
       <Box
         bg={useColorModeValue("gray.50", "gray.800")}
-        minH="85vh"
-        maxH="90vh"
+        h="85vh"
         minW="85vw"
         maxW={"90vw"}
         p={0}

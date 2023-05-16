@@ -44,7 +44,7 @@ const Product = () => {
   const handleCategoryChange = async (e) => {
     const categorySlug = e.target.value;
     if (categorySlug) {
-      const categoryExists = allCategories.some((categoryItem) => categoryItem._id === categorySlug);
+      const categoryExists = allCategories.some((categoryItem) => categoryItem.slug === categorySlug);
       if (!categoryExists) {
         return;
       }
@@ -69,7 +69,6 @@ const Product = () => {
     }
   };
 
- 
   const handlePropertyChange = (index, e) => {
     const newProperties = [...editedProduct.properties];
     const categoryPropertyId = e.target.value;
@@ -204,7 +203,7 @@ const Product = () => {
           </Grid>
         </Grid>
       </Container>
-      <ProductDialog open={deleteDialogOpen} onClose={closeDeleteDialog} onDelete={(slug) => handleDeleteProduct(slug)} slug={slug} />
+      <ProductDialog open={deleteDialogOpen} onClose={closeDeleteDialog} onDelete={(slug) => handleDeleteProduct(slug)} slug={slug} />
     </Box>
   );
 };

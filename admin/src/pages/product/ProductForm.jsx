@@ -22,18 +22,7 @@ const ProductForm = ({
     <TextField label="Image" variant="outlined" name="image" value={editedProduct.image} onChange={handleProductChange} fullWidth margin="normal" />
     <TextField label="Brand" variant="outlined" name="brand" value={editedProduct.brand} onChange={handleProductChange} fullWidth margin="normal" />
     <TextField label="Price" variant="outlined" name="price" value={editedProduct.price} onChange={handleProductChange} fullWidth margin="normal" />
-    <TextField
-      label="Count in Stock"
-      variant="outlined"
-      name="countInStock"
-      value={editedProduct.countInStock}
-      onChange={handleProductChange}
-      fullWidth
-      margin="normal"
-      // InputProps={{
-      //   readOnly: true,
-      // }}
-    />
+    <TextField label="Count in Stock" variant="outlined" name="countInStock" value={editedProduct.countInStock} onChange={handleProductChange} fullWidth margin="normal" />
     <TextField label="Description" variant="outlined" name="description" value={editedProduct.description} onChange={handleProductChange} fullWidth margin="normal" />
     <TextField
       label="Rating"
@@ -61,8 +50,7 @@ const ProductForm = ({
     />
     <FormControl fullWidth margin="normal">
       <InputLabel id="category-select-label">Category</InputLabel>
-      {/* <Select labelId="category-select-label" name="category" value={editedProduct.category} onChange={handleCategoryChange}> */}
-      <Select labelId="category-select-label" name="category" defaultValue="" value={selectedCategory || ""} onChange={handleCategoryChange}>
+      <Select labelId="category-select-label" name="category" defaultValue="" value={selectedCategory || ""} onChange={(e) => handleCategoryChange(e)}>
         <MenuItem value="">None</MenuItem>
         {allCategories.map((categoryItem) => (
           <MenuItem key={categoryItem.slug} value={categoryItem.slug || ""}>
