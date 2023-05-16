@@ -68,7 +68,11 @@ function ShoppingCart() {
 
           <Stack spacing="6">
             {orders.map((item) => (
-              <CartItem item={item} onDelete={handleDeleteItem} />
+              <CartItem
+                key={item._id + JSON.stringify(item.selectedValues)}
+                item={item}
+                onDelete={handleDeleteItem}
+              />
             ))}
           </Stack>
         </Stack>
