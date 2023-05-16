@@ -12,6 +12,7 @@ import { formatPrice } from "./cart-priceTag";
 import { useDispatch, useSelector } from "react-redux";
 import { clearArray } from "../../redux/cartRedux";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 const OrderSummaryItem = (props) => {
   const { label, value, children } = props;
   return (
@@ -26,15 +27,17 @@ const OrderSummaryItem = (props) => {
 
 export const CartOrderSummary = (props) => {
   const { total } = props;
+  const items = useSelector((state) => state.cart.orders);
   const user = useSelector((state) => state.user.currentUser);
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleCheckout = () => {
     if (user) {
-      dispatch(clearArray());
-      toast.success("Thank your for the purchase", {
-        position: toast.POSITION.TOP_CENTER,
-      });
+      if (items.length === 0) {
+        toast.error("You need to add at least 1 item!", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      } else navigate("/checkout");
     } else {
       toast.error("Oop! you need to login", {
         position: toast.POSITION.TOP_CENTER,

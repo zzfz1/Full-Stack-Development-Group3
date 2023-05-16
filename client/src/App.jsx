@@ -5,11 +5,7 @@ import Login from "./components/Login";
 import Footer from "./components/footer";
 import Home from "./pages/Home";
 import Header from "./components/header/navbar";
-// import Products from "./pages/Products.jsx";
-// import AboutUs from "/src/pages/AboutUs.jsx";
-// import Contact from "/src/pages/Contacts.jsx";
-// import Checkout from "/src/pages/Checkout.jsx";
-// import SignIn from "/src/pages/Sign_in.jsx";
+import Checkout from "/src/pages/Checkout.jsx";
 import ShoppingCart from "./pages/Shopping_cart";
 import Register from "../src/components/register";
 import SendEmail from "../src/components/resetPassword/sendEmail";
@@ -83,17 +79,7 @@ const router = createBrowserRouter([
         path: "/about_us",
         element: <AboutUs />,
       },
-
-      // {
-      //   path: "/register",
-      //   element: <Register />,
-      // },
-      // {
-      //   path: "/reset",
-      //   element: <Reset />,
-      // // },
-      // { path: "/checkout", element: <Checkout /> },
-      // { path: "/about_us", element: <AboutUs /> },
+      { path: "/checkout", element: <Checkout /> },
     ],
   },
 ]);
