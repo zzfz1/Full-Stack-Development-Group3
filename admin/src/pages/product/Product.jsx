@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
-import { getProductBySlugAsync, editProductAsync } from "../../redux/productSlice";
+import { getProductBySlugAsync, editProductAsync, deleteProductAsync } from "../../redux/productSlice";
 import { getCategoryBySlugAsync, getAllCategoriesAsync } from "../../redux/categorySlice";
 import { Button, AppBar, Toolbar, Typography, Container, Grid, Box } from "@mui/material";
 import ProductDialog from "./ProductDialog";
@@ -60,6 +60,16 @@ const Product = () => {
       setSelectedCategory(null);
     }
   };
+  const handleDeleteProduct = async (slug) => {
+    try {
+      await dispatch(deleteProductAsync(slug));
+      navigate("/products");
+    } catch (error) {
+      console.error("Error deleting category:", error);
+    }
+  };
+
+ 
   const handlePropertyChange = (index, e) => {
     const newProperties = [...editedProduct.properties];
     const categoryPropertyId = e.target.value;
@@ -194,7 +204,7 @@ const Product = () => {
           </Grid>
         </Grid>
       </Container>
-      <ProductDialog open={deleteDialogOpen} onClose={closeDeleteDialog} onDelete={() => dispatch(editProductAsync({ product: editedProduct, slug, operation: "delete" }))} slug={slug} />
+      <ProductDialog open={deleteDialogOpen} onClose={closeDeleteDialog} onDelete={(slug) => handleDeleteProduct(slug)} slug={slug} />
     </Box>
   );
 };
