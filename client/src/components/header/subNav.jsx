@@ -125,6 +125,8 @@ export const MobileNav = ({ user, cartItemCount, links, quantity }) => {
 
       <Stack w="3rem">
         <IconButton
+          as="a"
+          href="/shopping_cart"
           icon={<FiShoppingCart size="2rem" />}
           name="shopping-cart"
           size="lg"
