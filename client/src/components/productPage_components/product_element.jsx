@@ -25,7 +25,7 @@ function ProductElement({ item }) {
   /*   const [color, setColor] = useState("");
   const [size, setSize] = useState(""); */
   const dispatch = useDispatch();
-  const { _id, name, image, brand, price, quantityPrice } = item;
+  const { _id, name, image, brand, price} = item;
 
   const handleOpenProductCard = (id) => {
     setOpenProductCard(id);
@@ -35,11 +35,12 @@ function ProductElement({ item }) {
     setOpenProductCard(null);
   };
 
-  const handleClick = () => {
+  //uncomment this if you are adding "Add Cart" button in this component
+  /* const handleClick = () => {
     dispatch(
-      addProduct({ ...order, _id, quantity, name, price, image, quantityPrice })
+      addProduct({ ...order, _id, quantity, name, price, image })
     );
-  };
+  }; */
 
   return (
     <Card maxW="16rem">

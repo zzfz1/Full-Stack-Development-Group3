@@ -25,8 +25,9 @@ function ShoppingCart() {
   const handleDeleteItem = (deleteID, deleteQuantity, deletePrice) => {
     console.log(`target the ID: ${deleteID}`);
     const toDeleteObj = orders.find((obj) => obj._id === deleteID);
-    dispatch(deleteProduct(toDeleteObj, deleteQuantity, deletePrice));
+    dispatch(deleteProduct(toDeleteObj));
   };
+
 
   return (
     <Box
@@ -68,7 +69,7 @@ function ShoppingCart() {
 
           <Stack spacing="6">
             {orders.map((item) => (
-              <CartItem item={item} onDelete={handleDeleteItem} />
+              <CartItem key={item._id+JSON.stringify(item.selectedValues)} item={item} onDelete={handleDeleteItem} />
             ))}
           </Stack>
         </Stack>
