@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import _ from "lodash";
 
+
 const CartReducer = createSlice({
   name: "cart",
   initialState: {
@@ -42,10 +43,23 @@ const CartReducer = createSlice({
         (item) => item._id != action.payload._id
       );
       state.orders = filteredArr;
-      state.quantity -= action.payload.quantity;
-      state.total -= action.payload.quantity * action.payload.price;
+
+      state.quantity -= 1;
+      state.total -= (action.payload.quantity * action.payload.price);
     },
-    clearArray: (state) => {
+    changeProductQuantity:(state,action)=>{
+      const amount=action.payload.amount;
+      const selectedValues=action.payload.selectedValues;
+      const _id=action.payload._id;
+      state.orders.forEach((order)=>{
+        if(_id===order._id&&_.isEqual(selectedValues,order.selectedValues)){
+          order.quantity+=amount;
+          state.total+=amount*order.price
+        }
+      }
+      )
+    },
+    clearArray:  (state) => {
       state.orders = [];
       state.quantity = 0;
       state.total = 0;
@@ -53,5 +67,6 @@ const CartReducer = createSlice({
   },
 });
 
-export const { addProduct, deleteProduct, clearArray } = CartReducer.actions;
+export const { addProduct, deleteProduct, clearArray,changeProductQuantity} = CartReducer.actions;
+
 export default CartReducer.reducer;

@@ -3,24 +3,19 @@ import { MinusIcon, AddIcon } from "@chakra-ui/icons";
 import { PriceTag } from './cart-priceTag'
 import { CartProductMeta } from './cart-productMeta'
 import { useState } from "react";
+import { useDispatch } from 'react-redux';
+import { changeProductQuantity } from '../../redux/cartRedux';
 
-const QuantitySelector=({quantity, price, onPriceChange}) => {
+
+
+const QuantitySelector=({quantity, onIncrement,onDecrement}) => {
+  // const [summedPrice, setPrice] = useState(quantityPrice);
   
-  const [selectedQuantity, setQuantity] = useState(quantity);
-  const [summedPrice, setPrice] = useState(price);
-
-  const handleDecrement = () => {
-    if (selectedQuantity > 1) {
-      setQuantity(selectedQuantity - 1);
-      setPrice(summedPrice - price);
-      onPriceChange(summedPrice - price);
-    }
-  };
-  const handleIncrement = () => {
-    setQuantity(selectedQuantity + 1);
-    setPrice(summedPrice + price);
-    onPriceChange(summedPrice + price);
-  };
+  // const handleIncrement = () => {
+  //   setQuantity(selectedQuantity + 1);
+  //   setPrice(summedPrice + price);
+  //   onPriceChange(quantityPrice + price);
+  // };
 
   return (
     <ButtonGroup size="sm">
@@ -28,16 +23,16 @@ const QuantitySelector=({quantity, price, onPriceChange}) => {
         size="md"
         aria-label="Minus"
         icon={<MinusIcon />}
-        onClick={handleDecrement}
+        onClick={onDecrement}
       />
       <Button size="md" variant="outline">
-        {selectedQuantity}
+        {quantity}
       </Button>
       <IconButton
         size="md"
         aria-label="Add"
         icon={<AddIcon />}
-        onClick={handleIncrement}
+        onClick={onIncrement}
       />
     </ButtonGroup>
   );
@@ -49,21 +44,39 @@ function CartItem ({item, onDelete}) {
     _id,
     name,
     image,
+    selectedValues,
     price,
     description,
     currency,
-    quantity,
-    quantityPrice,
+    quantity
   } = item;
   
+  const dispatch=useDispatch();
+
   const handleDelete = () => {
     onDelete(_id, quantity, price); 
   };
+  
+  const [quantityPrice, setQuantityPrice] = useState(price * quantity);
+  const [currentQuantity, setCurrentQuantity]=useState(quantity);
 
-  const [cartPrice, setCartPrice] = useState(price);
-  const handlePriceChange = (newPrice) => {
-    setCartPrice(newPrice); // Update the cartPrice state with the new price
-  }
+  console.log(quantityPrice);
+
+  const handleDecrement = () => {
+    if (currentQuantity > 1) {
+      const amount=-1;
+      setCurrentQuantity(currentQuantity - 1);
+      setQuantityPrice(quantityPrice - price);
+      dispatch(changeProductQuantity({_id,amount,selectedValues}))
+    }
+  };
+
+  const handleIncrement = () => {
+    const amount= 1;
+    setCurrentQuantity(currentQuantity + 1);
+    setQuantityPrice(quantityPrice + price);
+    dispatch(changeProductQuantity({_id,amount,selectedValues}))
+  };
 
   return (
     <Flex
@@ -83,8 +96,8 @@ function CartItem ({item, onDelete}) {
       {/* Desktop */}
       <Flex width="full" justify="space-between" display={{base: 'none', md: 'flex'}}>
 
-        <QuantitySelector quantity={quantity} price = {price} onPriceChange={handlePriceChange}/>
-        <PriceTag price={cartPrice} currency={currency} />
+        <QuantitySelector quantity={currentQuantity} price = {price} quantityPrice = {quantityPrice} onDecrement={handleDecrement} onIncrement={handleIncrement}/>
+        <PriceTag price={quantityPrice} currency={currency} />
         
         <CloseButton aria-label={`Delete ${name} from cart`} onClick={handleDelete} />
       
@@ -93,12 +106,12 @@ function CartItem ({item, onDelete}) {
       {/* Mobile */}
       <Flex mt="4" align="center" width="full" justify="space-between" display={{base: 'flex', md: 'none'}}>
         
-        <QuantitySelector quantity={quantity} price = {price}/>
+        <QuantitySelector quantity={currentQuantity} price = {price} quantityPrice = {quantityPrice} onDecrement={handleDecrement} onIncrement={handleIncrement} />
         <Link fontSize="sm" textDecor="underline" onClick={handleDelete}>
           Delete
         </Link>
         
-        {/* <PriceTag price={price} currency={currency} /> */}
+        <PriceTag price={quantityPrice} currency={currency} />
       </Flex>
     </Flex>
   );
