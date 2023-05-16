@@ -26,7 +26,7 @@ function OrderHistory() {
     }
   }, []);
   return (
-    <Box p={6} m={0} bg={useColorModeValue("gray.50", "gray.800")}>
+    <Box p={6} m={0} h={"100%"} overflowY={"auto"} bg={useColorModeValue("gray.50", "gray.800")}>
       <Flex
         w="100%"
         justifyContent="space-between"
@@ -42,7 +42,7 @@ function OrderHistory() {
       </Flex>
       {myOrders ? (
         myOrders.map((order) => (
-          <Box mb={5} key={order._id}>
+          <Box mt={5} key={order._id}>
             <Heading fontSize={{ sm: "sm", md: "md", lg: "lg" }}>
               {new Date(order.createdAt).toLocaleDateString()}
             </Heading>
