@@ -20,7 +20,7 @@ import { MinusIcon, AddIcon } from "@chakra-ui/icons";
 import Rating from "./product_rating";
 import Review from "./product_rating";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addProduct } from "../../redux/cartRedux";
 
 function ProductCard({ item, isOpen, onClose }) {
@@ -29,6 +29,8 @@ function ProductCard({ item, isOpen, onClose }) {
   const [quantity, setQuantity] = useState(1);
   const [selectedValues, setSelectedValues] = useState({});
   const [error, setError] = useState("");
+
+  const cart = useSelector((state) => state.cart);
 
   const propertyKeys = properties.map(
     (property) => property.categoryProperty.key
@@ -52,8 +54,6 @@ function ProductCard({ item, isOpen, onClose }) {
 
     for (const property of propertyKeys) {
       // do something with each property and its value
-      console.log("the property key", property);
-      console.log("the property value", selectedValues[property]);
       if (!selectedValues[property]) {
         setError("Please select a value");
         return;
@@ -61,7 +61,7 @@ function ProductCard({ item, isOpen, onClose }) {
     }
 
     // your reducer function here
-    dispatch(addProduct({ ...data, _id, quantity, name, price, image, quantityPrice }));
+    dispatch(addProduct({ ...data, _id, name, price, image, quantityPrice }));
 
     // close the modal
     onClose();
