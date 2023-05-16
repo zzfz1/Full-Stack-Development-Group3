@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { createCategoryPropertyAsync, getCategoryPropertiesAsync, deleteCategoryPropertyAsync } from "../../redux/categoryPropertySlice";
-import { getCategoryBySlugAsync, editCategoryAsync, deleteCategoryAsync } from "../../redux/categorySlice";
+import { getCategoryBySlugAsync, editCategoryAsync, deleteCategoryAsync, getAllCategoriesAsync } from "../../redux/categorySlice";
+import { getAllProductsAsync } from "../../redux/productSlice";
 import { AppBar, Box, Button, TextField, Toolbar, Typography, Grid, Container, Select, MenuItem } from "@mui/material";
 import slugify from "slugify";
 import Dialogs from "./CategoryDialog";
 import { usePropertyLogic } from "./CategoryLogic";
-
 const Category = () => {
   const [localCategory, setLocalCategory] = useState(null);
   const [newPropertyKey, setNewPropertyKey] = useState("");
@@ -20,11 +20,14 @@ const Category = () => {
   const dispatch = useDispatch();
   const status = useSelector((state) => state.category.status);
   const category = useSelector((state) => state.category.category);
+  const categories = useSelector((state) => state.category.categories);
+  const products = useSelector((state) => state.product.products);
   const categoryProperties = useSelector((state) => state.categoryProperty.properties);
   const { selectedProperties, addNewPropertySelect, removeProperty, handlePropertySelect } = usePropertyLogic(localCategory, setLocalCategory, categoryProperties);
-
   useEffect(() => {
     dispatch(getCategoryBySlugAsync(slug));
+    dispatch(getAllCategoriesAsync());
+    dispatch(getAllProductsAsync());
   }, [slug, dispatch]);
 
   useEffect(() => {
@@ -33,25 +36,57 @@ const Category = () => {
       dispatch(getCategoryPropertiesAsync());
     }
   }, [status, category]);
-
   const handleEditCategory = async (oldslug, updatedCategory) => {
     try {
       await dispatch(editCategoryAsync({ oldslug, updatedCategory }));
       setLocalCategory(updatedCategory);
       const newSlug = slugify(updatedCategory.name, { lower: true, strict: true });
-      navigate(`/categories/${newSlug}`, { replace: true });
+      // navigate(`/categories/${newSlug}`, { replace: true }); // if I wanna change it to stay on the page
       navigate("/categories");
     } catch (error) {
       console.error("Error editing category:", error);
     }
   };
-
   const handleDeleteCategory = async (slug) => {
     try {
+      const usedInProduct = products.find((product) => product.category.slug === slug);
+      if (usedInProduct) {
+        alert(`Category is used in ${usedInProduct.name}. Please remove it from there first`);
+        return;
+      }
       await dispatch(deleteCategoryAsync(slug));
       navigate("/categories");
     } catch (error) {
       console.error("Error deleting category:", error);
+    }
+  };
+  const handleDeleteProperty = async (propertyId) => {
+    try {
+      const usedInCategory = categories.find((category) => category.categoryProperties.some((property) => property._id === propertyId));
+      if (usedInCategory) {
+        alert(`Propety is used in ${usedInCategory.name}. Please remove it from there first`);
+        return;
+      }
+      await dispatch(deleteCategoryPropertyAsync(propertyId));
+      closeDeletePropertyDialog();
+    } catch (error) {
+      console.error("Error deleting property:", error);
+    }
+  };
+  const handleCreateProperty = async () => {
+    if (newPropertyKey.trim() !== "") {
+      const existingProperty = categoryProperties.find((property) => property.key === newPropertyKey);
+      if (existingProperty) {
+        alert("A property with this key already exists.");
+        return;
+      }
+      await dispatch(createCategoryPropertyAsync({ key: newPropertyKey }));
+      const newProperty = categoryProperties.find((property) => property.key === newPropertyKey);
+      if (newProperty) {
+        setSelectedProperties([...selectedProperties, newProperty._id]);
+      }
+      setNewPropertyKey("");
+      closePropertyDialog();
     }
   };
   const resetToDefault = () => {
@@ -78,35 +113,7 @@ const Category = () => {
   const closeDeletePropertyDialog = () => {
     setDeletePropertyDialogOpen(false);
   };
-
-  const handleCreateProperty = async () => {
-    if (newPropertyKey.trim() !== "") {
-      const existingProperty = categoryProperties.find((property) => property.key === newPropertyKey);
-      if (existingProperty) {
-        alert("A property with this key already exists.");
-        return;
-      }
-      await dispatch(createCategoryPropertyAsync({ key: newPropertyKey }));
-      const newProperty = categoryProperties.find((property) => property.key === newPropertyKey);
-      if (newProperty) {
-        setSelectedProperties([...selectedProperties, newProperty._id]);
-      }
-      setNewPropertyKey("");
-      closePropertyDialog();
-    }
-  };
-  const handleDeleteProperty = async (propertyId) => {
-    try {
-      await dispatch(deleteCategoryPropertyAsync(propertyId));
-      closeDeletePropertyDialog();
-    } catch (error) {
-      console.error("Error deleting property:", error);
-    }
-  };
   const renderCategoryProperties = () => {
-    console.log("localCategory: ", localCategory);
-    console.log("categoryProperties", categoryProperties);
-
     return (
       <>
         {localCategory?.categoryProperties?.map((property, index) => (

@@ -70,6 +70,7 @@ function ShoppingCart() {
           <Stack spacing="6">
             {orders.map((item) => (
               <CartItem key={item._id+JSON.stringify(item.selectedValues)} item={item} onDelete={handleDeleteItem} />
+
             ))}
           </Stack>
         </Stack>

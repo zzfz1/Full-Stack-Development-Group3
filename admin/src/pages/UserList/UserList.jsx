@@ -20,7 +20,6 @@ const UserList = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-  // State for sorting
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("createdAt");
 
@@ -61,12 +60,13 @@ const UserList = () => {
     handleCloseEditDialog();
   };
 
-  const handleDeleteUser = async () => {
-    await dispatch(deleteUserAsync(selectedUser.slug));
+  const handleDeleteUser = async (updatedUser) => {
+    await dispatch(deleteUserAsync(updatedUser.slug));
     await dispatch(getAllUsersAsync());
     handleCloseDeleteDialog();
     handleCloseEditDialog();
   };
+
   console.log("users", users);
   return (
     <Box

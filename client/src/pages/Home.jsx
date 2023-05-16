@@ -29,10 +29,11 @@ const Home = () => {
         <Stack direction={"column"}>
           <Heading p={8}>New Product </Heading>
           <Stack
-            spacing={4}
+            spacing={6}
             justify={"center"}
             align={"center"}
             py={8}
+            px={6}
             direction={["column", "column", "row"]}
             mb="10rem"
           >
