@@ -18,7 +18,7 @@ app.use(
     origin: [
       "https://web-shop-group-3.web.app",
       "https://admin-group-3.web.app",
-      "http://localhost:5173",
+      // "http://localhost:5173",
     ],
     allowedHeaders: ["Content-Type", "Authorization", "withcredentials"],
     credentials: true,
@@ -29,10 +29,10 @@ app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 // Middleware -Routes
-app.use("/api/users", userRoutes);
-app.use("/api/categories", categoryRoutes);
-app.use("/api/products", productRoutes);
-app.use("/api/orders", orderRoutes);
+app.use("/users", userRoutes);
+app.use("/categories", categoryRoutes);
+app.use("/products", productRoutes);
+app.use("/orders", orderRoutes);
 
 mongoose
   .connect(process.env.MONGO_URL)
@@ -43,9 +43,9 @@ mongoose
 
 mongoose.set("strictQuery", false);
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// const PORT = process.env.PORT || 3000;
+// app.listen(PORT, () => {
+//   console.log(`Server running on port ${PORT}`);
+// });
 
 export const api = functions.https.onRequest(app);
