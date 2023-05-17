@@ -7,18 +7,19 @@ Welcome to Group 3 repository! This project is a web-based e-commerce platform d
 
 ## Table of Contents
 * Project Overview
+  * Description
+  * Branches & Project Management
 * Installation
 * Usage
 * Features
 * Technologies
 * Contributing
-* License
 
 ### Project Overview
 #### Description
-This is a e-commerce shop website for 3d Printers.
+This is a e-commerce web shop for 3d Printers.
 #### Branches and project management
-During development, our team aimed at concrete task assignment for each inidividual and clear view of the overall repository. 
+During development, our team aimed at concrete task assignment to each inidividual and clear view of the overall repository. 
 
 Our main branches before final merge: 
 * Client - frontend 
@@ -26,7 +27,7 @@ Our main branches before final merge:
 * Admin  - admin version
 
 You can see that each project part has its own branch.
-But how does it goes when we make implementation features on each branch? 
+But during developing features on each branch? 
 We have used "sub-branches". Basically, there will be a new branch for each new feature of the branch which the dev works on.
 
 e.g Branch structure of Client
@@ -35,7 +36,7 @@ __Client
 
 ├── Product page          
 │&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── product-cart             
-│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── product-list              
+│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── product-list             
 │&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── ...                
 └── ...
 
@@ -56,5 +57,3 @@ Outline the technologies, frameworks, libraries, and tools used in the project. 
 ### Contributing
 Specify how others can contribute to the project. Include guidelines for submitting bug reports, feature requests, or pull requests. Mention any coding conventions or standards to follow. Provide contact information or links to the issue tracker or discussion forum.
 
-### License
-Indicate the license under which the project is distributed. Include any additional terms or conditions if necessary. You can provide a summary of the license and/or include the full license text in a separate file.
