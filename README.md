@@ -26,7 +26,7 @@ Our main branches before final merge:
 * Server - backend/server
 * Admin  - admin version
 
-You can see that each project part has its own branch.
+You can see that each main () has its own branch.
 But during developing features on each branch? 
 We have used "sub-branches". Basically, there will be a new branch for each new feature of the branch which the dev works on.
 
