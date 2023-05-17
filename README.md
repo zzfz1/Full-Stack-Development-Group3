@@ -1,6 +1,6 @@
 # Web Commerce Website
-Welcome to the Web Commerce Website repository! This project is a web-based e-commerce platform developed using
-[technologies/frameworks used, e.g., HTML, CSS, JavaScript, React, Node.js, etc.].
+Welcome to Group 3 repository! This project is a web-based e-commerce platform developed using
+[React, Chakra, Vite, CORS, ].
 ## Official Deployment Links: 
 #### [Client official Link](https://web-shop-group-3.web.app/) 
 #### [Admin official Link](https://admin-group-3.web.app/)
@@ -15,8 +15,30 @@ Welcome to the Web Commerce Website repository! This project is a web-based e-co
 * License
 
 ### Project Overview
-Provide a brief description of the project, its purpose, and any key features.
-This is a e-commerce shop website for 3d Printers. It has 
+#### Description
+This is a e-commerce shop website for 3d Printers.
+#### Branches and project management
+During development, our team aimed at concrete task assignment for each inidividual and clear view of the overall repository. 
+
+Our main branches before final merge: 
+* Client - frontend 
+* Server - backend/server
+* Admin  - admin version
+
+You can see that each project part has its own branch.
+But how does it goes when we make implementation features on each branch? 
+We have used "sub-branches". Basically, there will be a new branch for each new feature of the branch which the dev works on.
+
+e.g Branch structure of Client
+
+__Client
+
+├── Product page          
+│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── product-cart             
+│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── product-list              
+│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── ...                
+└── ...
+
 Mention the problem it solves or the value it provides to users. Include any relevant screenshots or GIFs to showcase the website.
 
 ### Installation
