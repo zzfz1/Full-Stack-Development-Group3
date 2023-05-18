@@ -18,7 +18,7 @@ Welcome to Group 3 repository! This project is a web-based e-commerce platform d
 ### Project Overview
 #### Description
 This is a e-commerce web shop for 3d Printers.
-#### Branches and project management
+#### Branches
 During development, our team aimed at concrete task assignment to each inidividual and clear view of the overall repository. 
 
 Our main branches before final merge: 
@@ -26,13 +26,13 @@ Our main branches before final merge:
 * Server - backend/server
 * Admin  - admin version
 
-You can see that each main () has its own branch.
-But during developing features on each branch? 
+You can see that each main side (client/server/admin) has its own branch.
+#### Structure 
 We have used "sub-branches". Basically, there will be a new branch for each new feature of the branch which the dev works on.
 
 e.g Branch structure of Client
 
-__Client
+**Client**
 
 ├── Product page          
 │&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── product-cart             
@@ -42,9 +42,22 @@ __Client
 
 Mention the problem it solves or the value it provides to users. Include any relevant screenshots or GIFs to showcase the website.
 
-### Installation
-Explain how to install and set up the project on a local development environment. Include step-by-step instructions and any prerequisites or dependencies required. Provide code examples or commands when necessary.
+### Installation (Windows 64/32 bit)
+In order to run the whole project you need to download it twice. 
+One time for server and one for the client, since we will be runnning both of the sides simultaneously
+Steps for downloading it locally on your personal machine, you have 2 ways:
+1. Clone the repository (via SSID/HTTP link ).
+ * copy the url in "main" branch 
+ * navigate to the folder you want to establish the project 
+ * right click in the file explorer -> Git Bash here
+ * in console type: **git clone [*copied URL*]
+  
+2. Downloading it directly (ZIP).
+ * download the project as ZIP
+ * unarchive to the desired directory
 
+After doing this step 2 times you will end up with two separate folders with the same file structure and content. 
+Setup the project in VS code 
 ### Usage
 Describe how to use the website once it's set up. Provide instructions on how to navigate through different pages, perform common tasks, and interact with various features. Include screenshots or GIFs if possible to demonstrate the user experience.
 
