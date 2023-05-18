@@ -90,17 +90,29 @@ Ctrl + left click and it will open the page in browser.
 ## Features & Packages 
 
 ### Client
- * Web-page layouts
- * Web-page functionalities
- * Google authentication
+ * Google Login & Register
  * Password reset
  * Registration
+ * Web-page layouts
+ * Web-page functionalities
  
 ### Server
-* wadad
-* 
+* Authorisation coockies
+* Email invoice
+* Google Login & Register 
+* Password Reset (nodemailer)
+* Routes
 
 ### Admin
+* Orders
+* Category List
+* Product List
+* Order List
+* Create & Delete (Category/Product/Order) 
+* Firebase setup
+* Layouts & functionalities
+* Cookie handling
+* Admin Login
 
 
 ## Contributing
