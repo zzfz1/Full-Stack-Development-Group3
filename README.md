@@ -1,24 +1,30 @@
 # Web Commerce Website
-Welcome to Group 3 repository! This project is a web-based e-commerce platform developed using
-[React, Chakra, Vite, CORS, ].
+Welcome to Group 3 repository! 
+
+This project is a web-based e-commerce platform developed by a group of fullstack dev enthusiasts who study Software Development in "Kristianstad University (Högskolan Kristianstad)". 
+
+Our aim for this project is not only for educational purposes. 
+We as a team have built it using tools and conventions which are in vast practice among most big tech IT companies. 
+By doing this each one of us wants to show that is ready for real life projects and team work processes. 
+
+
 ## Official Deployment Links: 
 #### [Client official Link](https://web-shop-group-3.web.app/) 
 #### [Admin official Link](https://admin-group-3.web.app/)
 
 # Table of Contents
 * Project Overview
-  * Description
   * Branches
   * Structure
 * Prerequisites
 * Installation  & Setup (Windows 64/32 bit)
 * Usage
 * Features & Packages
-* Contributing
+  * Client
+  * Server
+  * Admin
 
 ## Project Overview
-### Description
-This is a e-commerce web shop for 3d Printers.
 ### Branches
 During development, our team aimed at concrete task assignment to each inidividual and clear view of the overall repository. 
 
