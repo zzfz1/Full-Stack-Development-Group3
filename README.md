@@ -76,15 +76,27 @@ Repeat these steps also for the server side.
  * open the terminal there, make sure you are in the /project_name/**server**/ directory!
  * type: **npm i
  
-
 ## Usage
-Describe how to use the website once it's set up. Provide instructions on how to navigate through different pages, perform common tasks, and interact with various features. Include screenshots or GIFs if possible to demonstrate the user experience.
+Now after having the proper setup to run everything. Go to the console in VS code in **server** side and type *npm run dev*. 
+
+This is the default run command (see package.json file). 
+After running this command there should be a message which displays that the connection is succesful. 
+
+Now navigate to client folder in the other project and open it in VS code, Type *npm run dev* again. 
+
+The response message shows something like: Local:   http://localhost:[port_number]/
+
+Ctrl + left click and it will open the page in browser. 
 
 ## Features
-List and briefly describe the main features and functionalities of the website. Highlight any unique or notable features that differentiate it from other e-commerce platforms. You can also provide links to specific files or directories in the repository related to each feature.
 
 ## Technologies
-Outline the technologies, frameworks, libraries, and tools used in the project. Provide a brief explanation of each one and how it contributes to the development of the website. Include versions if applicable.
+
+### Client
+
+### Server 
+
+### Admin
 
 ## Contributing
 Specify how others can contribute to the project. Include guidelines for submitting bug reports, feature requests, or pull requests. Mention any coding conventions or standards to follow. Provide contact information or links to the issue tracker or discussion forum.
