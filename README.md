@@ -113,8 +113,3 @@ Ctrl + left click and it will open the page in browser.
 * Layouts & functionalities
 * Cookie handling
 * Admin Login
-
-
-## Contributing
-Specify how others can contribute to the project. Include guidelines for submitting bug reports, feature requests, or pull requests. Mention any coding conventions or standards to follow. Provide contact information or links to the issue tracker or discussion forum.
-
