@@ -13,8 +13,7 @@ Welcome to Group 3 repository! This project is a web-based e-commerce platform d
 * Prerequisites
 * Installation  & Setup (Windows 64/32 bit)
 * Usage
-* Features
-* Technologies
+* Features & Packages
 * Contributing
 
 ## Project Overview
@@ -88,15 +87,21 @@ The response message shows something like: Local:   http://localhost:[port_numbe
 
 Ctrl + left click and it will open the page in browser. 
 
-## Features
-
-## Technologies
+## Features & Packages 
 
 ### Client
-
-### Server 
+ * Web-page layouts
+ * Web-page functionalities
+ * Google authentication
+ * Password reset
+ * Registration
+ 
+### Server
+* wadad
+* 
 
 ### Admin
+
 
 ## Contributing
 Specify how others can contribute to the project. Include guidelines for submitting bug reports, feature requests, or pull requests. Mention any coding conventions or standards to follow. Provide contact information or links to the issue tracker or discussion forum.
